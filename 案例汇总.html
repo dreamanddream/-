@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>知识点总结</title>
+    <style>
+       *{
+           margin:0;
+           padding:0;
+       }
+        /*放大镜*/
+        #item-4{
+            margin-top:100px;
+            margin-left:100px;
+            width:1000px;
+            height:700px;
+            display: none;
+        }
+        #item-4 #small-img{
+            width:269px;
+            height:200px;
+            float:left;
+            position: relative;
+        }
+        #big-img{
+            border:1px solid #999;
+            margin-left:150px;
+            float:left;
+            display: none;
+            width:300px;
+            height:300px;
+            overflow:hidden;
+            position: relative;
+        }
+        #big-img img{
+            position: absolute;
+            left:0;
+            top:0;
+        }
+        #item-4 #small-img #box{
+            position: absolute;
+            width:50px;
+            height:50px;
+            z-index:100;
+            background: rgba(247, 255, 50, 0.6);
+            left:0;
+            top:0;
+            display: none;
+        }
+        /*自定义滚动条*/
+       #box6{
+           position: relative;
+           width:202px;
+           height:300px;
+           overflow: hidden;
+       }
+        #content{
+            width:160px;
+            padding:20px;
+            border:1px solid #666;
+        }
+        .bar{
+            background: red;
+            position: absolute;
+            top:0;
+            left:0;
+            z-index:20;
+            width:10px;
+        }
+        .scroll{
+            width:10px;
+            height:300px;
+            position: absolute;
+            top:0;
+            right:0;
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+    <!--0.form表单各种验证的处理和封装-->
+    <!--1.原生轮播图-->
+    <!--2.封装原生轮播图-->
+    <!--3.原生拖拽-->
+    <!--4.原生放大镜-->
+    <!--5.原生图片跟着鼠标飞-->
+    <!--6.自定义滚动条-->
+    <!--7.原生js中tab切换-->
+
+
+
+
+
+
+
+
+    <!--4.原生放大镜(没有考虑兼容性)-->
+    <div id="item-4">
+        <div id="small-img">
+            <img src="images/item2.jpg" alt="">
+            <div id="box"></div>
+        </div>
+        <div id="big-img">
+            <img src="images/item_big.jpg" alt="" id="bigImgMove">
+        </div>
+    </div>
+    <script>
+        var box=document.getElementById("box");
+        var smallImg=document.getElementById("small-img");
+        var bigImg=document.getElementById("big-img");
+        var boxWidth=0;
+        var bigImgMove=document.getElementById("bigImgMove");
+        smallImg.onmouseover=function (ev) {
+            box.style.display="block";
+            bigImg.style.display="block";
+        }
+        smallImg.onmouseout=function (ev) {
+            box.style.display="none";
+            bigImg.style.display="none";
+        }
+        document.onmousedown=function (ev) {
+            var smallImgX=smallImg.offsetLeft;
+            boxWidth=smallImg.offsetWidth/2;
+            var x1=ev.clientX-boxWidth;
+        }
+        /*放大镜中的知识点就是：1，left和top都是相对外层div的,
+        2，还有个计算公式：小方块移动的距离/(小方块最大的移动距离)=大图图片的移动距离/(大图的最大移动距离)
+        3,5个事件:onmouseout,onmouseover,onmousedown,onmousemove,onmouseup
+        */
+        document.onmousemove=function (ev) {
+            // console.log(ev.clientX);
+            //保证鼠标在盒子中间;减去100因为最外面盒子设置的有100px的margin值，而小盒子的left值是针对外面的盒子的得到的left，所以说思路很重要
+            var x=ev.clientX-box.offsetWidth/2-100;
+            var y=ev.clientY-box.offsetHeight/2-100;
+            x=x<0?0:x;
+            y=y<0?0:y;
+            x=x>smallImg.offsetWidth-box.offsetWidth?smallImg.offsetWidth-box.offsetWidth:x;
+            y=y>smallImg.offsetHeight-box.offsetHeight?smallImg.offsetHeight-box.offsetHeight:y;
+            box.style.left=x+"px";
+            box.style.top=y+"px";
+        //  计算小方块在小图片中的x轴移动距离的比例
+            var pageX=x/(smallImg.offsetWidth-box.offsetWidth);
+        //  计算小方块在小图片中的y轴移动距离的比例
+            var pageY=y/(smallImg.offsetHeight-box.offsetHeight);
+        //    通过这个比例得到大图的移动距离----bigImgMove是图片，bigImg是包裹图片的div
+            var bigImgX=pageX*(bigImgMove.offsetWidth-bigImg.offsetWidth);
+            var bigImgY=pageY*(bigImgMove.offsetHeight-bigImg.offsetHeight);
+            bigImgMove.style.left=-bigImgX+"px";
+            bigImgMove.style.top=-bigImgY+"px";
+
+        }
+        document.onmouseup=function (ev) {
+            //鼠标抬起时清空onmousemove事件
+            document.onmousemove=null;
+        }
+    </script>
+    <!--6.自定义滚动条(没有考虑ie的兼容性)-->
+    <div class="box6" id="box6">
+        <div class="content" id="content">
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。
+            锄禾日当午，汗滴禾下土。完结！
+        </div>
+        <div class="scroll" id="scroll">
+            <div class="bar" id="bar"></div>
+        </div>
+    </div>
+    <script>
+        var box6=document.getElementById("box6");
+        var content=document.getElementById("content");
+        var scroll=document.getElementById("scroll");
+        var bar=document.getElementById("bar");
+    //    获取滚动条的高度--公式：滚动条高度/装滚动条容器的高度=装文字盒子的高度/文字内容的实际高度(scrollHeight);
+    //     var barHeight=scroll.offsetHeight*(content.offsetHeight/content.scrollHeight);
+        var barHeight=scroll.offsetHeight*box6.offsetHeight/content.offsetHeight;
+        bar.style.height=barHeight+"px";
+    //    offsetTop是相对于父元素的距离
+    //    滚动条有三个事件：鼠标按下，鼠标拖拽滚动条，鼠标离开---有个特点：鼠标按下以及拖动时在滚动条上的位置是不变的，所以获取spaceY=clientY-offsetTop
+        bar.onmousedown=function (ev) {
+            var spaceY=ev.clientY-bar.offsetTop;
+            //在移动过程中鼠标在滚动条上的位置是不变的
+            document.onmousemove=function (ev) {
+                window.getSelection?window.getSelection().removeAllRanges():document.selection.empty();
+                var barTop=ev.clientY-spaceY;
+                //两个不会重复和覆盖
+                barTop=barTop<0?0:barTop;
+                barTop=barTop>scroll.offsetHeight-bar.offsetHeight?scroll.offsetHeight-bar.offsetHeight:barTop;
+                // console.log("barTop",barTop);
+                // 还有个问题，就是滚动条滚动过程中，文字会出现蓝色全选背景
+                bar.style.top=barTop+"px";
+                // 自己最开始以为文字的滚动距离直接用将滚动条移动的赋值过去
+                /*文字的滚动距离---这里也是使用比例关系和放大镜一样  文字的滚动距离/滚动条的滚动距离=文字能滚动的最大距离/滚动条移动的最大距离*/
+                // console.log(barTop*(content.offsetHeight-box6.offsetHeight)/(scroll.offsetHeight-bar.offsetHeight))
+                content.style.marginTop=-barTop*(content.offsetHeight-box6.offsetHeight)/(scroll.offsetHeight-bar.offsetHeight)+"px";
+            }
+        }
+        document.onmouseup=function (ev) {
+            document.onmousemove=null;
+            document.onmousedown=null;
+        }
+    </script>
+
+    <!--removeAttribute-->
+</body>
+</html>
