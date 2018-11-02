@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>面向对象贪吃蛇</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .map{
+            width:800px;
+            height:800px;
+            background: #ada0ff;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="map"></div>
+    <script>
+
+        /*食物对象*/
+        (function (window) {
+            var elements=[];//保存食物的数组
+            function Food(x,y,width,height,color) {
+                // this.x=x||0;
+                // this.y=y||0;
+                this.width=width||20;
+                this.height=height||20;
+                this.color=color||"green";
+            }
+            Food.prototype.init=function (map) {
+               remove();
+               // var map=document.querySelector(".map");
+               var div=document.createElement("div");
+               map.appendChild(div);
+               div.style.position="absolute";
+               div.style.width=this.width+"px";
+               div.style.height=this.height+"px";
+               /*关键是产生x和y的横坐标的理解，同时有个疑问，为什么不直接把this.x写到原型中，
+               *反正也是随机函数---首先写到原型上，不能直接在原型上添加的函数中访问，只能实例化对象后访问
+               *而写在构造函数中，原型上的方法就可以直接访问对应的属性，使用this即可*/
+               this.x=Math.floor(Math.random()*(map.offsetWidth/this.width)*this.width);
+               this.y=Math.floor(Math.random()*(map.offsetHeight/this.height)*this.height);
+               div.style.left=this.x+"px";
+               div.style.top=this.y+"px";
+               div.style.backgroundColor=this.color;
+               // console.log(Math.random()*40);
+               // console.log(this.x)
+                elements.push(div);
+                console.log(elements);
+            }
+            function remove() {
+                console.log(elements);
+                for(var i=0;i<elements.length;i++){
+                    var ele=elements[i];
+                    // 从map中将当前div删除，可以打印出elements中的元素，可以查看到有parentNode属性是map
+                    ele.parentNode.removeChild(ele);
+                    // 从数组中将保存的当前div删除
+                    elements.splice(i,1)
+                }
+            }
+            // 暴露出全局食物对象
+            window.Food=Food;
+        })(window);
+        // 创建食物对象并调用
+        // var food=new Food();
+        // food.init();
+        
+        /*创建小蛇*/
+        (function () {
+            var elements=[];
+            function Snake(width,height,direction) {
+                this.width=width||20;
+                this.height=height||20;
+                // 小蛇身体,灵活使用数组和对象
+                this.body=[
+                    {x:3,y:2,color:"red"},
+                    {x:2,y:2,color:"green"},
+                    {x:1,y:2,color:"green"}
+                    ]
+                this.direction=direction||"right";
+             }
+             Snake.prototype.init=function (map) {
+                // 每次添加之前先将原来的三个div组成的小蛇给删除
+                remove();
+                 // var map=document.querySelector(".map");
+                 for(var i=0;i<this.body.length;i++){
+                     var obj=this.body[i];
+                     var div=document.createElement("div");
+                     div.style.position="absolute";
+                     div.style.width=this.width+"px";
+                     div.style.height=this.height+"px";
+                     //设置小蛇三个div
+                     div.style.left=obj.x*this.width+"px";
+                     div.style.top=obj.y*this.height+"px";
+                     div.style.backgroundColor=obj.color;
+                     map.appendChild(div);
+                     //很关键的一步，将整个动态创建的div添加到elements数组中
+                     elements.push(div);
+                 }
+             }
+             // 添加原型方法--小蛇动起来
+            Snake.prototype.move=function (food,map) {
+                var i=this.body.length-1;
+                for(;i>0;i--){
+                    this.body[i].x=this.body[i-1].x;
+                    this.body[i].y=this.body[i-1].y;
+                }
+            //    判断方向--改变小蛇头部位置
+                switch (this.direction) {
+                    case "right":
+                        this.body[0].x+=1;
+                        break;
+                    case "left":
+                        this.body[0].x-=1;
+                        break;
+                    case "top":
+                        this.body[0].y-=1;
+                        break;
+                    case "bottom":
+                        this.body[0].y+=1;
+                        break;
+                }
+            // 判断小蛇有没有吃到食物，即：小蛇头部坐标和食物是否相等
+                var headX=this.body[0].x*this.width;
+                var headY=this.body[0].y*this.height;
+                if(headX==food.x&&headY==food.y){
+            // 将当前数组最后一个复制一份加入body中，然后头部向前移动，之前尾部的最后一位也就变成了倒数第二个了
+                    var last=this.body[this.body.length-1];
+                   this.body.push(
+                       {x:last.x,y:last.y,color:last.color}
+                   )
+                    //把食物删除,重新初始化食物
+                    food.init(map);
+                }
+            }
+             // 私有函数--删除小蛇--从蛇头方向开始删除
+             function remove() {
+                var i=elements.length-1
+                for(;i>=0;i--){
+                    var ele=elements[i];
+                    ele.parentNode.removeChild(ele);
+                    elements.splice(i,1)
+                }
+             }
+            window.Snake=Snake;
+        })();
+        // var snake=new Snake();
+        // snake.init();
+        // 游戏开始
+        (function () {
+            var that=null;// 保存游戏实例对象；
+            function Game(map) {
+                // 在构造函数中使用其他暴露出来的构造函数;
+                this.food=new Food();
+                this.snake=new Snake();
+                this.map=map;
+                that=this;
+            }
+            // 游戏初始化
+            Game.prototype.init=function () {
+                // 显示随机食物
+                this.food.init(this.map)
+                // 显示随机小蛇
+                this.snake.init(this.map);
+                // 小蛇移动
+                this.runSnake(this.food,this.map);
+                // 键盘事件
+                this.bindKey();
+            }
+            // 小蛇移动
+            Game.prototype.runSnake=function (food,map) {
+                var timeId=setInterval(function () {
+                // 小蛇移动
+                this.snake.move(food,map);
+                // 小蛇初始化
+                this.snake.init(map);
+                // 横坐标的最大值
+                var maxX=map.offsetWidth/this.snake.width;
+                var maxY=map.offsetHeight/this.snake.height;
+                var headX=this.snake.body[0].x;
+                var headY=this.snake.body[0].y;
+                if(headX<0||headX>=maxX){
+                    clearInterval(timeId);
+                    alert("撞墙了");
+                }
+                if(headY<0||headY>=maxY){
+                    clearInterval(timeId);
+                    alert("撞墙了");
+                }
+                // 在setTimeout和setInterval中使用this，这里this都是指向window,所以使用bind改变this指向
+                }.bind(that),150)
+            }
+            // 键盘事件
+            Game.prototype.bindKey=function () {
+                // console.log(111)
+                // document.addEventListener("mousedown",function (e) {
+                //
+                //     switch (e.keyCode){
+                //         case 37:this.snake.direction="left";break;
+                //         case 38:this.snake.direction="top";break;
+                //         case 39:this.snake.direction="right";break;
+                //         case 40:this.snake.direction="bottom";break;
+                //     }
+                // }.bind(that),false);
+                document.addEventListener("keydown",function (e) {
+                    //这里的this应该是触发keydown的事件的对象---document,
+                    //所以,这里的this就是document
+                    //获取按键的值
+                    switch (e.keyCode){
+                        case 37:this.snake.direction="left";break;
+                        case 38:this.snake.direction="top";break;
+                        case 39:this.snake.direction="right";break;
+                        case 40:this.snake.direction="bottom";break;
+                    }
+                }.bind(that),false);
+            }
+            window.Game=Game;
+        })();
+        var game=new Game(document.querySelector(".map"));
+        game.init();
+    </script>
+</body>
+</html>

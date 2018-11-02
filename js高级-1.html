@@ -37,5 +37,60 @@
     console.dir(stu1);
 
 </script>
+<script>
+    (function (win) {
+        // 自调用函数中的构造函数只有实例化对象调用时才能使用；有个疑问，为什么要用自调用函数？？？？？？为了将对象暴露出来成为全局的？那么为什么不直接暴露呢？？？
+        function Random() {
+
+        }
+        Random.prototype.getRandom=function (min,max) {
+            console.log(Math.floor(Math.random()*(max-min)+min));
+            return Math.floor(Math.random()*(max-min)+min);
+        }
+        window.Random=Random;
+        //这个执行了
+        // console.log(1);
+    })(window);
+    var ran=new Random();
+    // 给原型传递参数，调用执行
+    console.log(ran.getRandom(10,20))
+
+    var i=2;
+    for(;i>0;i--){
+        console.log("i"+i);
+    }
+</script>
+<script>
+    function test() {
+        var n=4399;
+        function add() {
+            n++;
+            console.log(n);
+        }
+        console.log("nn"+n);
+        return {n:n,add: add}
+    }
+    var result=test();
+    var result2=test();
+    result.add();
+    result.add();
+    console.log(result.n);
+    result2.add();
+</script>
+<script>
+    var name = "The Window";
+    var object = {
+        name : "My Object",
+        getNameFunc : function(){
+            console.log(this);//这个this是object对象
+            console.log(this.name);//
+            return function(){
+                console.log(this);//这里的this就代表window了，好奇怪
+                return this.name;
+            };
+        }
+    };
+    console.log(object.getNameFunc()())
+</script>
 </body>
 </html>
