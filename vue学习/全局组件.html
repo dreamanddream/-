@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全局组件</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+	// 注册全局组件--一个个声明不带s
+	Vue.component('my-btn',{
+		template:'<button style="background-color:red;">漂亮的按钮</button>'
+	})
+	// 组件myHeader组件
+	var MyHeader={
+		template:'<div>我是header组件<my-btn/></div>'
+	};
+	// 组件myFooter，由于都使用了mybtn组件，所有可以注册全局mybtn组件
+	var MyFooter={
+		template:'<div>我是footer组件<my-btn/></div>'
+	}
+	
+	// 入口组件
+	var App={
+		components:{
+			'my-header':MyHeader,
+			'my-footer':MyFooter
+		},
+		template:'<div><my-header/><my-footer/></div>'
+	}
+	var app=new Vue({
+		el:"#app",
+		// 一个组件可以有很多个子组件，所以这个有s
+		components:{
+			app:App
+		},
+		// 模板主入口，直接使用</app>组件，使用app组件，就要使用componts选项，同时还要有注册的组件
+		template:"<app/>"
+	})
+	</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+    <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+</head>
+<body>
+<div class="wrap-back">
+    <!--  <audio src="../audio/huo.mp3" data-num="5" id="back-music0" class="back-music"></audio>
+     <audio autoplay="autoplay" src="../audio/huo.mp3" data-num="3" id="back-music1"></audio> -->
+    <!--<audio autoplay="autoplay" src="../audio/大悲咒%20(Lotus%20Sunset%20莲花余晖).mp3" data-num="5" class="back-music" loop></audio>-->
+    <audio id="back-music0" controls data-num="2">
+        <!--<source src="http://182.92.224.208/beijing/app5service/test/qingcun.mp3">-->
+        <source src="./audio/贺%20-%20B-空白音1分钟.mp3">
+    </audio>
+    <audio id="back-music1" controls data-num="2">
+        <!--<source src="http://182.92.224.208/beijing/app5service/test/qingcun.mp3">-->
+        <source src="./audio/贺%20-%20B-空白音1分钟.mp3">
+    </audio>
+    <audio id="back-music2" controls data-num="1">
+        <!--<source src="http://182.92.224.208/beijing/app5service/test/qingcun.mp3">-->
+        <source src="./audio/贺%20-%20B-空白音1分钟.mp3">
+    </audio>
+</div>
+<div id="record"></div>
+<script type="text/javascript">
+    $(function () {
+        var s=localStorage.getItem("sheng");
+//        s=null;
+        var back_music=null;
+        var num = null;
+//        vars x = document.getElementById("myAudio");
+        // 缓存是否存在
+        var star=1;
+        alert("s"+s);
+        if(!s){
+            start=1;
+            listen_end(0);
+        }else{
+            var record=document.getElementById("record");
+            record.innerHTML=s;
+            start=localStorage.getItem("start");
+            aa=localStorage.getItem("aa");
+            alert("aa"+aa);
+            alert("start"+start);
+            back_music = document.getElementById(("back-music" + aa));
+            back_music.currentTime=s;
+            back_music.play();
+            listen_end(aa);
+        }
+        function listen_end(aa) {
+            back_music = document.getElementById(("back-music" + aa));
+            num = $("#back-music" + aa).attr("data-num");
+            console.log("num"+num);
+            if (!num) {
+                // console.log(555);
+                return false;
+            }
+            if (start == 1) {
+                back_music.play();
+//                start++;
+                back_music.addEventListener("ended", function () {
+                    if (start == num) {
+                        start = 1;
+                        back_music.pause();
+                        aa=parseInt(aa)+1;
+                        console.log("start等于0暂停时的aa"+aa);
+                        listen_end(aa);
+                    } else {
+                        start++;
+                        console.log("start=0时,还未暂停时的start"+start);
+                        console.log("还未暂停时的aa"+aa);
+                        back_music.play();
+                    }
+                }, false);
+            }else{
+                back_music.addEventListener("ended", function () {
+                    if (start == num) {
+                        start = 1;
+                        back_music.pause();
+                        console.log("start初始值不是1时，音乐暂停时的aa"+aa);
+                        aa=parseInt(aa)+1;
+                        listen_end(aa);
+                    } else {
+                        start++;
+                        console.log("start初始值不是1时"+start);
+                        console.log("start初始值不是1时的aa"+aa);
+                        back_music.play();
+                    }
+                }, false);
+            }
+            document.addEventListener('visibilitychange',function(){
+                        var isHidden = document.hidden;
+                        var audio=back_music;
+                        if(isHidden){
+                            localStorage.setItem("sheng",audio.currentTime);
+                            localStorage.setItem("start",start);
+                            localStorage.setItem("aa",aa);
+                            setTimeout(function(){
+                                localStorage.removeItem("sheng");
+                            },20000);
+                        } else {
+                        }
+
+                    }
+            );
+        }
+
+    })
+</script>
+</body>
+</html>

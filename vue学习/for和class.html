@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>for和class的使用</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<ul>
+		<!-- 问题：怎么绑定多个class？？？？ -->
+			<li v-for="(item,index) in status" :class="index%2==0?'active':''" :class="item.myClass">{{item.name}}{{item.sex}}</li>
+		</ul> 
+	</div>
+	<script>
+		var app=new Vue({
+			el:"#app",
+			data:function(){
+				return {
+					status:[{id:1,name:"张三",sex:"女",myClass:"a"},{id:2,name:"李四",sex:"男",myClass:"b"}]
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数组系列</title>
+</head>
+<body>
+	<!-- 冒泡排序 -->
+	<script>
+		var arr=[3,5,1,-10,20];
+		for(var i=0;i<arr.length-1;i++){
+			for (var j = 0; j<arr.length-i-1; j++) {
+				if(arr[j]>arr[j+1]){
+					var temp=arr[j];
+					arr[j]=arr[j+1];
+					arr[j+1]=temp;
+				}
+			}
+		}
+		console.log(arr);
+
+		function sum(x,y){
+			var s=x+y;
+			return s;
+		}
+		// 函数调用,比较两个数中的较大者。
+		console.log(sum(10));// 结果是NaN
+		// 比较两个数中较大得一个，那么比较三个呢？
+		function compareNum(x,y){
+			if(x>y){
+				return x;
+			}else {
+				return y;
+			}
+		}
+		console.log(compareNum(-10,2));
+		// 比较三个数中的最大值
+		function compareBigNum(x,y,z){
+			if(x>y){
+				if(x>z){
+					return x;
+				}else{
+					return z;
+				}	
+			}else{
+				if(y<z){
+					return z;
+				}else{
+					return y;
+				}
+			}
+		}
+		console.log(compareBigNum(2,1,10))
+		// 求质数,判断一个数是不是质数
+		function zhi(x){
+
+		}
+		// 1-100之间不能被7整除的整数的和,用continue
+		function sumTotal(){
+			var sum=0;
+			for(var i=1;i<10;i++){
+				if(i%7==0){ 
+					continue;
+				}
+				console.log(i);
+				sum+=i;
+			}
+			return sum;
+		}
+		console.log(sumTotal());
+		// 翻转数组
+		function reverse(arr){
+			for(var i=arr.length-1;i<arr.length;i--){
+
+			}
+		}
+		// 求阶乘中所有数据的和
+		// 斐波那契数列
+		// 求一个数是一年的第几天
+		// 求一组数据中的最大值
+		// 求阶乘
+		// 利用自定义构造函数完成以下练习
+		// 1.创建一个图片对象，有宽有高，有大小，能展示
+		function createImg(width,height,size){
+			this.width=width;
+			this.height=height;
+			this.size=size;
+			this.showImg=function (){
+				console.log("图片展示");
+			}
+		}
+		var img=new createImg("10","20","4M");
+		console.log(img.size);
+	</script>
+</body>
+</html>

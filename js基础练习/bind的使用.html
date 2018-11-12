@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>bind的使用</title>
+</head>
+<body>
+	<script>
+		function ShowRandom(){
+			this.number=parseInt(Math.random()*10+1);
+		}
+		ShowRandom.prototype.show1=function(){
+			// 这里的this是实例对象，已经不再是window，使用bind是将函数复制一份的同时，改变this的指向，返回值还是函数，而call和apply则相当于函数调用时时改变this的指向
+			setInterval(this.show2.bind(this),1500);
+		}
+		ShowRandom.prototype.show2=function(){
+			console.log(this.number);
+		}
+		var show=new ShowRandom();
+		// 如果某个函数写在函数中，在外部是无法调用的，就像局部变量不能在外部调用一样
+		// 调用一次可以不停的产生随机数
+		show.show1()
+	</script>
+</body>
+</html>

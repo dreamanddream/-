@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>过滤器</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+		// 全局过滤器
+		Vue.filter('reverse',function(data,reg1){
+			return '.......'
+		})
+		// 需求：使用过滤器将abc翻转成cba
+		// 注册app组件
+		var App={
+			// 将myText中的数据执行过滤器，使用reverse方法处理--输入我的日常，显示日常的我
+			template:'<div><input v-model="myText">{{ myText | reverse("英文版")}}</div>',
+			data:function(){
+				return {
+					myText:''
+				}
+			},
+			//	组件内过滤器--使用过滤器的地方要加上个|的管道标志
+			filters:{
+				// 参数1就是原数据，第二个参数是reverse中传递的参数，reverse中传递的参数可以是多个
+				reverse:function (old,lang){
+					// 变数组 反转 连接成字符串
+					return lang+":"+old.split('').reverse().join('');//return 的结果就是使用过滤器后的最终结果
+				}
+			}
+		}
+		var app=new Vue({
+			el:"#app",
+			components:{
+				app:App
+			},
+			template:'<app/>'
+		})
+	</script>
+</body>
+</html>

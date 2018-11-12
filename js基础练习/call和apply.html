@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>call和apply的使用</title>
+</head>
+<body>
+	<!-- <script>
+	function f1(x,y){
+		console.log(this);// this指向调用这个方法的对象，这里是window
+	}
+	window.f1();//window可以省略
+	</script> -->
+	<script>
+		function Person(name,age){
+			this.name=name;
+			this.age=age;
+		};
+		Person.prototype.eat=function(){
+			console.log(this.name+"吃苹果");
+		};
+		var person=new Person('张三',20);
+		person.eat();
+		function Student(name,age){
+			this.name=name;
+			this.age=age;
+		};
+		Student.prototype.study=function(){
+			console.log(this.name+this.age+"吃苹果");
+		};
+		var student=new Student('wangwu',15);
+		// 改变this指向,将this指向了person实例对象,而不是student
+		student.study.call(person);// 张三20吃苹果();,使用call方法其实也就是函数调用,只是可以改变this指向。
+	</script>
+</body>
+</html>

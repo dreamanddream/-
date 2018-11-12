@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>原型对象属性与实例对象属性重名问题</title>
+</head>
+<body>
+	<script>
+		function Student(name){
+			this.name=name;
+		}
+		Student.prototype.name="张三";
+		Student.prototype.showName=function(){
+			console.log(this.name+"是谁");
+		};
+		var student=new Student("王五");
+		student.showName();//得到的结果是王五
+		// 因为js是一门动态类型的语言，没有什么通过.就有了，只是没有赋值，所以是undefined
+		console.log(student.sex);//得到的结果是undefined
+		student.name="赵四";
+		console.log(student.name);
+		//打印是赵四，实例对象可以直接对属性重新赋值，但是不能改变原型中的属性
+		//要想改变原型的属性就在最下面重新在原型上添加上属性，但是没必要
+	</script>
+</body>
+</html>

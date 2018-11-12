@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>watch</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+		// 注册局部组件
+		var App={
+			// 只要三个数中有任意一个数改变，result就会改变，所以可以计算属性监听多个值的变化
+			template:`<div><input type="text" v-model="n1">+<input type="text" v-model="n2">*<input type="text" v-model="rate">={{result}}</div>`,
+			data:function(){
+				return {
+					n1:0,
+					n2:0,
+					rate:1
+				}
+			},
+			// 计算属性
+			computed:{
+				// computed包含缓存机制，如果没有改变就不执行。
+				// computed不用考虑深度监视还是其它监视，可以监视多个变量。
+				// 监视对象写在了函数内部
+				// 凡是函数内部有this，相关属性，改变都会触发当前函数
+				// 例如this.n1,this.n2,this.rate
+				// 告诉计算属性，下面函数中的this跟的变量，告诉计算属性监听哪些内容的改变
+				// return出去的就是最终结果
+				result:function (){
+					console.log("监视到了！");//每改变一次输入框中的值，这个console就会执行一次
+					// 这里使用到的变量要先在
+					return (this.n1-this.n2)*this.rate;
+				}
+			}
+		};
+		var app=new Vue({
+			el:"#app",
+			components:{
+				app:App
+			},
+			template:'<app/>'
+		})
+	</script>
+</body>
+</html>

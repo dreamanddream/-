@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		
+	</script>
+</head>
+<body>
+	<script>
+		var arr=[{name:"xiaowang"},{name:"lisi"},{name:"zhangsan",active:"1"},{name:"xioaer"}];
+		var new_arr=[];
+		var record=0;
+		for(var idx in arr){
+			if(arr[idx].active){
+				// record=idx;
+				new_arr.push(arr[idx]);
+				arr.splice(idx,1);
+				// console.log("record",record);
+				console.log("new_arr",new_arr);
+				console.log("arr",arr);
+			}
+		} 
+		var s=[];
+		 s=new_arr.concat(arr);
+		console.log("zuihou",s);
+	</script>
+</body>
+</html>

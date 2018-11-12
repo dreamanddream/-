@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>逆推继承看原型</title>
+</head>
+<body>
+	<script>
+		function F1(age){
+			this.age=age;
+		}
+		function F2(age){
+			this.age=age;
+		}
+		F2.prototype=new F1(10);
+		function F3(age){
+			this.age=age;
+		}
+		F3.prototype=new F2(20);
+		var f=new F3(30);
+		console.dir(f);
+		console.log(f.age);
+	</script>
+</body>
+</html>

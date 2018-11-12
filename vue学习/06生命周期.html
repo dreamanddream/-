@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>生命周期</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+		var Test = {
+			// 第一次
+			// template:`<div>我是test</div>`,
+			// 第二个版本
+			template:`<div>我是test{{text}}
+			
+				<button @click="text=text+1">更改</button>
+				<button @click="flag=!flag">切换</button>
+			</div>`,
+			data:function(){
+				return {
+					text:'hello world',
+					flag:true
+				}
+			},
+			// 对应的是组件，v-if 为false时会触发，而不是某个文本为p的v-if为false时触发
+			beforeDestroy() {
+				console.log('beforeDestroy');
+			},
+			// 销毁后
+			// 销毁最终都是做一些其他功能，比如保存到localstorage
+			destroyed() {
+				console.log('destroyed');
+			},
+			beforeCreate:function(){
+				// 组件创建之前
+				// 显示undefined
+				console.log(this.text);
+			},
+			created:function(){
+				// 组件创建之后
+				// 显示hello world
+				// 说明created中可以操作数据，并且可以实现vue->页面的影响，应用:发起ajax请求
+				 console.log(this.text);
+			},
+			beforeMount:function(){
+				// vue起作用，装载数据dom之前---
+				// 
+				console.log('beforeMount');// 在装载前显示<div id="app"></app>
+			},
+			mounted:function(){
+				// vue起作用，装载数据DOM---刷新页面时只执行一次，后续改变数据不会执行
+				console.log('mounted');// 在装载后<div id="app"></app>就不显示了，而是显示装载的hello world内容
+			},
+			// 基于数据变，影响页面
+			beforeUpdate:function(){
+				// 数据改变时显示原来的内容
+				// 每改变一次数据就会触发一次
+				console.log(document.body.innerHTML);// 打印hello world
+			},
+			// updated:function(){
+			// 	// 显示数据更新后的内容
+			// 	// 每改变一次数据就会触发一次
+			// 	console.log(document.body.innerHTML);// 点击按钮后打印hello world1
+			// }
+			// 以上两个是当有更改数据改变才会触发
+			// 应用：beforeUpdate可以获取原Dom
+			// updated:可以获取新DOM
+			// beforeMount: vue启动前的dom
+			// mounted  vue启动后的dom 只执行一次
+		};
+		// 注册局部组件
+		var App={
+			components:{
+				test:Test
+			},
+			data:{
+				flat:true
+			},
+			// template内容使用test模板
+			template:`<div><test v-if="flat"></test><button @click="flat=!flat"></button></div>`
+		};
+		var app=new Vue({
+			el:"#app",
+			components:{
+				app:App
+			},
+			template:'<app/>'
+		})
+	</script>
+</body>
+</html>

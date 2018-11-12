@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>watch</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+		// 头组件、中组件、底组件
+		// 分离li组件---slot可以理解为占位，也可以理解为留有余地和空间
+		// 这种方式在组件中传递的dom结构相对单一 ，所以可以换一个方式。
+		// var MyLi = {
+		// 	template:`<li>
+		// 		<slot></slot>
+		// 		</li>`
+		// };
+		// 预留两个坑，要用name区分---子组件使用时<my-slot></my-slot>然后在需要使用的dom上加上slot=“one”
+		var MySlot = {
+			template:`<li>
+			// 预留坑1
+			<slot name="one"></slot>
+			<hr/>
+			// 预留坑2
+			<slot name="two"></slot>
+		</li>`
+		};
+		// 注册全局组件
+		Vue.component('my-slot',MySlot);
+		// 入口组件  包含头，中，底部
+		// var App={
+		// 	// 很明显复制很多li也很繁琐，所以可以将li也抽离出来，变成组件
+		// 	template:`
+		// 		<div>
+		// 			<ul>
+					// 这是原始写法，很明显复用性和灵活性都比较低
+		// 				<li>1</li>
+		// 				<li>2</li>
+		// 				<li>3</li>
+		// 				<li>4</li>
+		// 				<li>5</li>
+		// 			</ul>
+		// 		</div>`
+		// };
+		// 入口组件  包含头，中，底部
+		var App={
+			// 很明显复制很多li也很繁琐，所以可以将li也抽离出来，变成组件
+			// 优化--将li变成组件，同时使用slot插槽，好处是可以灵活的在组件中中添加东西
+			template:`
+				<div>
+					<ul>
+						<my-slot>
+							<h1 slot="one">我是h1</h1>
+						</my-slot>
+						<my-slot>
+							<input type="button" value="我是按钮" slot="two">
+						</my-slot>
+					</ul>
+				</div>`
+		};
+		var app=new Vue({
+			el:"#app",
+			components:{
+				app:App
+			},
+			template:'<app/>'
+		})
+	</script>
+</body>
+</html>

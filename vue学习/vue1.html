@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue学习</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+		var app=new Vue({
+			el:"#app",
+			template:'<div><span v-text="myText"></span><hr /><span v-html="myHtml"></span><div v-show="isExit">我是v-show</div><div v-if="isIf==1">我是v-if</div><div v-else>我是else</div></div>',
+			data:function(){
+				// v-text就会把所有文本都输出，不会解析标签
+				// v-html就会把标签解析出来
+				return {
+					myText:"<h1>我是text</h1>",
+					myHtml:"<h1>我是html</h1>",
+					isExit:false,
+					isIf:2
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>

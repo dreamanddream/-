@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		#box{
+			width:100px;
+			height:100px;
+			position: absolute;
+			background: red;
+			top:0;
+		}
+	</style>
+</head>
+<body>
+	<!-- 复习原生，整个过程都是原生 -->
+	<!-- 1.设置图片宽和高 -->
+	<div id="first"></div>
+	<a href="http://www.baidu.com" id="chaolianjie">我是超链接</a>
+	<input type="button" id="test1">
+	<script>
+	var first=document.getElementById('first');
+	first.style.width="100px";
+	first.style.height="200px";
+	first.style.background="red";
+	var button=document.getElementById("test1");
+	button.onclick=function(){
+		var chaolianjie=document.getElementById("chaolianjie")
+		chaolianjie.href="http://www.baidu.coms";
+		// 原生js修改html文字内容
+		chaolianjie.innerText="超链接内容被修改了";
+	}
+	</script>
+	<div id="box">
+		
+	</div>
+	<script>
+		var box=document.getElementById("box");
+		// box.style.offsetleft="100px";
+
+	</script>
+</body>
+</html>

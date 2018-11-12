@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>v-bind给属性绑定值</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+	var app=new Vue({
+		el:"#app",
+		template:
+		'<div><a v-bind:href="titles">{{content}}</a><span v-on:click="titles= 'aa' ">我是{{titles}}</span></div>',
+		data:function(){
+			return {
+				content:"我是超链接",
+				titles:"https://www.baidu.com",
+				num:1
+			}
+		}
+	})
+	</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>通过原型实现继承</title>
+</head>
+<body>
+	<script>
+	// 人看成一个大类别，学生也属于人，既有人的特点，也有学生自己的特点
+		function Person(name){
+			this.name=name;
+		}
+		Person.prototype.eat=function(){
+			console.log(this.name+"吃苹果");
+		}
+		Person.prototype.sleep=function(){
+			console.log(this.name+"经常睡觉");
+		}
+		function Student(score){
+			this.score=score;
+		}
+		// 学生也有吃玩的特性，很明显，这样代码重复有冗余
+		Person.prototype.eat=function(){
+			console.log(this.name+"吃苹果");
+		}
+		Person.prototype.sleep=function(){
+			console.log(this.name+"经常睡觉");
+		}
+		// 改变原型指向实现继承
+		Student.prototype=new Person("zhangsan");
+		Student.prototype.study=function(){
+			// 打印结果：zhangsan考了90学习的苦与乐！
+			console.log(this.name+"考了"+this.score+"学习的苦与乐!");
+		}
+		var student=new Student("90");student.study();
+	</script>
+</body>
+</html>
