@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>路由router-view</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <!-- vue-router是vue的(核心插件)对象 -->
+    <!-- 1.引入vue-router对象 -->
+    <script src="js/vue-router.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        var Login={
+            template:`<div>我是登录页</div>`
+        }
+        // 2.安装插件
+        Vue.use(VueRouter);
+        // 3.创建一个路有对象
+        var router=new VueRouter({
+
+            // 4.配置路由对象---就是改变的锚点是什么，对应改变的内容是什么--so easy
+            routes: [{path:'/login',component:Login}]
+        })
+        
+        // 6.指定路由改变局部的位置
+        var App={
+            template:`<div><router-view></router-view></div>`
+        }
+
+        // 5.配置好的路由要关联vue实例中
+        new Vue({
+            el:'#app',
+            components:{
+                app:App
+            },
+            router:router,
+            template:'<app/>'
+        })
+        
+    </script>
+</body>
+</html>

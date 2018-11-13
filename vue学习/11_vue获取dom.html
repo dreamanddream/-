@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue获取dom</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        var App={
+            template:'<div><input v-if="isShow" type="text" ref="input"><button ref="btn">我是按钮</button><p class="red" ref="red">我是p标签</p></div>',
+            // 分别测试下在哪种生命周期钩子函数中可以获取dom元素
+            beforeCreate:function() {
+                console.log(this.$refs.btn);// undefined
+            },
+            created:function() {
+                console.log(this.$refs.btn);//undefined;
+            },
+            beforeMount:function() {
+                console.log(this.$refs.btn);//undefined
+            },
+            mounted:function() {
+                //<button>按钮</button>说明操作dom数据要在mounted中操作，因为其他几种生命周期钩子函数都获取不到dom
+                console.log(this.$refs.btn);
+                // input获取焦点
+                // this.isShow=true;
+                // this.isShow=false;
+                // this.isShow=true;// vue会把代码加载完成后，根据最后的isShow的值才确定是否显示；而不是根据代码显示隐藏显示
+                // 在vue真正渲染dom到页面以后，要执行得操作在$nextTick中操作，就是确保dom存在后才操作
+                // this.$refs.input.focus();
+                this.$nextTick(function(){
+                    this.$refs.input.focus();
+                });
+            },
+            data:function(){
+                return {
+                    text:"我是文本",
+                    isShow:true
+                }
+            }
+        };
+        // $refs:获取组件内的元素
+        // $parent：获取当前组件的父组件
+        // $children:获取子组件
+        // $root:获取new vue的实例 vm var vm=new Vue({})
+        // $el:组件对象的dom元素
+        var app=new Vue({
+		el:"#app",
+		// 一个组件可以有很多个子组件，所以这个有s
+		components:{
+			app:App
+		},
+		// 模板主入口，直接使用app组件，使用app组件，就要使用componts选项，同时还要有注册的组件
+		template:"<app/>"
+	    })
+    </script>
+</body>
+</html>

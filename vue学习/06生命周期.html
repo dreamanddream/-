@@ -29,6 +29,7 @@
 			},
 			// 销毁后
 			// 销毁最终都是做一些其他功能，比如保存到localstorage
+			// 如果v-if为true，那么组价就会被创建，执行created方法；这样频繁的进行创建与销毁非常消耗内容，所以使用<keep-alive></keep-alive>进行组件的激活与停用
 			destroyed() {
 				console.log('destroyed');
 			},
@@ -36,6 +37,15 @@
 				// 组件创建之前
 				// 显示undefined
 				console.log(this.text);
+			},
+			// 使用<keep-alive></keep-alive>后就可以触发激活与停用.
+			// 组件激活
+			activated:function(){
+				console.log('activated');
+			},
+			// 组件停用
+			deactivated:function() {
+				console.log('deactivated');
 			},
 			created:function(){
 				// 组件创建之后
@@ -74,11 +84,13 @@
 			components:{
 				test:Test
 			},
-			data:{
-				flat:true
+			data:function(){
+				return {
+					flat:true
+				}
 			},
 			// template内容使用test模板
-			template:`<div><test v-if="flat"></test><button @click="flat=!flat"></button></div>`
+			template:`<div><keep-alive><test v-if="flat"></test></keep-alive><button @click="flat=!flat">切换</button></div>`
 		};
 		var app=new Vue({
 			el:"#app",

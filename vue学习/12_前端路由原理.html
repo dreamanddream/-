@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>前端路由原理</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        // hashchange  url改变的同时页面不刷新  url上的部分锚点数据(#xxx)改变可以获取到这个事件
+        var div=document.getElementById("content"); 
+       window.addEventListener("hashchange",function(){
+        //    根据不同的锚点值也就是#包括后面的内容，做出不同的显示
+        // 所以路由简单来说就是有url的改变，还有对应的内容的改变
+            console.log(location.hash);
+            switch(location.hash){
+                case '#/login':div.innerHTML='<h1>我是登录页</h1>';break;
+                case '#/register':div.innerHTML='<h1>我是注册页</h1>';break;
+            }
+       })
+    </script>
+</body>
+</html>
