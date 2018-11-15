@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>路由router-view</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <!-- vue-router是vue的(核心插件)对象 -->
+    <!-- 1.引入vue-router对象 -->
+    <script src="js/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        var Login = {
+            template: `<div>我是登录页</div>`
+        };
+        var Register = {
+            template: `<div>我是注册页</div>`
+        }
+        // 2.安装插件
+        Vue.use(VueRouter);
+        // 3.创建一个路有对象
+        var router = new VueRouter({
+
+            // 4.配置路由对象---就是改变的锚点是什么，对应改变的内容是什么--so easy
+            // 指定一个name
+            routes: [{ path: '/login', component: Login }, { path: '/register', component: Register }]
+        })
+
+        // 5.指定路由改变局部的位置
+
+        var App = {
+            template: `<div>
+            // 很明显要注意灵活性和可拓展性，如果有很多router-link需要使用/login，后面又把地址改变了，那么一个个修改很麻烦
+            // 可以在规则中指定name，那么修改时，只需要在routes规则中改路径就好了。
+                <router-link to="/login">去登陆</router-link>
+                <router-link to="/register">去注册</router-link>
+                <router-view></router-view>
+            </div>`
+        }
+        // 6.配置好的路由要关联vue实例中
+        new Vue({
+            el: '#app',
+            components: {
+                app: App
+            },
+            router: router,
+            template: '<app/>'
+        })
+
+    </script>
+</body>
+
+</html>
