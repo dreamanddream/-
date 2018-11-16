@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>路由router-view</title>
+    <title>嵌套路由</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <!-- vue-router是vue的(核心插件)对象 -->
     <!-- 1.引入vue-router对象 -->
@@ -14,12 +14,19 @@
 <body>
     <div id="app"></div>
     <script>
+        // 嵌套路由
+        // 1.router-view中嵌套router-view
+        // 2.路由规则中存在子路由
         var Login = {
-            template: `<div>我是登录页</div>`,
+            template: `<div>我是登录页<router-view></router-view></div>`,
             created:function() {
                 console.log(this.$route.query);
             },
         };
+        var Woman={
+            template:'<div>欢迎女士登录</div>'
+        }
+        // register中也可以嵌套路由
         var Register = {
             template: `<div>我是注册页</div>`,
             created:function() {
@@ -33,23 +40,16 @@
 
             // 4.配置路由对象---就是改变的锚点是什么，对应改变的内容是什么--so easy
             // 指定一个name，那么如果有使用同一路径需要改变时，只改变name就好了。
-            routes: [{ name:'login',path: '/login', component: Login }, {name:'register', component: Register }]
+            routes: [
+                { name:'login',path: '/login', component: Login,children:[{name:'login.woman',path:'woman',component:Woman}
+
+            ] }, {name:'register', path: '/register/name', component: Register }]
         })
 
-        // 5.指定路由改变局部的位置
-        // 很明显要注意灵活性和可拓展性，如果有很多router-link需要使用/login，后面又把地址改变了，那么一个个修改很麻烦
-            // 可以在规则中指定name，那么修改时，只需要在routes规则中改路径就好了。
-            // router-link to如果不加:,那么就是跟字符串，如果有:那么就是跟对象
-                // <router-link to="/login">去登陆</router-link>
-                // <router-link to="/register">去注册</router-link>
-                // :to对象中的值要加单引号
-                // query,params路由中可以带参数，就相当于同一个链接后面拼接的参数不同，实现页面内容不同
-                // <router-link :to="{name:'login',query:{id:1}}">去登陆</router-link>链接后面就会有?id=1,query参数会显示在地址栏中
-                // 可以在Login和Register中打印query和params，了解两者的区别
-                // <router-link :to="{name:'register',params:{name:'abc'}}">去注册</router-link>传递的参数显示为看图片解释，不带?的这种
+       
         var App = {
             template: `<div>
-                <router-link :to="{name:'login',query:{id:1}}">去登陆</router-link>
+                <router-link :to="{name:'login.woman'}">登录女士页面</router-link>
                 <router-link :to="{name:'register',params:{name:'abc'}}">去注册</router-link>
                 <router-view></router-view>
             </div>`
