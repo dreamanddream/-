@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>路由meta与守卫</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <!-- vue-router是vue的(核心插件)对象 -->
+    <!-- 1.引入vue-router对象 -->
+    <script src="js/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+      // 使用router.beforeEach注册全局前置守卫
+      // const router = new VueRouter({ ... })
+      // router.beforeEach((to, from, next) => {
+      //   // ...
+      // })
+        var isLogin=false;
+        
+        var Login = {
+            template: `<div>我是登录页<router-view></router-view></div>`,
+            created:function() {
+                isLogin=true;
+            },
+        };
+        var Music={
+            template:'<div>一起听歌吧</div>'
+        }
+        var Register = {
+            template: `<div>我是注册页</div>`,
+            created:function() {
+                console.log(this.$route.params);
+            },
+        }
+        Vue.use(VueRouter);
+        // 只有登录后才能访问听歌页面
+        var router = new VueRouter(
+            // routes: [
+            //   // meta:{isChecked:true}给未来路由权限控制;全局路由守卫来做参照条件
+            //     { name:'login',path: '/login', component: Login}, {name:'music', path: '/music', component: Music,meta:{
+            //       isChecked:true
+            //     }}]
+        );
+        // 通过add.Routes可以多次追加路由规则,动态获取路由规则，更为灵活，方便追加路由规则
+        router.addRoutes([
+              // meta:{isChecked:true}给未来路由权限控制;全局路由守卫来做参照条件
+                { name:'login',path: '/login', component: Login}, {name:'music', path: '/music', component: Music,meta:{
+                  isChecked:true
+                }}]);
+        // 注册全局路由守卫
+        router.beforeEach(function(to,from,next){
+          // 刚开始打开页面是to和from中对象中的path指向一样都是/，
+          // to代表跳转到哪个路由的路径，from是从哪个路由跳过来
+          // 从根路径调到听歌，那么to对应的path就是/music，from对应的path就是/
+          // login等，放行
+          // to和from都是对象，可以直接访问对应的方法
+          // 在最开始声明全局isLogin
+          // 第一次通过to.login判断
+          // if(to.name==='login'||to.path==='/'){
+          //   console.log("to",to);
+          //   console.log("from",from);
+          //   next();//不调用next，就会卡住
+          // }else{
+          // //  访问音乐首先要判断是否登录
+          //   if(isLogin){
+          //       next();
+          //   }else{
+          //     alert('请先登录');
+          //   }
+          // }
+
+          // 优化
+          if(to.meta.isChecked){
+            console.log("to",to);
+            console.log("from",from);
+            next();//不调用next，就会卡住
+          }else{
+          //  访问音乐首先要判断是否登录
+            if(isLogin){
+                next();//放行 next(false) 取消用户导航行为
+            }else{
+              alert('请先登录');
+              // 这个重定向要怎么定来着？？？？？
+              // next({
+              //   redirect: to.fullPath
+              // })
+            }
+          }
+                   
+        });
+        var App = {
+            template: `<div>
+                <router-link :to="{name:'login'}">登录女士页面</router-link>
+                <router-link :to="{name:'music'}">听歌</router-link>
+                <router-view></router-view>
+            </div>`
+        }
+        // 6.配置好的路由要关联vue实例中
+        new Vue({
+            el: '#app',
+            components: {
+                app: App
+            },
+            router: router,
+            template: '<app/>'
+        })
+
+    </script>
+</body>
+
+</html>
