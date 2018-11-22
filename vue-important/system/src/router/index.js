@@ -6,8 +6,10 @@ import Home from '@/components/Home'
 import Member from '@/components/Member'
 import Shopcart from '@/components/Shopcart'
 import Search from '@/components/Search'
-// 引入路由
+// 引入路由新闻列表
 import newsList from '@/components/news/newsList'
+// 新闻详情
+import newsDetail from '@/components/news/newDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -43,6 +45,12 @@ export default new Router({
       path: '/news/newsList',
       name: 'news.list',
       component: newsList
+    },
+    // 新闻详情 news.detail
+    {
+      path: '/news/detail',
+      name: 'news.detail',
+      component: newsDetail
     }
   ]
 })

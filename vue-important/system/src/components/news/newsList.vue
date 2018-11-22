@@ -1,9 +1,10 @@
 <template>
   <div class="content">
-    <nav-bar>新闻列表</nav-bar>
+    <nav-bar title="新闻列表"></nav-bar>
     <ul class="news-list">
       <li v-for="list in newsList" :key="list.id">
-        <a href="">
+        <!-- 跳转到详情,同时传递参数通过query查询字符串将id传递过去-->
+        <router-link :to="{name:'news.detail',query:{id:list.id}}">
           <img :src="list.img" alt="">
           <div>
             <span>{{list.title}}</span>
@@ -12,7 +13,17 @@
               <p>发表时间：{{list.date}}</p>
             </div>
           </div>
-        </a>
+        </router-link>
+        <!-- <a href="">
+          <img :src="list.img" alt="">
+          <div>
+            <span>{{list.title}}</span>
+            <div class="news-desc">
+              <p>点击数：{{list.num}}</p>
+              <p>发表时间：{{list.date}}</p>
+            </div>
+          </div>
+        </a> -->
       </li>
     </ul>
   </div>
@@ -22,7 +33,8 @@ export default {
   name: 'newsList',
   data: function () {
     return {
-      newsList: []
+      newsList: [],
+      title: '新闻列表'
     }
   },
   created () {
@@ -31,7 +43,7 @@ export default {
         this.newsList = res.data.list
       })
       .catch(res => {
-        console.log("新闻列表获取异常")
+        console.log('新闻列表获取异常')
       })
   }
 }
