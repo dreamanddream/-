@@ -21,7 +21,7 @@ export default {
   created () {
     var id = parseInt(this.$route.query.id)
     // 通过this，而不是var定义的相当于当前组件的全局变量
-    this.icon=id
+    this.icon = id
     console.log(id)
     // 拼接参数的方法，显示对应id的详情
     this.$axios.get('news/detail?id=' + id)

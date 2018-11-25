@@ -13,7 +13,11 @@ import 'mint-ui/lib/style.css'
 import MyUl from '@/components/common/MyUl'
 import MyLi from '@/components/common/MyLi'
 // 引入公共返回navbar
-import NavBar from '@/components/common/NavBar.vue'
+import NavBar from '@/components/common/NavBar'
+// 引入公共comment
+import comment from '@/components/common/comment'
+// 引入preview
+import VuePreview from 'vue-preview'
 
 // 配置公共url
 Axios.defaults.baseURL = 'http://rap2api.taobao.org/app/mock/118048'
@@ -21,11 +25,14 @@ Axios.defaults.baseURL = 'http://rap2api.taobao.org/app/mock/118048'
 Vue.prototype.$axios = Axios
 // 注册全局mint-ui组件
 Vue.use(MintUI)
+// 注册全局preview组件
+Vue.use(VuePreview)
 
 // 注册全局组件
 Vue.component(MyUl.name, MyUl)
 Vue.component(MyLi.name, MyLi)
 Vue.component(NavBar.name, NavBar)
+Vue.component(comment.name, comment)
 
 // 这个?
 Vue.config.productionTip = false

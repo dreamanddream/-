@@ -13,7 +13,8 @@
       <my-ul>
         <my-li v-for="(grid, index) in grids" :key="index">
           <!-- 动态绑定路由 -->
-          <router-link :to="{name:grid.router.name}" class="">
+          <!-- , params: grid.router.params.categoryId -->
+          <router-link :to="{name:grid.router.name,params:{categoryId:grid.router.params.categoryId}  }" class="">
             <span :class="grid.className"></span>
             <span>{{grid.title}}</span>
           </router-link>
@@ -35,12 +36,14 @@ export default {
     return {
       imgs: [],
       grids: [
-        {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
-        {className: 'cms-photo', title: '图文详情', router: {name: 'news.list'}},
-        {className: 'cms-news', title: '实时热点', router: {name: 'news.list'}},
-        {className: 'cms-photo', title: '留言反馈', router: {name: 'news.list'}},
-        {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
-        {className: 'cms-photo', title: '新闻资讯', router: {name: 'news.list'}}
+        // router中传递路由
+        // {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
+        // 有个问题，有的传参有的不传参，路由for循环时要怎么处理
+        {className: 'cms-photo', title: '图文分享', router: {name: 'photo.list', params: {categoryId: 0}}},
+        // {className: 'cms-news', title: '实时热点', router: {name: 'news.list'}},
+        // {className: 'cms-photo', title: '留言反馈', router: {name: 'news.list'}},
+        // {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
+        // {className: 'cms-photo', title: '新闻资讯', router: {name: 'news.list'}}
       ]
     }
   },

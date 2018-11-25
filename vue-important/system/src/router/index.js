@@ -10,6 +10,10 @@ import Search from '@/components/Search'
 import newsList from '@/components/news/newsList'
 // 新闻详情
 import newsDetail from '@/components/news/newDetail'
+// 引入图文
+import photoList from '@/components/photo/photoList'
+// 图文详情
+import photoDetail from '@/components/photo/photoDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -40,7 +44,7 @@ export default new Router({
       name: 'search',
       component: Search
     },
-    // 配置新闻,newsList路由规则
+    // 配置新闻,newsList路由规则--在路由中使用的是query传递参数
     {
       path: '/news/newsList',
       name: 'news.list',
@@ -51,6 +55,18 @@ export default new Router({
       path: '/news/detail',
       name: 'news.detail',
       component: newsDetail
+    },
+    // 图文列表---路径配置方式和新闻不同，使用params传递参数
+    {
+      path: '/photo/photoList/:categoryId',
+      name: 'photo.list',
+      component: photoList
+    },
+    // 使用query传递的餐数
+    {
+      path:'/photo/photoDetail',
+      name:'photo.detail',
+      component: photoDetail
     }
   ]
 })
