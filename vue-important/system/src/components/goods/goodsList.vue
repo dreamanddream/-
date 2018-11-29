@@ -4,9 +4,9 @@
       <ul>
         <li v-for="item in list" :key="item.goodId">
           <router-link :to="{name:'goods.detail',query:{id:item.goodId}}">
-          <img :src="item.img" alt="">
-          <p>{{item.title | convertStr(10)}}</p>
-          <p>价格:￥{{item.price}}</p>
+            <img :src="item.img" alt="">
+            <p>{{item.title | convertStr(10)}}</p>
+            <p>价格:￥{{item.price}}</p>
           </router-link>
         </li>
       </ul>
