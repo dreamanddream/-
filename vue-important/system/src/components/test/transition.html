@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+    .show{
+      width:100px;
+      height:100px;
+      background: red;
+    }
+    .show-enter-active,.show-leave-active{
+        transition:all 2s;
+    }
+    .show-enter,.show-leave-to{
+        height:0;
+    }
+    .show-enter-to,.show-leave{
+        height:100px;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+<div id="app">
+      <button @click="toggle">显示/隐藏</button><br>
+      <transition name="show">
+        <div class="show" v-show="isshow">
+        </div>
+      </transition>
+</div>
+
+</body>
+
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            isshow:false
+        },
+        methods:{
+            toggle:function(){
+                this.isshow = !this.isshow;
+            }
+        }
+    })
+</script>
+</html>

@@ -14,6 +14,10 @@ import newsDetail from '@/components/news/newDetail'
 import photoList from '@/components/photo/photoList'
 // 图文详情
 import photoDetail from '@/components/photo/photoDetail'
+// 商品列表
+import goodsList from '@/components/goods/goodsList'
+// 商品详情
+import goodDetail from '@/components/goods/goodsDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -64,9 +68,21 @@ export default new Router({
     },
     // 使用query传递的餐数
     {
-      path:'/photo/photoDetail',
-      name:'photo.detail',
+      path: '/photo/photoDetail',
+      name: 'photo.detail',
       component: photoDetail
+    },
+    // 商品列表
+    {
+      path: '/goods/goodList',
+      name: 'goods.list',
+      component: goodsList
+    },
+    // 商品详情
+    {
+      path: '/goods/detail',
+      name: 'goods.detail',
+      component: goodDetail
     }
   ]
 })

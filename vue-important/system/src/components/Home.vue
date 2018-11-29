@@ -3,21 +3,26 @@
   <mt-header fixed title="你的头条"></mt-header>
    <div class="content">
     <!-- 轮播图 -->
-    <mt-swipe :auto="4000">
+    <!-- <mt-swipe :auto="4000">
       <mt-swipe-item v-for="(img, index) in imgs" :key="index">
         <img :src="img.Img" alt="">
       </mt-swipe-item>
-    </mt-swipe>
+    </mt-swipe> -->
+    <my-swiper url="/index/baner"></my-swiper>
     <!-- 新闻九宫格 -->
     <div class="grid">
       <my-ul>
         <my-li v-for="(grid, index) in grids" :key="index">
           <!-- 动态绑定路由 -->
           <!-- , params: grid.router.params.categoryId -->
-          <router-link :to="{name:grid.router.name,params:{categoryId:grid.router.params.categoryId}  }" class="">
-            <span :class="grid.className"></span>
+          <router-link :to="grid.router">
+             <span :class="grid.className"></span>
             <span>{{grid.title}}</span>
           </router-link>
+          <!-- <router-link :to="{name:grid.router.name}" class="">
+            <span :class="grid.className"></span>
+            <span>{{grid.title}}</span>
+          </router-link> -->
           <!-- <a href="" class="">
             <span :class="grid.className"></span>
             <span>{{grid.title}}</span>
@@ -37,13 +42,13 @@ export default {
       imgs: [],
       grids: [
         // router中传递路由
-        // {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
-        // 有个问题，有的传参有的不传参，路由for循环时要怎么处理
+        {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
+        // 有个问题，有的传参有的不传参，路由for循环时要怎么处理,路由循环时直接渲染grid.router就行，不需要提交具体参数
         {className: 'cms-photo', title: '图文分享', router: {name: 'photo.list', params: {categoryId: 0}}},
-        // {className: 'cms-news', title: '实时热点', router: {name: 'news.list'}},
-        // {className: 'cms-photo', title: '留言反馈', router: {name: 'news.list'}},
-        // {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
-        // {className: 'cms-photo', title: '新闻资讯', router: {name: 'news.list'}}
+        {className: 'cms-news', title: '商品列表', router: {name: 'goods.list'}},
+        {className: 'cms-photo', title: '留言反馈', router: {name: 'news.list'}},
+        {className: 'cms-news', title: '新闻资讯', router: {name: 'news.list'}},
+        {className: 'cms-photo', title: '新闻资讯', router: {name: 'news.list'}}
       ]
     }
   },
@@ -52,7 +57,7 @@ export default {
     this.$axios.get('/index/baner')
       .then(res => {
         console.log(res.data)
-        this.imgs = res.data.banner
+        this.imgs = res.data.message
       })
       .catch(err => {
         console.log('轮播图获取异常', err)

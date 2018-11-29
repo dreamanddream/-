@@ -33,6 +33,13 @@ export default {
       .catch(err => {
         console.log(err, '新闻详情内容')
       })
+      this.test()
+  },
+  methods:{
+    test () {
+      var id = parseInt(this.$route.query.id)
+      console.log("看一下在methods是否可以获取到id",id)
+    }
   }
 }
 </script>
