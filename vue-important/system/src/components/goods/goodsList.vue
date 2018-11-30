@@ -28,7 +28,7 @@ export default {
       courrentPage: 0,
       start: 1,
       topStatus: ''
-    };
+    }
   },
   created() {
     this.start = this.$route.query.id || 1

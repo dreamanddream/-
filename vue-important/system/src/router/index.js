@@ -18,6 +18,8 @@ import photoDetail from '@/components/photo/photoDetail'
 import goodsList from '@/components/goods/goodsList'
 // 商品详情
 import goodDetail from '@/components/goods/goodsDetail'
+// 图文介绍
+import goodsInfo from '@/components/goods/goodsInfo'
 Vue.use(Router)
 
 export default new Router({
@@ -83,6 +85,12 @@ export default new Router({
       path: '/goods/detail',
       name: 'goods.detail',
       component: goodDetail
+    },
+    // 图文介绍
+    {
+      path: '/goods/info',
+      name: 'goods.info',
+      component: goodsInfo
     }
   ]
 })

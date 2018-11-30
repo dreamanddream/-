@@ -21,14 +21,33 @@
     </mt-tabbar>
   </div>
 </template>
-
 <script>
+import EventBus from '@/eventBus.js'
+import GoodsTodo from '@/GoodsTodo.js'
 export default {
   name: 'App',
   data () {
     return {
-      selected: ''
+      selected: '',
+      num:0
     }
+  },
+  created() {
+    // 初始化小球的数量--使用obj中定义的方法
+    this.num = GoodsTodo.getTotalCount()
+    console.log("获取小球的总数", this.num)
+     // 使用eventBus
+      // EventBus.$on('addShopcart',function (data) {
+      //   console.log("子组件传递过来的数据",data)
+      //   // 这里的this代表vue实例对象，所以
+      //   console.log("eventBus中的$on",this)
+      // })
+      EventBus.$on('addShopcart', data => {
+        console.log("子组件传递过来的数据",data)
+        // 这里的this代表vue实例对象，所以改成箭头函数，二者有什么区别
+        console.log("eventBus中的$on",this)
+        this.num+=5
+      })
   },
   // watch只能监听发生改变的内容，如果从首页点击新闻列表，再从新闻列表点击首页就不会执行路由跳转，因为前后两次点击值都一样
   // 所以要想实现路由跳转，就可以使用点击方法
