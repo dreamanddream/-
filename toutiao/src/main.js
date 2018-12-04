@@ -3,10 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 
 Vue.config.productionTip = false
 
-// css
+// 注册全局axios
+Vue.prototype.$axios=axios;
+axios.defaults.baseURL = 'http://data.toutiaojk.com/extend/list/'
 
 
 
