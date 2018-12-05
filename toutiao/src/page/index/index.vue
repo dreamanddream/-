@@ -8,7 +8,7 @@ import indexHeader from './components/index_header'
 export default {
   components:{
     indexHeader
-  }  
+  }
 }
 </script>
 <style lang="less">
