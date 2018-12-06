@@ -8,6 +8,7 @@ Vue.use(Router)
 // 路由懒加载
 // const index = () => import('@/page/index/index')
 import index from '@/page/index/index'
+import search from '@/page/search/search'
 
 export default new Router({
   routes: [
@@ -15,11 +16,24 @@ export default new Router({
       path: '/',
       redirect: '/index',
       component: App,
-      children: [{
-        name: 'index',
-        path: '/index',
-        component: index
-      }]
-    }
+      children: [
+        {
+          name: 'index',
+          path: '/index',
+          component: index
+        }
+      ]
+    },
+    // {
+    //   name: 'index',
+    //   path: '/index',
+    //   component: index
+    // },
+    // // search页面
+    // {
+    //   name: 'search',
+    //   path: '/search',
+    //   component: search
+    // }
   ]
 })

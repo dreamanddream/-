@@ -8,14 +8,14 @@
           <a href="" class="title"></a>
         </div>
         <div class="abs_r">
-          <a href="" class="search_btn"></a>
+          <a href="" class="search_btn"  @click.stop="$router.push('/search')"></a>
         </div>
       </div>
     </header>
     <!-- 可以滑动的栏目 -->
     <nav>
       <div class="nav_ul">
-        <a href='javascript:;' v-for="(item,index) in indexColumn" :class='{active: indexActive == item.classpath}' @click.stop="navClick(item.classpath)" :key="index">{{item.classname}}</a>
+        <a href='javascript:;' v-for="(item,index) in indexColumn" :class='{active: indexActive == item.classpath}' @click.stop="navClick(item.classpath)" :key="index">{{item.classname}}栏目</a>
       </div>
     </nav>
   </div>
@@ -24,11 +24,8 @@
 // 使用vuex管理状态
 import {mapState, mapGetters, mapMutations} from 'vuex'
 export default {
-  data() {
-    return {
-      navList: ""
-    };
-  },
+  // 使用...拓展运算符可以将state中indexActive对应映射为indexActive，这样就可以通过
+  // this.indexActive访问到，不需要使用this.$store.state.indexActive
    computed: {
     ...mapState('index',['indexActive','indexColumn']),
     ...mapGetters('index',['activeMeta'])
@@ -36,23 +33,35 @@ export default {
   watch: {
     indexActive() {
       this.slideTo(this.activeMeta.index)
+      console.log(this.activeMeta.index)
     }
   },
   methods: {
+    // ...mapMutation把本组件的mutations映射到set_indexActive方法里(set_indexActive在mutations里)
+    // 之前写法是this.$store.commit('set_indexActive',city)
     ...mapMutations('index',['set_indexActive']),
+    navClick () {
+      console.log(this.indexActive)
+      console.log(this.indexColumn)
+    },
     // 自己实现导航滚动
     slideTo(index) {
       this.$nextTick(() => {
-        let _container=document.querySelector(".nav_ul") //获取滚动元素
+        let _container = document.querySelector(".nav_ul")
+        // querySelectorAll得到的是一个数组
+        let _columnAll=document.querySelectorAll(".nav_ul a") //获取滚动元素
+        // 获取数组中对应active类的元素
+        let _column=_columnAll[index]
+        if (_column) {
+            let move
+            let _containr_width = _container.offsetWidth
+            console.log(_containr_width)
+            let _container_left = _container.scrollLeft
+            console.log(_container_left)
+        }
       })
     }
   }
-  // mounted() {
-  //   this.$axios.get("/appclassid.php").then(res => {
-  //     this.navList = res.data;
-  //     console.log(res.data);
-  //   });
-  // }
 }
 </script>
 <style lang="less">
