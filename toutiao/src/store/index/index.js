@@ -3,7 +3,7 @@ import { request } from '@/utils/request'
 export default {
   namespaced: true,
   state: {
-    indexActive: 0,      // active的栏目
+    indexActive:'0',      // active的栏目
     // indexActive: 'news_recommend',      // active的栏目
     indexPage: { news_recommend: 1 },      // 各个栏目page的对象
     indexLocation: { news_recommend: 0 },  // 各个栏目location的对象
@@ -19,12 +19,24 @@ export default {
   },
   getters: {
     activeMeta: state => {
-      // 当前active的栏目的index，classid，page，location
-      let index = state.indexColumn.findIndex(obj => obj.classpath === state.indexActive)
-      let classid = state.indexColumn[index].classid
+      // 获取对应的indexs，自己写的方法，之前的findIndex不执行
+      function getIndex () {
+        let indexs=0;
+        state.indexColumn.forEach(function(item,index){
+          if(item.classpath==state.indexActive){
+            console.log("当前index",index)
+            indexs=index
+          }
+        })
+        return indexs
+      }
+      let indexs = getIndex()
+      console.log("state.indexColumn", state.indexColumn)
+      console.log("我是getters中index", indexs)
+      let classid = state.indexColumn[indexs].classid
       let page = state.indexPage[state.indexActive]
       let location = state.indexLocation[state.indexActive]
-      return { index, classid, page, location }
+      return { indexs, classid, page, location }
     }
   },
   mutations: {
@@ -34,7 +46,7 @@ export default {
     },
     set_indexPage(state, obj) {
       state.indexPage = obj
-      // cache.setSession('index_Page', obj)
+      cache.setSession('index_Page', obj)
     },
     set_indexLocation(state, obj) {
       state.indexLocation = obj
@@ -42,13 +54,14 @@ export default {
     },
     set_indexColumn(state, arr) {
       state.indexColumn = arr
-      // cache.setSession('index_Column', arr)
+      cache.setSession('index_Column', arr)
     },
     set_currentContent(state, val) {
       state.currentContent = val
       // _json是什么写法？？？？
-      // cache.setSession(`${state.indexActive}_json`, val)
+      cache.setSession(`${state.indexActive}_json`, val)
     },
+    // 当前项index设置true或者false是什么，要控制什么？
     set_indexSwiper(state, val) {
       state.indexSwiper = val
     }
@@ -120,7 +133,7 @@ export default {
       }
         console.log("indexColumn",...state.indexColumn)
         console.log("res",res)
-      commit('set_indexColumn', res)
+      commit('set_indexColumn', res) // 更新mutation中set_indexColunm中的state.indexColumn值
       // 栏目数据是动态获取的，生成对应的page、location对象
       dispatch('get_indexPage_cache', res)
       dispatch('get_indexLocation_cache', res)

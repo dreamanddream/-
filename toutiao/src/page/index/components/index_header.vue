@@ -5,10 +5,10 @@
       <div class="top_bar">
         <div class="abs_l"></div>
         <div class="abs_m">
-          <a href="" class="title"></a>
+          <a href="" class="title" @click.stop="goTop"></a>
         </div>
         <div class="abs_r">
-          <a href="" class="search_btn"  @click.stop="$router.push('/search')"></a>
+          <a href="" class="search_btn" @click.stop="$router.push('/search')"></a>
         </div>
       </div>
     </header>
@@ -22,47 +22,115 @@
 </template>
 <script>
 // 使用vuex管理状态
-import {mapState, mapGetters, mapMutations} from 'vuex'
+import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
   // 使用...拓展运算符可以将state中indexActive对应映射为indexActive，这样就可以通过
   // this.indexActive访问到，不需要使用this.$store.state.indexActive
-   computed: {
-    ...mapState('index',['indexActive','indexColumn']),
-    ...mapGetters('index',['activeMeta'])
+  computed: {
+    ...mapState("index", ["indexActive", "indexColumn"]),
+    ...mapGetters("index", ["activeMeta"])
   },
   watch: {
-    indexActive() {
-      this.slideTo(this.activeMeta.index)
-      console.log(this.activeMeta.index)
+    // 实现监听，如果indexActive值有变化，那么就执行slideto
+    indexActive( news, old) {
+      // 执行slideto方法，同时也会自动更新getter中activeMeta元素
+      this.slideTo(this.activeMeta.indexs);
+      // console.log(news,old)
+      //
+      // console.log("我是watch", this.activeMeta.indexs);
     }
   },
   methods: {
     // ...mapMutation把本组件的mutations映射到set_indexActive方法里(set_indexActive在mutations里)
     // 之前写法是this.$store.commit('set_indexActive',city)
-    ...mapMutations('index',['set_indexActive']),
-    navClick () {
-      console.log(this.indexActive)
-      console.log(this.indexColumn)
+    ...mapMutations("index", ["set_indexActive"]),
+    navClick(type) {
+      // console.log(this.indexActive)
+      // console.log(this.indexColumn)
+      // this.slideTo(this.activeMeta.indexs)
+      this.set_indexActive(type); // 点击栏目更新vuex中idnexActive值，也就是state中idnexActive会更新，同时getters中index以及涉及到classid都会更新
     },
     // 自己实现导航滚动
     slideTo(index) {
+      // console.log("动态index", index);
       this.$nextTick(() => {
-        let _container = document.querySelector(".nav_ul")
+        let _container = document.querySelector(".nav_ul");
         // querySelectorAll得到的是一个数组
-        let _columnAll=document.querySelectorAll(".nav_ul a") //获取滚动元素
+        let _columnAll = document.querySelectorAll(".nav_ul a"); //获取滚动元素
         // 获取数组中对应active类的元素
-        let _column=_columnAll[index]
+        let _column = _columnAll[index];
+        // 原生js的滚动与获取各种宽和高
         if (_column) {
-            let move
-            let _containr_width = _container.offsetWidth
-            console.log(_containr_width)
-            let _container_left = _container.scrollLeft
-            console.log(_container_left)
+          let move;
+          let _containr_width = _container.offsetWidth; // 容器宽度
+          // console.log(_containr_width);
+          let _container_left = _container.scrollLeft; // 容器滚动条的值
+          // console.log(_container_left);
+          let _column_width = _column.offsetWidth; // 元素的宽度
+          let _column_left = _column.offsetLeft; // 当前选中元素距离屏幕左边的宽度
+          let midWidth = (_containr_width - _column_width) / 2; // 屏幕中心线的宽度
+          // 判断是否滚动
+          if (_container_left == 0 && _column_left <= midWidth) {
+            move = 0;
+          } else {
+            // 动态计算，让每次
+            move = _container_left + (_column_left - midWidth);
+            // console.log(_container_left,_column_left,midWidth)
+          }
+          // 自执行滚动动画向左
+          (getLeft => {
+            // let timer = setInterval(function () {
+            // let ispeed = Math.floor(-move/5)
+            // if (Math.abs(_container.scrollLeft) == 0) {
+            //   clearInterval(timer)
+            // }
+            // _container.scrollLeft = _container.scrollLeft + ispeed
+            // console.log(" _container.scrollLeft",_container.scrollLeft)
+            // }, 20)
+            _container.scrollTo({
+              left: move,
+              behavior: "smooth"
+            })
+            // console.log("move", move);
+          })();
+
+          sessionStorage.setItem("navScrollLeft", move);
         }
-      })
+      });
+    },
+    // 滚动恢复
+    scrollRecover() {
+      let move = sessionStorage.getItem("navScrollLeft");
+      if (move) {
+        this.$nextTick(() => {
+          let _container = document.querySelector(".nav_ul");
+          _container.scrollLeft = move;
+        });
+      }
+    },
+    // 滚动到顶部
+    goTop() {
+      //设置一个定时器
+      let timer = setInterval(function() {
+        //获取滚动条的滚动高度
+        var osTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        //用于设置速度差，产生缓动的效果
+        var speed = Math.floor(-osTop / 6);
+        document.documentElement.scrollTop = document.body.scrollTop =
+          osTop + speed;
+        // isTop = true; //用于阻止滚动事件清除定时器
+        if (osTop == 0) {
+          clearInterval(timer);
+        }
+      }, 30)
+    },
+    // vue中activated周期，activated钩子是要在keep-alive下才能使用
+    activated() {
+        this.scrollRecover()
     }
   }
-}
+};
 </script>
 <style lang="less">
 #indexHeader {

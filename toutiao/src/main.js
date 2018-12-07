@@ -12,6 +12,18 @@ Vue.config.productionTip = false
 // Vue.prototype.$axios=axios;
 // axios.defaults.baseURL = 'http://data.toutiaojk.com/extend/list/'
 
+// 第三方库
+import VueAwesomeSwiper from 'vue-awesome-swiper' //swiper滑动组件
+import 'swiper/dist/css/swiper.css'
+import MintUI, {MessageBox, Toast, Indicator} from 'mint-ui'
+import 'mint-ui/lib/style.css'
+
+// 使用第三方组件
+Vue.use(VueAwesomeSwiper)
+Vue.use(MintUI)
+Vue.prototype.$toast = Toast
+Vue.prototype.$megBox = MessageBox
+Vue.prototype.$indicator = Indicator
 
 
 
