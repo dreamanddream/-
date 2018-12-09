@@ -3,16 +3,16 @@ import { request } from '@/utils/request'
 export default {
   namespaced: true,
   state: {
-    indexActive:'0',      // active的栏目
-    // indexActive: 'news_recommend',      // active的栏目
+    indexActive:'news_recommend',      // active的栏目
+    indexActive: 'news_recommend',      // active的栏目
     indexPage: { news_recommend: 1 },      // 各个栏目page的对象
     indexLocation: { news_recommend: 0 },  // 各个栏目location的对象
     // 栏目数据
     indexColumn: [{
-      classname: '0',
+      classname: '推荐',
       classid: 0,
-      // calsspath: 'news_recommend'
-      classpath: '0'
+      calsspath: 'news_recommend'
+      // classpath: '0'
     }],
     currentContent: '', //当前栏目的缓存数据，为了刷新时不在此请求(，那么不就是假数据？？？？)
     indexSwiper: false
@@ -125,10 +125,11 @@ export default {
       if (data) {
         res = data
       } else {
-        let json = await request('get', 'classID')
+        let json = await request('post', 'classID')
         console.log("动态获取的",json)
-        // 由于json是个对象，动态获取的数据中json.message才是数组
-        res = [...state.indexColumn, ...json.message]
+        // 由于json是个对象，动态获取的数据中json.message才是数组,这个是请求自己的rap接口时才有message
+        // res = [...state.indexColumn, ...json.message]
+        res = [...state.indexColumn, ...json]
         console.log("res",res)
       }
         console.log("indexColumn",...state.indexColumn)

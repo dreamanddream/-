@@ -23,7 +23,7 @@
             <my-banner :json="bannerJson" v-if='bannerJson.length > 0'/>
             <!-- 置顶组件 -->
             <list-item :itemJson="stickJson" v-if='stickJson.length > 0'/>
-            <!-- listItem -->
+            <!-- listItem --> 
             <list-item :itemJson="contentJson" v-if='contentJson.length > 0'/>
             <!-- 底部提示 -->
             <div class="bottomLoad" v-if="contentJson.length > 0">

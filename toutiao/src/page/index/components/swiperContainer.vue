@@ -1,16 +1,16 @@
 <template>
   <swiper :options="swiperOption" id="swiper-box" ref="mySwiper">
     <swiper-slide v-for='(item,index) in indexColumn' :key='index'>
-      <!-- <pull-container :type='item.classpath'></pull-container> -->
-      <div style="height:200px;">{{item.classpath}}栏目</div>
+      <pull-container :type='item.classpath'></pull-container>
+      <!-- <div style="height:200px;">{{item.classname}}栏目</div> -->
     </swiper-slide>
   </swiper>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
-// import pullContainer from './pullContainer'
+import pullContainer from './pullContainer'
 export default {
-  // components: { pullContainer },
+  components: { pullContainer },
   data() {
     return {
       swiperOption: {

@@ -3,12 +3,12 @@ import axios from 'axios'
 import qs from 'qs'
 
 Vue.prototype.$axios = axios
-// axios.defaults.baseURL = 'http://data.toutiaojk.com/extend/list/'
-axios.defaults.baseURL = 'http://rap2api.taobao.org/app/mock/120205'
+axios.defaults.baseURL = 'http://data.toutiaojk.com/extend/list/'
+// axios.defaults.baseURL = 'http://rap2api.taobao.org/app/mock/120205'
 // 各个接口地址
 const ajaxURL = {
   // 主页
-  classID: 'news/title', //导航栏目
+  classID: 'appclassid.php', //导航栏目
   Class: 'appclass.php',     //每个栏目下对应的数据
   Stick: 'appistop.php',     //栏目置顶
   // 详情页
@@ -33,7 +33,9 @@ export var request = async (type = 'POST', url = '', data = {}) => {
   } else if (type === 'POST') {
     await axios.post(url, qs.stringify(data))
     .then(res => {
-      result = res.result
+      // 原来数据中的数据结构错了，哈哈，要最快的发现问题出在哪里
+      result = res.data
+      console.log("结果", result)
     })
   }
   return result
