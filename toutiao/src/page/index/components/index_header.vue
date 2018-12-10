@@ -196,8 +196,8 @@ export default {
   }
   nav {
     position: relative;
-    height: 1.2rem;
-    line-height: 1.2rem;
+    height: 50px;
+    line-height: 50px;
     background-color: #f4f5f6;
     border-bottom: 1px solid #ddd;
     .nav_ul {

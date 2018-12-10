@@ -19,8 +19,10 @@ import MintUI, {MessageBox, Toast, Indicator} from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
 // 自定义组件
-import myLoading from '@/components/loading' 
+import myLoading from '@/components/loading'
 import myBanner from '@/components/banner'
+import listItem from '@/components/listItem'
+import listInfo from '@/components/info'
 
 // 使用第三方组件
 Vue.use(VueAwesomeSwiper)
@@ -32,6 +34,8 @@ Vue.prototype.$indicator = Indicator
 // 注册全局自定义组件
 Vue.component('my-loading', myLoading)
 Vue.component('my-banner', myBanner)
+Vue.component('list-item', listItem)
+Vue.component('list-info', listInfo)
 
 
 /* eslint-disable no-new */

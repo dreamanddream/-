@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 @import '../static/less/base.less';
 @import '../static/less/reset.less';
 #app {

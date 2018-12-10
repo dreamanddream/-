@@ -1,6 +1,7 @@
 <template>
   <swiper :options="swiperOption" id="swiper-box" ref="mySwiper">
     <swiper-slide v-for='(item,index) in indexColumn' :key='index'>
+      <!-- 传递给子组件时如果加上：代表数据是动态的，如果不加就是固定字符串item.classpath -->
       <pull-container :type='item.classpath'></pull-container>
       <!-- <div style="height:200px;">{{item.classname}}栏目</div> -->
     </swiper-slide>
@@ -48,23 +49,23 @@ export default {
       let swiper = this.$refs.mySwiper.swiper
       let index = swiper.activeIndex;
       this.set_indexActive(this.indexColumn[index].classpath); // 滚动完swiper需要改变vuex里面的indexActive，这是为了与栏目联动
-      console.log("slideChangeCallBack");
+      // console.log("slideChangeCallBack");
     },
     // 移动的时候设为true，这是为了移动时，不能下拉，我在mint-ui的loadmore代码里自定义了一个属性用于监听左右滑动，然后禁止loadmore组件的触发
     slideMoveCallBack() {
       this.set_indexSwiper(true);
-      console.log("slideMoveCallBack");
+      // console.log("slideMoveCallBack");
     },
     // 移动结束设为false，这是为了移动结束时，可以下拉，我在mint-ui的loadmore代码里自定义了一个属性用于监听左右滑动，然后禁止loadmore组件的触发
     touchEndCallBack() {
       this.set_indexSwiper(false);
-      console.log("touchEndCallBack");
+      // console.log("touchEndCallBack");
     }
   },
   mounted() {
     this.slideToo(0);
     // dom渲染完毕后这个就会执行
-    console.log("mounted");
+    // console.log("mounted");
   }
 };
 </script>
@@ -74,6 +75,6 @@ export default {
   height: 100%;
   z-index: 0;
   background: #fff;
-  padding-top: 80px;
+  padding-top: 95px;
 }
 </style>
