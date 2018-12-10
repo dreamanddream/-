@@ -3,6 +3,7 @@
         <template v-for="section in itemJson">
             <!-- 视频 -->
             <li v-if="section.playonlineurl">
+                <!-- url是一个方法 -->
                 <router-link :to="url(section)" class='video'>
                     <div class="video_wrapper">
                         <div class="video_info">
@@ -16,6 +17,7 @@
                             <div class="playSan"></div>
                         </div>
                     </div>
+                    <!-- 下面推荐的内容，单独抽离出来，只需要传递数据就行了 -->
                     <list-info :json='section'></list-info>
                 </router-link>
             </li>
@@ -37,6 +39,7 @@
                     <div class="news_title">
                         <h3 v-html="section.title"></h3>
                     </div>
+                    <!-- 三张小图再分别渲染 -->
                     <div class='list_img'>
                         <ul>
                             <li><img v-lazy.container='section.titlepic'></li>

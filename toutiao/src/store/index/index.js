@@ -59,9 +59,11 @@ export default {
       cache.setSession('index_Column', arr)
     },
     set_currentContent(state, val) {
+      // 记录当前请求来的几条数据
       state.currentContent = val
       console.log("state.currentContent",state.currentContent)
-      // _json是什么写法？？？？
+      console.log("`${state.indexActive}_json`",`${state.indexActive}_json`)
+      // _json是什么写法？？？？懂了，就是字符串拼接，在后面拼接一个json文件，就是将对应栏目的名称后面加个_json
       cache.setSession(`${state.indexActive}_json`, val)
     },
     // 当前项index设置true或者false是什么，要控制什么？
@@ -115,6 +117,7 @@ export default {
     // 获取列表数据缓存
     get_listItem_cache({ commit, state }, activeType) {
       let data = JSON.parse(cache.getSession(`${state.indexActive}_json`))
+      console.log("vuex中获取缓存",state.indexActive,data)
       return data
     },
 

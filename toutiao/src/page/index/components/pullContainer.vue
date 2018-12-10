@@ -102,8 +102,9 @@ export default {
     ]),
     init() {
       // active栏目第一次请求数据，这里有个问题，每次点击栏目时this.contentJson会变成空数组？是空数组，怎么实现的？
-      console.log("this.contentJson", this.contentJson)
+    //   console.log("this.contentJson", this.contentJson)
       if (this.indexActive === this.type && this.contentJson.length === 0) {
+          console.log("也就是如果有缓存，这里根本不执行，第一次请求时才执行")
         this.loading = "loading";
         this.classPage = this.activeMeta.page;
         // 获取banner数据
@@ -121,13 +122,16 @@ export default {
         // 栏目的缓存？缓存 : 发送请求
         // 当不断的点击各个栏目考虑到缓存，不然就会不断地请求
         // 这里的res是什么？为什么可以表示缓存的数据
+        console.log("查看数据",this.get_listItem_cache(this.indexActive))
         this.get_listItem_cache(this.indexActive).then(res => {
           if (res) {
             this.contentJson = res;
+            console.log("这是缓存的res吗",res)
             this.handleLocaltion("get");
             this.loading = false;
             // console.log("渲染首页数据if",res,this.contentJson.length)
           } else {
+            //   如果没有缓存那就重新请求
             this.loadTopAjax();
             // console.log("渲染首页数据")
           }
