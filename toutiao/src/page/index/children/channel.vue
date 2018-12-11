@@ -4,8 +4,8 @@
             <my-header fixed title='频道管理'>
                 <a class="back-white" slot='left' @click='$router.go(-1)'></a>
             </my-header>
-
             <div class="content">
+                <!-- 使用自定义的swiper指令 -->
                 <div class="container" v-swiper:swiperRight='true'>
                     <!-- 原有的栏目 -->
                     <section class="column">
@@ -85,6 +85,7 @@ export default {
             .then(res => {
                 if (res) {
                     this.channel = res
+                    console.log("获取可以添加的栏目",res)
                 }
             })
         },

@@ -14,6 +14,7 @@ export default {
 @import '../static/less/base.less';
 @import '../static/less/reset.less';
 @import './assets/css/icon.css';
+@import './assets/css/transition.css';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

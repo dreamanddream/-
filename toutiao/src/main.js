@@ -39,6 +39,7 @@ Vue.component('list-item', listItem)
 Vue.component('list-info', listInfo)
 Vue.component('my-header', myHeader)
 
+import '@/directives'
 
 /* eslint-disable no-new */
 new Vue({

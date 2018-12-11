@@ -15,7 +15,7 @@
     <!-- 可以滑动的栏目 -->
     <nav>
       <div class="nav_ul">
-        <a href='javascript:;' v-for="(item,index) in indexColumn" :class='{active: indexActive == item.classpath}' @click.stop="navClick(item.classpath)" :key="index">{{item.classname}}</a>
+        <a href='javascript:;'  v-for="(item,index) in indexColumn" :class='[{active: indexActive == item.classpath},item.classid]' @click.stop="navClick(item.classpath)" :key="index">{{item.classname}}</a>
       </div>
       <div class="add" @click="chooseItem">+</div>
     </nav>

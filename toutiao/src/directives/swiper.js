@@ -49,6 +49,7 @@ export default function swiper(el, direction, type, vm) {
   }, false)
 
   el.addEventListener('touchend', function(ev) {
+        //   实现滑动翻页
       // 触摸滑动的方向和组件传的方向相等，则返回上一页
       if (direction === res) {
           vm.$router.go(-1)
