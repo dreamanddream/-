@@ -11,7 +11,7 @@ export default {
     indexColumn: [{
       classname: '推荐',
       classid: 0,
-      calsspath: 'news_recommend'
+      classpath: 'news_recommend'
       // classpath: '0'
     }],
     currentContent: '', //当前栏目的缓存数据，为了刷新时不在此请求(，那么不就是假数据？？？？)
@@ -52,6 +52,8 @@ export default {
     },
     set_indexLocation(state, obj) {
       state.indexLocation = obj
+      // console.log("obj记录滚动条的位置",obj)
+      // 记录滚动条的位置
       cache.setSession('index_Location', obj)
     },
     set_indexColumn(state, arr) {
@@ -61,8 +63,8 @@ export default {
     set_currentContent(state, val) {
       // 记录当前请求来的几条数据
       state.currentContent = val
-      console.log("state.currentContent",state.currentContent)
-      console.log("`${state.indexActive}_json`",`${state.indexActive}_json`)
+      // console.log("state.currentContent",state.currentContent)
+      // console.log("`${state.indexActive}_json`",`${state.indexActive}_json`)
       // _json是什么写法？？？？懂了，就是字符串拼接，在后面拼接一个json文件，就是将对应栏目的名称后面加个_json
       cache.setSession(`${state.indexActive}_json`, val)
     },

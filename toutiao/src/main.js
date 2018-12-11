@@ -23,6 +23,7 @@ import myLoading from '@/components/loading'
 import myBanner from '@/components/banner'
 import listItem from '@/components/listItem'
 import listInfo from '@/components/info'
+import myHeader from '@/components/myHeader'
 
 // 使用第三方组件
 Vue.use(VueAwesomeSwiper)
@@ -36,6 +37,7 @@ Vue.component('my-loading', myLoading)
 Vue.component('my-banner', myBanner)
 Vue.component('list-item', listItem)
 Vue.component('list-info', listInfo)
+Vue.component('my-header', myHeader)
 
 
 /* eslint-disable no-new */

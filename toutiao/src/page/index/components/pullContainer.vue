@@ -1,8 +1,9 @@
 <template>
   <!-- 加载更多 -->
   <!-- 使用vue的滚动插件 -->
-  <div class="container" :class="type" v-infinite-scroll="loadBottomAjax" infinite-scroll-disabled="bottomLock" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
-    <!-- 请求提示 -->
+  <div class="container" ref="container" :class="type" v-infinite-scroll="loadBottomAjax" infinite-scroll-disabled="bottomLock" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+    
+    <!-- 请求提示,调用init方法-->
     <my-loading :visible="loading" :reload="init" />
 
     <!-- 顶部提示 -->
@@ -32,7 +33,7 @@
       <!-- 置顶组件 -->
       <list-item :itemJson="stickJson" v-if='stickJson.length > 0' />
       <!-- listItem -->
-      <list-item :itemJson="contentJson" v-if='contentJson.length > 0' />
+      <list-item :itemJson="contentJson" v-if='contentJson.length > 0' :refresh="lookHereClick" />
       <!-- 底部提示 -->
       <div class="bottomLoad" v-if="contentJson.length > 0">
         <div class="loading" v-show='bottomLoading'>加载中...</div>
@@ -102,9 +103,9 @@ export default {
     ]),
     init() {
       // active栏目第一次请求数据，这里有个问题，每次点击栏目时this.contentJson会变成空数组？是空数组，怎么实现的？
-    //   console.log("this.contentJson", this.contentJson)
+      //   console.log("this.contentJson", this.contentJson)
       if (this.indexActive === this.type && this.contentJson.length === 0) {
-          console.log("也就是如果有缓存，这里根本不执行，第一次请求时才执行")
+        console.log("也就是如果有缓存，这里根本不执行，第一次请求时才执行");
         this.loading = "loading";
         this.classPage = this.activeMeta.page;
         // 获取banner数据
@@ -122,18 +123,19 @@ export default {
         // 栏目的缓存？缓存 : 发送请求
         // 当不断的点击各个栏目考虑到缓存，不然就会不断地请求
         // 这里的res是什么？为什么可以表示缓存的数据
-        console.log("查看数据",this.get_listItem_cache(this.indexActive))
+        console.log("查看数据", this.get_listItem_cache(this.indexActive));
         this.get_listItem_cache(this.indexActive).then(res => {
           if (res) {
             this.contentJson = res;
-            console.log("这是缓存的res吗",res)
+            console.log("这是缓存的res吗", res);
             this.handleLocaltion("get");
+            // qign
             this.loading = false;
             // console.log("渲染首页数据if",res,this.contentJson.length)
           } else {
             //   如果没有缓存那就重新请求
             this.loadTopAjax();
-            // console.log("渲染首页数据")
+            console.log("渲染首页数据");
           }
         });
       }
@@ -142,6 +144,8 @@ export default {
     loadTopAjax() {
       this.get_listItem_data(this.classPage)
         .then(res => {
+          // 一旦请求成功将loading设置为false，这里又使用了巧妙方法，这个loading有双层含义
+          // 值为false和loading和error分别代表不同的意思
           this.loading = false;
           if (res) {
             // 将重新获取到的内容解构然后出入数组头部
@@ -151,7 +155,8 @@ export default {
             this.classPage++;
             // 文章数量提示
             // $(`.container.${this.type} .dataCount`).slideDown(200).delay(1000).slideUp(200)
-            console.log("查看传递过来的this.type", this.type);
+            // console.log("查看传递过来的this.type", this.type);
+            // console.log("page",this.classPage)
             this.dataCountShow = !this.dataCountShow;
             let timer = setTimeout(() => {
               this.dataCountShow = false;
@@ -167,7 +172,7 @@ export default {
             let timer = setTimeout(() => {
               this.noNewDataShow = false;
               clearTimeout(timer);
-            }, 1000)
+            }, 1000);
           }
           this.$refs.loadmore.onTopLoaded(); // mint-ui 下拉组件的方法
           this.loading = false;
@@ -182,9 +187,10 @@ export default {
             let timer = setTimeout(() => {
               this.requestFailShow = false;
               clearTimeout(timer);
-            }, 1000)
+            }, 1000);
             this.loading = false;
           } else {
+            // 将报错信息传递过去，同时出现error按钮
             this.loading = "error";
           }
         });
@@ -192,7 +198,7 @@ export default {
     // 底部上滑请求
     loadBottomAjax() {
       this.bottomLock = true; // 上滑开关
-      console.log("底部上拉")
+      console.log("底部上拉");
       // 发送请求,同时传递参数
       this.get_listItem_data(this.classPage).then(res => {
         if (res) {
@@ -202,7 +208,7 @@ export default {
           this.classPage++;
           console.log("页码", this.classPage);
         } else {
-          console.log("执行的什么",this.classPage)
+          console.log("执行的什么", this.classPage);
           // 将加载中隐藏
           this.bottomLoading = false;
           // 到底啦显示为true；
@@ -225,24 +231,32 @@ export default {
     },
     // 点击look元素，发送请求
     lookHereClick() {
-      let yuan=document.querySelector(`.container.${this.type}`)
-      let lookHere=this.$refs.lookHere
-      console.log("yuan", lookHere)
-      yuan.addEventListener("click",function () {
-        console.log("addlistener")
-      },false)
-      // lookHere.addEventListener('click',  () => {
-      //     // $(`.container.${this.indexActive}`).animate({scrollTop: 0}, () => {
-      //     //     this.loadTopAjax()
-      //     // })
-      //      this.loadTopAjax()
-      //      document.querySelector(`.container.${this.type}`).scrollTop=0
-      // },false)
+      let yuan = document.querySelector(`.container.${this.type}`);
+      // let lookHere=this.$refs.lookHere
+      console.log("yuan", yuan);
+      let lookHere = document.getElementById("lookHere");
+
+      let timer = setInterval(function() {
+        let distance =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        let step = -100;
+        // console.log("step",step)
+        if (distance < 0 || distance == 0) {
+          clearInterval(timer);
+          return;
+        }
+        document.body.scrollTop = document.body.scrollTop + step;
+        document.documentElement.scrollTop =
+          document.documentElement.scrollTop + step;
+        console.log(document.documentElement.scrollTop);
+      }, 100);
+      // 同时更新数据
+      this.loadTopAjax();
     },
     // mint-ui 下拉组件的状态
     handleTopChange(status) {
       this.topStatus = status;
-      console.log("下拉组件的状态",this.topStatus)
+      console.log("下拉组件的状态", this.topStatus);
     },
     // 处理滚动条位置的方法
     handleLocaltion(type) {
@@ -250,11 +264,12 @@ export default {
         if (type === "get") {
           this.$nextTick(() => {
             // $(`.container.${this.type}`).scrollTop(this.activeMeta.location)
-            document.querySelector(`.container.${this.type}`).scrollTop=this.activeMeta.location
+           document.documentElement.scrollTop = this.activeMeta.location;
+           document.body.scrollTop = this.activeMeta.location
           });
         } else if (type === "set") {
           // let scrollTop = $(`.container.${this.type}`).scrollTop();
-          let scrollTop = document.querySelector(`.container.${this.type}`).scrollTop
+          let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
           if (scrollTop >= 0) {
             this.indexLocation[this.indexActive] = scrollTop;
             this.set_indexLocation(this.indexLocation);
@@ -268,7 +283,6 @@ export default {
   },
   mounted() {
     this.init();
-    this.lookHereClick();
   },
   // 考虑周全
   activated() {

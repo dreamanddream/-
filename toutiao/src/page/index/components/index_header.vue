@@ -5,10 +5,10 @@
       <div class="top_bar">
         <div class="abs_l"></div>
         <div class="abs_m">
-          <a href="" class="title" @click.stop="goTop"></a>
+          <a href="javascript:void(0)" class="title" @click.stop="goTop"></a>
         </div>
         <div class="abs_r">
-          <a href="" class="search_btn" @click.stop="$router.push('/search')"></a>
+          <a href="javascript:void(0)" class="search_btn" @click.stop="$router.push('/search')"></a>
         </div>
       </div>
     </header>
@@ -17,6 +17,7 @@
       <div class="nav_ul">
         <a href='javascript:;' v-for="(item,index) in indexColumn" :class='{active: indexActive == item.classpath}' @click.stop="navClick(item.classpath)" :key="index">{{item.classname}}</a>
       </div>
+      <div class="add" @click="chooseItem">+</div>
     </nav>
   </div>
 </template>
@@ -49,6 +50,12 @@ export default {
       // console.log(this.indexColumn)
       // this.slideTo(this.activeMeta.indexs)
       this.set_indexActive(type); // 点击栏目更新vuex中idnexActive值，也就是state中idnexActive会更新，同时getters中index以及涉及到classid都会更新
+    },
+    // 点击加号选择栏目
+    chooseItem () {
+      this.$router.push({
+        name:"channel"
+      })
     },
     // 自己实现导航滚动
     slideTo(index) {
@@ -200,6 +207,16 @@ export default {
     line-height: 50px;
     background-color: #f4f5f6;
     border-bottom: 1px solid #ddd;
+    padding-right: 50px;
+    .add{
+      width:50px;
+      height:50px;
+      background: yellow;
+      position: absolute;
+      top:0;
+      right:0;
+      z-index: 20;
+    }
     .nav_ul {
       overflow-x: auto;
       // 在移动端可能overflow-x为scroll的滚动效果并不是很明显，

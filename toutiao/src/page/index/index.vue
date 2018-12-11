@@ -4,6 +4,10 @@
     <index-header/>
     <!-- 内容区域 -->
     <swiper-container/>
+    <!-- 子页面频道视图 -->
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>

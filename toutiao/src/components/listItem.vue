@@ -69,7 +69,7 @@
                     <list-info :json='section'></list-info>
                 </router-link>
             </li>
-            <li v-else-if='section.type' id="lookHere" ref="lookHere" @click="open">
+            <li v-else-if='section.type' id="lookHere" ref="lookHere" @click.stop="refresh">
                 <p>上次看到这里，点击刷新 <i class="icon-refresh"></i></p>
             </li>
         </template>
@@ -77,12 +77,17 @@
 </template>
 <script>
 export default {
-    props: ['itemJson'],
+    props: {
+      'itemJson' : {
+        type: Array
+      },
+      refresh : Function
+      },
     // html中动态的内容和函数结合使用
     methods: {
-        open () {
-          this.$emit("refresh", "我是传递的")
-        },
+        // open () {
+        //   this.$emit("refresh", "我是传递的")
+        // },
         url(item) {
             return `/detail?classid=${item.classid}&id=${item.id}&datafrom=${item.datafrom}`
         }
