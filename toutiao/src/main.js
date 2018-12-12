@@ -18,6 +18,10 @@ import 'swiper/dist/css/swiper.css'
 import MintUI, {MessageBox, Toast, Indicator} from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
+// vue滚动
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll)
+
 // 自定义组件
 import myLoading from '@/components/loading'
 import myBanner from '@/components/banner'

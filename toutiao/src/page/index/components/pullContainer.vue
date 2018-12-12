@@ -2,7 +2,7 @@
   <!-- 加载更多 -->
   <!-- 使用vue的滚动插件 -->
   <div class="container" ref="container" :class="type" v-infinite-scroll="loadBottomAjax" infinite-scroll-disabled="bottomLock" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
-    
+
     <!-- 请求提示,调用init方法-->
     <my-loading :visible="loading" :reload="init" />
 
@@ -197,6 +197,7 @@ export default {
     },
     // 底部上滑请求
     loadBottomAjax() {
+      console.log("底部上拉");
       this.bottomLock = true; // 上滑开关
       console.log("底部上拉");
       // 发送请求,同时传递参数
@@ -206,9 +207,9 @@ export default {
           this.contentJson.push(...res);
           // 页码++
           this.classPage++;
-          console.log("页码", this.classPage);
+          // console.log("页码", this.classPage);
         } else {
-          console.log("执行的什么", this.classPage);
+          // console.log("执行的什么", this.classPage);
           // 将加载中隐藏
           this.bottomLoading = false;
           // 到底啦显示为true；

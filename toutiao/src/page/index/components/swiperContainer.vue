@@ -1,6 +1,6 @@
 <template>
   <swiper :options="swiperOption" id="swiper-box" ref="mySwiper">
-    <swiper-slide v-for='(item,index) in indexColumn' :key='index'> 
+    <swiper-slide v-for='(item,index) in indexColumn' :key='index'>
       <!-- 传递给子组件时如果加上：代表数据是动态的，如果不加就是固定字符串item.classpath -->
       <pull-container :type='item.classpath'></pull-container>
       <!-- <div style="height:200px;">{{item.classname}}栏目</div> -->

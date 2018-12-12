@@ -25,7 +25,7 @@
                             </li>
                         </ul>
                         <ul>
-                            <li v-for='(item,index) in channel' @click='add(index)' :key='index'>
+                            <li v-for='(item,index) in channel' @click="add('channel',index)" :key='index'>
                                 <a href='javascript:;'>{{item.classname}}</a>
                             </li>
                         </ul>
@@ -91,7 +91,7 @@ export default {
         },
         // 获取移除的频道
         get_removeChannel() {
-            let removeChannel = JSON.parse(getCache('removeChannel'))
+            let removeChannel = JSON.parse(cache.getSession('removeChannel'))
             if (removeChannel) {
                 this.removeChannel = removeChannel
             }
@@ -100,9 +100,12 @@ export default {
         add(type, index) {
             if (type === 'channel') {
                 let addEle = this.channel.splice(index, 1)
+                // 动态更新
                 this.indexColumn.push(...addEle)
             } else if (type === 'removeChannel') {
                 let addEle = this.removeChannel.splice(index, 1)
+                console.log("这个添加没有执行")
+                console.log("更新后的",this.indexColumn)
                 this.indexColumn.push(...addEle)
             }
         },
@@ -110,18 +113,21 @@ export default {
         remove(item, index) {
             if (item.classpath !== 'news_recommend') {
                 let removeEle = this.indexColumn.splice(index, 1)
+                // 如果不是
                 this.removeChannel.push(...removeEle)
             }
         },
-        // 增减栏目之后，同步page、location对象
+        // 增减栏目之后，同步page、location对象,这里利用了类名和classpath名字相同特点
         sync() {
             let pageObj = {}
             let locationObj = {}
             for (let i = 0; i < this.indexColumn.length; i++) {
                 var className = this.indexColumn[i].classpath
+                // console.log("sync中的内容",this.indexColumn,className,this.indexPage,this.indexPage[className],pageObj[className])
                 if (this.indexPage[className] > 1) {
                     pageObj[className] = this.indexPage[className]
                 } else {
+                  // 如果是新添加的频道就默认存储page为1，很明显新添加的栏目this.indexPage[className]是undefined
                     pageObj[className] = 1
                 }
                 if (this.indexLocation[className] > 0) {
@@ -130,6 +136,8 @@ export default {
                     locationObj[className] = 0
                 }
             }
+            console.log("deactivated")
+            // 重新更新
             this.set_indexPage(pageObj)
             this.set_indexLocation(locationObj)
         }
@@ -138,6 +146,7 @@ export default {
         // this.get_channel()
         this.get_removeChannel()
     },
+    // 当这个组件消失，就是不显示时，比如点击返回会触发deactivated
     deactivated() {
         this.sync()
     }
