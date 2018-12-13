@@ -10,7 +10,7 @@ Vue.use(Router)
 import index from '@/page/index/index'
 import search from '@/page/search/search'
 import channel from '@/page/index/children/channel'
-
+import detail from '@/page/detail/detail'
 export default new Router({
   routes: [
     {
@@ -34,6 +34,11 @@ export default new Router({
       name: 'search',
       path: '/search',
       component: search
+    },
+    {
+      name: 'detail',
+      path: '/detail',
+      component: detail
     }
   ]
 })

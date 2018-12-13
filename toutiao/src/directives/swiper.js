@@ -23,6 +23,7 @@ function GetSlideDirection(startX, startY, endX, endY, move) {
 
 // 根据触摸方向做相应需求
 export default function swiper(el, direction, type, vm) {
+  // console.log("vm",vm);
   if (!el || !direction) {
       return
   }

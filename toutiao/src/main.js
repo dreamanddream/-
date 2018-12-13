@@ -19,8 +19,8 @@ import MintUI, {MessageBox, Toast, Indicator} from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
 // vue滚动
-import infiniteScroll from 'vue-infinite-scroll'
-Vue.use(infiniteScroll)
+// import infiniteScroll from 'vue-infinite-scroll'
+// Vue.use(infiniteScroll)
 
 // 自定义组件
 import myLoading from '@/components/loading'

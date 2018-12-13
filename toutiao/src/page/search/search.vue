@@ -35,7 +35,7 @@
             </h3>
             <ul v-if='hotJson.length > 0'>
               <li v-for='(item, index) in hotJson' :key='index'>
-                <!-- linkto中加上跳转链接，并加上参数 -->
+                <!-- linkto中加上跳转链接，并加上参数,这是query传参的方法-->
                 <router-link :to="`/detail?classid=${item.classid}&id=${item.id}&datafrom=${item.datafrom}`">
                   <!-- 标签前面的序号，同时前3个是热门 -->
                   <span :class="index+1 > 0 &&index+1 < 4? 'hot': ''">{{index + 1}}.</span>
@@ -93,7 +93,7 @@ export default {
   watch: {
     $route(to, from) {
       // 从首页进来，显示热点推荐
-      console.log("打印to和from",to,from)
+      console.log("打印to和from", to, from);
       if (from.path.includes("index")) {
         this.key = "";
         this.search_state = "recommend";
@@ -128,6 +128,7 @@ export default {
     },
     // 获取搜索数据
     get_search() {
+      console.log("输入search")
       if (this.key) {
         this.loading = "loading";
         this.search_state = "search";
@@ -156,9 +157,10 @@ export default {
     },
     // 获取更多搜索数据
     get_search_more() {
-      console.log("上拉加载更多")
+      console.log("上拉加载更多");
+      console.log("this.history",this.key,this.history[this.key])
       this.bottomTip = true;
-      this.bottomStatus = 'loading'
+      this.bottomStatus = "loading";
       if (this.bottomStatus !== "noData") {
         this.bottomLock = true;
         this.get_search_data({ key: this.key, page: this.page }).then(res => {
@@ -175,12 +177,17 @@ export default {
     bottomVisible() {
       this.$nextTick(() => {
         // let list_height
-        console.log("this.$refs.listItem.offsetHeight",this.$refs.listItem.offsetHeight)
-        console.log("this.$refs.container.offsetHeight",this.$refs.container.offsetHeight)
+        console.log(
+          "this.$refs.listItem.offsetHeight",
+          this.$refs.listItem.$el.offsetHeight
+        );
+        console.log(
+          "this.$refs.container.offsetHeight",
+          this.$refs.container.offsetHeight
+        );
         if (
           // $("#search .listItem").height() >= $("#search .container").height()
-             this.$refs.listItem.offsetHeight >= this.$refs.container.offsetHeight
-
+          this.$refs.listItem.offsetHeight >= this.$refs.container.offsetHeight
         ) {
           this.bottomTip = true;
         }
@@ -188,32 +195,43 @@ export default {
     },
     // 记录滚动条位置
     handleLocaltion(type) {
+      console.log("我是handleLocation")
       if (type === "get") {
         this.$nextTick(() => {
           this.bottomVisible(); // 数据渲染后，判断底部提示是否显示
           if (this.history && this.history[this.key]) {
+            // 如果是第二次，也就是再次搜索同样内容，就直接让其滚动到上次记录的位置
             // $("#search .container").scrollTop(this.history[this.key].location);
           }
         });
       } else if (type === "set") {
         if (this.key) {
+          // key是查询的关键字，如果是第一次查询，就记录当前高度，同时存储
           // this.history[this.key] = {
           //   location: $("#search .container").scrollTop(),
           //   data: this.searchJson
           // };
         }
       }
+    },
+    getScrollTop () {
+      console.log("aa");
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      console.log(scrollTop)
     }
   },
   mounted() {
     // 首先获取热门数据然后进行渲染
     this.get_hot();
+    window.addEventListener('scroll', this.getScrollTop)
   },
   activated() {
+    console.log("查看activated")
     if (this.$route.query.key) {
       // 获取传递的关键字
       this.key = this.$route.query.key;
       // 是否有搜索历史 ? 取缓存 ： 发送请求
+      // 这个应该不行，因为没有存储
       if (this.history[this.key] && this.history[this.key].data) {
         this.searchJson = this.history[this.key].data;
         this.search_state = "search";
@@ -224,154 +242,169 @@ export default {
     }
   },
   deactivated() {
+    console.log("查看deactivated")
     this.handleLocaltion("set");
   }
 };
 </script>
 <style lang="less">
 #search {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #fff;
-    a{
-        text-decoration: none;
-    }
-    .search_top {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 999;
-        header {
-            background: #fff;
-            padding-right: 0.27rem;
-            border-bottom: 1px solid #eee;
-            background: #f4f5f6;
-            .form {
-                position: relative;
-                display: flex;
-                align-items: center;
-                color: #aaa;
-                font-size: 14px;
-                background: #fff;
-                border: 1px solid #ddd;
-                border-radius: 50px;
-                padding: 0.13rem 0.267rem;
-                margin: 0 0.267rem;
-                .form_icon {
-                }
-                .form_input {
-                    width: 100%;
-                    color: #666;
-                    padding-left: 0.13rem;
-                    margin: 0;
-                    outline: none;
-                    -webkit-appearance: none;
-                    &::-webkit-input-placeholder{color:#c8c8c9;font-size: 12px}
-                    &::-moz-placeholder{color:#c8c8c9;font-size: 12px}
-                    &:-ms-placeholder{color:#c8c8c9;font-size: 12px}
-                }
-            }
-            .search_btn{
-                color: #aaa;
-                font-size: 14px;
-                &.on{
-                    color: #00939c;
-                    font-weight: bold;
-                }
-            }
-        }
-    }
-    .content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  a {
+    text-decoration: none;
+  }
+  .search_top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    header {
+      background: #fff;
+      padding-right: 0.27rem;
+      border-bottom: 1px solid #eee;
+      background: #f4f5f6;
+      .form {
+        position: relative;
+        display: flex;
+        align-items: center;
+        color: #aaa;
+        font-size: 14px;
         background: #fff;
-        .search_recommend {
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        padding: 0.13rem 0.267rem;
+        margin: 0 0.267rem;
+        .form_icon {
+        }
+        .form_input {
+          width: 100%;
+          color: #666;
+          padding-left: 0.13rem;
+          margin: 0;
+          outline: none;
+          -webkit-appearance: none;
+          &::-webkit-input-placeholder {
+            color: #c8c8c9;
+            font-size: 12px;
+          }
+          &::-moz-placeholder {
+            color: #c8c8c9;
+            font-size: 12px;
+          }
+          &:-ms-placeholder {
+            color: #c8c8c9;
+            font-size: 12px;
+          }
+        }
+      }
+      .search_btn {
+        color: #aaa;
+        font-size: 14px;
+        &.on {
+          color: #00939c;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .content {
+    background: #fff;
+    .container {
+      // height:calc('~100%-44px');
+      // height:100%-44px;
+      height: 93%;
+      .search_recommend {
+        position: relative;
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        .keyword {
+          padding-top: 0.27rem;
+          .keyword_wrap {
+            padding: 0 0.4rem;
+            span {
+              display: inline-block;
+              font-size: 13px;
+              padding: 0.13rem 0.26rem;
+              margin: 0 0.26rem 0.26rem 0;
+              color: #403d3c;
+              background: #f4f5f6;
+              border-radius: 4px;
+            }
+          }
+          .gray_line {
+            height: 0.13rem;
+            background: #f4f5f6;
+          }
+        }
+        .article {
+          padding: 0.27rem 0.4rem 0;
+          h3 {
+            font-size: 15px;
+            color: #403d3c;
+            margin-bottom: 5px;
+            .hot_icon {
+              display: inline-block;
+              vertical-align: middle;
+              width: 24px;
+              height: 24px;
+              background: url(../../assets/img/hot.png) no-repeat center center;
+              background-size: 24px;
+              margin-right: 0.13rem;
+            }
+            span {
+              display: inline-block;
+              vertical-align: middle;
+              margin-top: 2px;
+            }
+          }
+          ul {
             position: relative;
             height: 100%;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            .keyword{
-                padding-top: 0.27rem;
-                .keyword_wrap{
-                    padding: 0 0.4rem;
-                    span{
-                        display: inline-block;
-                        font-size: 13px;
-                        padding: 0.13rem 0.26rem;
-                        margin: 0 0.26rem 0.26rem 0;
-                        color: #403d3c;
-                        background: #f4f5f6;
-                        border-radius: 4px;
-                    }
+            li {
+              font-size: 14px;
+              color: #717071;
+              border-bottom: 1px solid #eee;
+              a {
+                display: block;
+                width: 100%;
+                padding: 0.27rem 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                text-align: justify;
+              }
+              span {
+                margin-right: 0.24rem;
+                &.hot {
+                  color: #00939c;
                 }
-                .gray_line{
-                    height: 0.13rem;
-                    background: #f4f5f6;
-                }
+              }
             }
-            .article{
-                padding: 0.27rem 0.4rem 0;
-                h3{
-                    font-size: 15px;
-                    color: #403d3c;
-                    margin-bottom: 5px;
-                    .hot_icon{
-                        display: inline-block;
-                        vertical-align: middle;
-                        width: 24px;
-                        height: 24px;
-                        background: url(../../assets/img/hot.png)no-repeat center center;
-                        background-size: 24px;
-                        margin-right: 0.13rem;
-                    }
-                    span{
-                        display: inline-block;
-                        vertical-align: middle;
-                        margin-top: 2px
-                    }
-                }
-                ul{
-                    position: relative;
-                    height: 100%;
-                    li{
-                        font-size: 14px;
-                        color: #717071;
-                        border-bottom: 1px solid #eee;
-                        a{
-                            display: block;
-                            width: 100%;
-                            padding: 0.27rem 0;
-                            text-overflow: ellipsis;
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-align: justify;
-                        }
-                        span{
-                            margin-right: 0.24rem;
-                            &.hot{
-                                color: #00939c;
-                            }
-                        }
-
-                    }
-                }
-            }
+          }
         }
-        .search_result-empty {
-            position: absolute;
-            width: 100%;
-            height: 150px;
-            top: 40%;
-            margin-top: -75px;
-            padding: 70px 0 0;
-            background: url(http://s3.pstatp.com/image/toutiao_mobile/noresuiticon_seach.png) no-repeat center top;
-            background-size: 68px;
-            text-align: center;
-            color: #cacaca;
-            font-size: 16px;
-        }
+      }
+      .search_result-empty {
+        position: absolute;
+        width: 100%;
+        height: 150px;
+        top: 40%;
+        margin-top: -75px;
+        padding: 70px 0 0;
+        background: url(http://s3.pstatp.com/image/toutiao_mobile/noresuiticon_seach.png)
+          no-repeat center top;
+        background-size: 68px;
+        text-align: center;
+        color: #cacaca;
+        font-size: 16px;
+      }
     }
+  }
 }
 </style>
 

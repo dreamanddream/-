@@ -1,12 +1,34 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition :name="transitionName">
+      <!-- 这个exclude中的detail怎么理解 -->
+      <keep-alive exclude="detail">
+          <router-view/>
+      </keep-alive>
+    </transition>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      transitionName: ''
+    }
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log("app中的路由",this.$router.isBack)
+        let isBack = this.$router.isBack
+        if (isBack) {
+            this.transitionName = 'slide-right'
+        } else {
+            this.transitionName = 'slide-left'
+        }
+        this.$router.isBack = false
+        next()
+    }
 }
 </script>
 
@@ -16,6 +38,7 @@ export default {
 @import './assets/css/icon.css';
 @import './assets/css/transition.css';
 #app {
+  height:100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
