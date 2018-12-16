@@ -31,9 +31,9 @@
       <!-- banner组件 -->
       <my-banner :json="bannerJson" v-if='bannerJson.length > 0' />
       <!-- 置顶组件 -->
-      <list-item :itemJson="stickJson" v-if='stickJson.length > 0' />
+      <!-- <list-item :itemJson="stickJson" v-if='stickJson.length > 0' /> -->
       <!-- listItem -->
-      <list-item :itemJson="contentJson" v-if='contentJson.length > 0' :refresh="lookHereClick" />
+      <list-item :itemJson="contentJson"  ref="contentJson" :refresh="lookHereClick" />
       <!-- 底部提示 -->
       <div class="bottomLoad" v-if="contentJson.length > 0">
         <div class="loading" v-show='bottomLoading'>加载中...</div>
@@ -282,8 +282,21 @@ export default {
       this.handleLocaltion("set");
     }
   },
+  updated() {
+    
+  },
   mounted() {
     this.init();
+   let scroll1 = this.$refs.contentJson.$el;
+   console.log(scroll1);
+    // scroll1.onscroll=()=>{
+    //  let t = this.$refs.contentJson.scrollTop 
+    //  console.log(t);
+    // }
+    debugger;
+    scroll1.addEventListener("scroll",()=>{
+      console.log(scroll1.scrollTop)
+    },false)
   },
   // 考虑周全
   activated() {
