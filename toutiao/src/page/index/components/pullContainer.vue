@@ -293,7 +293,7 @@ export default {
     //  let t = this.$refs.contentJson.scrollTop 
     //  console.log(t);
     // }
-    debugger;
+    // debugger;
     scroll1.addEventListener("scroll",()=>{
       console.log(scroll1.scrollTop)
     },false)

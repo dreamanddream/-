@@ -19,6 +19,10 @@
                     <!-- 可以添加的栏目 -->
                     <section class="column">
                         <p class="title">点击添加以下频道</p>
+                        <router-link to="/test">
+                            <p>点击进入测试页面</p>
+                        </router-link>
+                        
                         <ul>
                             <li v-for='(item,index) in removeChannel' @click="add('removeChannel', index)" :key='index'>
                                 <a href='javascript:;'>{{item.classname}}</a>
