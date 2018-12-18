@@ -42,6 +42,7 @@ export default {
   mutations: {
     set_indexActive(state, val) {
       state.indexActive = val
+      // 如果不存储一刷新，变量就会被重置
       cache.setSession('index_Active', val)
     },
     set_indexPage(state, obj) {
@@ -58,6 +59,7 @@ export default {
     },
     set_indexColumn(state, arr) {
       state.indexColumn = arr
+      // 一打开页面就会执行请求，然后就会将index_Column存储下来
       cache.setSession('index_Column', arr)
     },
     set_currentContent(state, val) {
