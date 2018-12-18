@@ -1,10 +1,11 @@
 <template>
   <div class="setting">
     <p>点我返回顶部</p>
+    <i class="icon footerIcon footerCartIcon"></i>
     <div ref="contentJson" class="new">
        <list-item :itemJson="contentJson"   />
     </div>
-    
+
     <!-- <input type="text" placeholder="我是文本框" ref="input"> -->
     <!-- 如果不留坑，父组件使用时不能添加内容 -->
     <!-- <slot></slot> -->

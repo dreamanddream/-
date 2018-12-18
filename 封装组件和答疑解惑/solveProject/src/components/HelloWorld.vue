@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <i class="icon iconfont icon-select_fill"></i>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
