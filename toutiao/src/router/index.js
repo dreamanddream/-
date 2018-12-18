@@ -9,6 +9,7 @@ Vue.use(Router)
 // const index = () => import('@/page/index/index')
 import index from '@/page/index/index'
 import search from '@/page/search/search'
+import test from '@/page/search/test'
 import channel from '@/page/index/children/channel'
 import detail from '@/page/detail/detail'
 export default new Router({
@@ -39,6 +40,11 @@ export default new Router({
       name: 'detail',
       path: '/detail',
       component: detail
+    },
+    {
+      name:'test',
+      path: '/test',
+      component: test
     }
   ]
 })

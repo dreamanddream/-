@@ -28,7 +28,10 @@ export default {
     // 刚进入页面时会使用mapActions，this.get_indexColumn_data()相当于dispatch调用
     this.get_indexColumn_data()
     //  console.log("首页",this.get_indexColumn_data())
-  }
+  },
+  mounted() {
+    
+  },
 }
 </script>
 <style lang="less">

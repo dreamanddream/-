@@ -50,6 +50,8 @@ new Vue({
   el: '#app',
   store,
   router,
+  // 采用了es6的json对象可以简写的方法：{App:App}
   components: { App },
+  // 模板使用的是组件app
   template: '<App/>'
 })
