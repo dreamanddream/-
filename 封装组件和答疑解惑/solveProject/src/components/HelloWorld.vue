@@ -3,100 +3,39 @@
     <i class="icon iconfont icon-select_fill"></i>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+    <select-list :selectList="selectItem" :isWrite="false"></select-list>
+    <router-link to="/select">点击跳转</router-link>
   </div>
 </template>
 
 <script>
+import selectList from './select'
 export default {
   name: 'HelloWorld',
+  components: {selectList},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      selectItem: [],
+      write:false
     }
-  }
+  },
+  mounted() {
+     this.selectItem = [
+      {name:"上海",id:"1"},
+      {name:"北京",id:"2"},
+      {name:"天津",id:"3"},
+      {name:"合肥",id:"4"},
+      {name:"郑州",id:"5"},
+      {name:"济南",id:"6"}
+    ]
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<!--添加上scoped可以避免和子组件的样式冲突，父组件的样式就不会作用在子组件上-->
+<style lang="less" scoped>
 h1, h2 {
   font-weight: normal;
 }
