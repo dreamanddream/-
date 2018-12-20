@@ -39,7 +39,7 @@ module.exports = {
       // 添加less配置
       {
         test: /\.less$/,
-        loader: 'less-loader',
+        loader: 'style-loader!css-loader!less-loader',
         options: vueLoaderConfig
       },
       {
