@@ -4,12 +4,8 @@
     <router-link to="/select">点我跳转</router-link>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-<<<<<<< HEAD
-    <h2>Ecosystem</h2>
-=======
     <select-list :selectList="selectItem" :isWrite="false"></select-list>
     <router-link to="/select">点击跳转</router-link>
->>>>>>> 5011f7b4a6223600e252bc7c441caa4a82dc1b70
   </div>
 </template>
 

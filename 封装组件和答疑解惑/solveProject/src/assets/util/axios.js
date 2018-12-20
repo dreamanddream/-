@@ -24,7 +24,7 @@ export const ajaxURL = {
 *  所有的接口都请求响应完后loading才消失
 */
 // 添加请求拦截器
-axios.interceptors.request.use(function (config) {
+/* axios.interceptors.request.use(function (config) {
   // 发送请求前做某事
   mintUi.Indicator.open({
     text:'玩命加载中'
@@ -33,10 +33,10 @@ axios.interceptors.request.use(function (config) {
 },function(error){
   // 请求错误时做某事
   return Promise.reject(error)
-})
+}) */
 // 添加响应拦截器
 //添加响应拦截器
-axios.interceptors.response.use(function(response){
+/* axios.interceptors.response.use(function(response){
   //对响应数据做些事
   // 把mintui单词写错，就会报错
   mintUi.Indicator.close()
@@ -44,8 +44,8 @@ axios.interceptors.response.use(function(response){
 },function(error){
   //请求错误时做些事
   return Promise.reject(error);
-});
-export default axios;
+}); */
+// export default axios;
 export var request = async(type = 'POST', url = '', data = {}) => {
   let result;
   type = type.toUpperCase();
