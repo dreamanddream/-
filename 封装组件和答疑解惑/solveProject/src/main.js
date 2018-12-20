@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from '@/assets/util/axios'
+import {request} from '@/assets/util/axios'
 
 // 引入css
 import '@/assets/css/iconfont/iconfont.css'

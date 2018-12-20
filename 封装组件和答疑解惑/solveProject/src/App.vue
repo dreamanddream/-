@@ -1,14 +1,16 @@
 <template>
   <div id="app" class="app">
-    <img src="./assets/logo.png">
+    <!-- <img src="./assets/logo.png"> -->
+    
     <router-view/>
   </div>
 </template>
 
 <script>
 // import {map} from 'vuex'
+
 export default {
-  name: 'App'
+  name: 'App',
 }
 </script>
 
