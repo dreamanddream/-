@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <div class="box1">8:00-10:00</div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+    <div class="box5"></div>
+    <script>
+
+        function formatDate() {
+            var myDate=new Date();
+            var year=myDate.getFullYear();
+            var month=myDate.getMonth()+1;
+            var day=myDate.getDate();
+            var hours=myDate.getHours();
+            var minutes=myDate.getMinutes();
+            var seconds=myDate.getSeconds();
+            return [year,month,day,hours,minutes,seconds].map(this.formatNumber).join('-');
+        }
+        function formatNumber(n) {
+            n=n.toString();
+            return n[1]?n:'0'+n;
+        }
+        function updateTime() {
+            //定义时间
+            var arrTime=[12,13,14,15,16];
+            var minTime=[1200,1220,1240,1300,1320,1340,1400,1420,1440,1500,1520,1540,1600,1620,1640];
+            var nowTime=formatDate();
+            var newDate=new Date();
+            var nowHours=formatNumber(newDate.getHours()).toString();
+            var nowMinutes=formatNumber(newDate.getMinutes()).toString();
+            var nowHoursMinutes=nowHours+nowMinutes;
+            console.log("nowMinutes",nowMinutes);
+            console.log(nowHours);
+            console.log("nowHoursMinutes",nowHoursMinutes);
+            for(var i=0;i<minTime.length;i++){
+                // 得到当前小时时间14
+                var nowHours = newDate.getHours();
+                if(minTime[i]<nowHoursMinutes){
+                    console.log(minTime[i]);
+                    // 将小于当前数据的时间删除
+                    minTime.shift(minTime[i]);
+                    //由于数组长度改变所以要先执行i--;
+                    i--;
+                }
+            }
+            return minTime;
+        }
+        var s = updateTime();
+        console.log(s);
+
+        function formatNumber(n) {
+            n = n.toString();
+            return n[1] ? n : '0' + n;
+        }
+        // 得到时间数组，包含小时和分
+        function timeLists() {
+            var timeList = [];
+            var obj = {};
+            var n='';
+            // 通过双重循环
+            for (var i = 9; i < 10; i++) {
+                for (var j = 0; j < 5;j++) {
+                    // 将三种变量，n，time，isShow通过对象obj，添加到数组中
+                    n = i + j;
+                    obj.time = i+ ':' + j;
+                    obj.n = n;
+                    obj.isShow = true;
+                    console.log(j);
+                    timeList.push(obj);
+                }
+            }
+            return timeList;
+        }
+        var sss = timeLists();
+        console.log("sss", sss);
+
+        console.log(new Date('2011-01-01') - new Date('1992-02-11'));
+        // 关于时间
+        // 目前主要使用UTC时间，但是GMT和UTC在使用时精度差别不大
+        // JavaScript内的时间戳指的是当前时间到1970年1月1日00:00:00 UTC对应的毫秒数
+        console.log(new Date());// 如果不传递参数，得到的是GMT时间，有年月日  Fri Jul 06 2018 17:16:52 GMT+0800 (中国标准时间)
+        console.log(new Date('1293879600000'));// newDate传递时间戳，会直接报Invalid Date
+        console.log(new Date('Sat Jan 01 2011 11:00:00')) // 如果传递参数，像刚刚那样的，得到Sat Jan 01 2011 11:00:00 GMT+0800
+        // 静态方法Date.UTC(1970,0,1,1,59,30)  得到的是毫秒数,传递的必须是数值，而不能使字符串，否则会得到NaN；
+        console.log(Date.UTC('1111111')); // NaN;
+        console.log(new Date('1'))
+        // 总结通过new Date直接传递时间戳得到Invalid Date，如果传递2019-01，或者9-4或者1，就是只要不是时间戳，那么就会返回标准时间Fri Jul 06 2018 17:16:52 GMT+0800 (中国标准时间)，这种格式
+        var d = new Date();
+        d.getDate() // 获取日
+        d.getMonth()+1 // 获取月得到的是0-11，要加上1
+        d.getYear() // 113
+        d.getFullYear() // 得到全年
+        // 计算差值
+        var d1=new Date('2018-02-11');//注意参数要是数值，不能是字符串
+        var d2=new Date('2018-07-11')
+        console.log(d2-d1); //得到的是毫秒数，然后可以将那个毫秒数转换成天数，也就是两者相差的天数
+        const nMS = 1320; //以毫秒单位表示的差值时间
+        var nD = Math.floor(nMS / (1000 * 60 * 60 * 24));//将毫秒转化成天
+        var nH = Math.floor(nMS / (1000 * 60 * 60)) % 24;//将毫秒转化成时
+        var nM = Math.floor(nMS / (1000 * 60)) % 60;//将毫秒转化成分
+        var nS = Math.floor(nMS / 1000) % 60;//将毫秒转化成秒
+        // .toString()将日期转为字符串，.parse()将对应的日期转换成毫秒数
+    </script>
+</body>
+
+</html>

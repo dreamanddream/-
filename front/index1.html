@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //1.JavaScript中如何检测一个变量是一个String类型？请写出函数实现
+    //typeof的使用：typeof 返回值有六种可能： "number," "string," "boolean," "object," "function," 和 "undefined."我们可以使用typeof来获取一个变量是否存在，如if(typeof a!="undefined"){}，而不要去使用if(a)因     为如果a不存在（未声明）则会出错，if(document.mylist.length != “undefined” ) {} 这个用法有误.正确的是 if( typeof(document.mylist.length) != “undefined” ) {}
+    // 局限性：对于Array,Null等特殊对象使用typeof一律返回object，这正是typeof的局限性。
+    function testString(obj) {
+        return typeof (obj) === "string"
+    }
+    function testType(obj) {
+        return typeof (obj);
+    }
+    var ob={};
+    var ssss=123;//如果不加字符串，默认就是number类型
+    console.log("检测类型",testString("sss")); // true,这个是用来判断是不是字符串
+    console.log("检测类型ssss",testType(ssss));  //number
+    console.log("检测类型",testType("123")); //string
+    console.log("检测类型",testType([1,2,3])); //object
+    console.log("检测类型",testType(function aaa() {
+    }))// function
+    console.log("检测类型",testType(false)) //boolean
+    console.log("检测类型",testType(null)); //object
+    console.log("检测类型",testType(undefined)); //undefined
+    console.log("检测类型",testType(NaN));//number
+    console.log("检测类型",typeof (typeof 1) === 'string') //true
+    // 另一种方法 obj.constructor === String
+    console.log("123".constructor === String);
+
+    //2.去除空格
+    var str=" 222 "
+    // 全部空格替换
+    console.log(str.replace(/\s*/g,""));
+    // 去除左边
+    console.log(str.replace(/^\s*/,""));
+    // 去除右边
+    console.log(str.replace(/\s*$/,""));
+    // 去除两头空格
+    console.log(str.replace(/^\s*|\s*$/g,""));
+    // 使用函数trim 去除两头空格
+    console.log(str.trim());
+
+
+    //3.获取url参数  http://localhost:63342/yue_front/index1.html?_ijt=8v45omiaci6ks0bj660bu45aog
+    function testUrl(name) {
+        var reg=new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var s="http://wwww.jb51.net/?q=js&m=c";
+        var r = window.location.search.substr(1).match(reg);
+        console.log(window.location.search.substr(1));//_ijt=8v45omiaci6ks0bj660bu45aog
+        //使用match匹配得到的是数组,长度为4
+        console.log("匹配正则的r",r);
+        console.log(r[0]);
+        //key为_ijt对应的value
+        console.log(r[2]);//8v45omiaci6ks0bj660bu45aog
+        return r ? decodeURIComponent(r[2]) : null;
+    }
+    testUrl("_ijt");
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            var strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                //theRequest[strs[i].split("=")[0]]中[]相当于一个点.,也就是对象.=一个值
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        console.log(theRequest);//得到一个对象：{_ijt: "8v45omiaci6ks0bj660bu45aog"}
+        return theRequest;
+    }
+    GetRequest();
+    function UrlSearch() {
+        var name,value;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?")
+        str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+
+        var arr=str.split("&"); //各个参数放到数组里
+        console.log(arr)
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                this[name]=value;
+            }
+        }
+        return value;
+    }
+    var s = UrlSearch();
+    console.log(s);//s是8v45omiaci6ks0bj660bu45aog
+</script>
+</body>
+</html>

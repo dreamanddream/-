@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="date-wrap">
+    <div class="week"></div>
+    <div class="week"></div>
+    <div class="week"></div>
+    <div class="week"></div>
+    <div class="week"></div>
+    <div class="week"></div>
+    <div class="week"></div>
+</div>
+<script>
+    // name="0";
+    // function test1() {
+    //     var name="1";
+    //     function test2() {
+    //         var name =2;
+    //         // console.log(name);
+    //     }
+    //     function test3() {
+    //        var name = 3;
+    //        // console.log(name);
+    //     }
+    //     test2();
+    //     test3();
+    //     // console.log(name);
+    // }
+    // test1();
+    // console.log(name);
+</script>
+<script>
+    for(var i=1;i<10;i++){
+        var j=10;
+    }
+    function aa() {
+       var s=10
+    }
+   // alert(j);//10
+   // alert(s);
+
+
+</script>
+<script>
+    function outer(){
+        var result = new Array();
+        for(var i = 0; i < 2; i++){//注：i是outer()的局部变量
+            result[i] = function(){
+                return i;
+            }
+        }
+        return result;//返回一个函数对象数组
+        //这个时候会初始化result.length个关于内部函数的作用域链
+    }
+    var fn = outer();
+    // 注意思考下，这里为什么要用fn[0]()
+    console.log(fn[0]());//result：2
+    console.log(fn[1]());//result：2
+</script>
+
+</body>
+</html>

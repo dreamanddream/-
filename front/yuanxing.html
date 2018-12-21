@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    var afunc = function (name) {		// afunc就是构造函数！！！
+        this.name = name
+        this.get = function() {
+            return this.name;
+        };
+    }
+
+    var robotA = new afunc('html');
+
+    console.log( robotA.get() );					// "html"
+
+    var robotB = new afunc('css');
+
+    console.log( robotB.get() );					// "css"
+
+    var robotC = new afunc('javascript');
+
+    console.log( robotC.get() );
+    // 查找实例对象robotA的构造函数使用robotA.constructor属性，就是robotA的构造函数afunc
+    console.log(robotA.constructor);
+    // 那么我们的构造函数afunc又是怎么得来的,
+    console.log(afunc.constructor); // 通过打印出来的结果可以看到afunc.constructor的构造函数是Function
+    // js内置的构造函数
+    var s= new Number();
+    console.log(s.constructor); // Number
+    console.log(Number.constructor);// Function
+    console.log(Math.constructor); //Math是一个对象，不是一个函数，所以Math的构造函数是object()函数
+    var o = {};
+
+    var f = function(){ };
+
+    console.log( o.constructor );			// ƒ Object() { }
+
+    console.log( f.constructor );
+
+
+
+
+
+    console.log("区分普通对象与函数对象");
+    var o = {};  			       // object（普通对象）
+    console.log( o.prototype );     // undefined
+    console.log( typeof o );		// "obejct"
+    var date1=new Number(123);
+    console.log(date1);//数字123
+    console.log("看看Number实例的原型",date1.prototype); // 也是undefined
+    /*----------------------我是你的分割线-------------------------*/
+    var f = function(){};           // function（函数对象）
+    console.log( f.prototype );     // f {......}
+    console.log( typeof f );		   // "function"
+    console.log( typeof f.prototype );   // "object" 原型是一个普通对象
+    // 通过上例可以看出：1.通过函数定义赋值给变量，产生的是函数对象，这个函数对象有原型，这个函数对象的原型类型属于Object
+    // 2.通过对象字面量{}和new的都属于普通对象，没有prototype
+
+
+
+
+    var xiaoming = {name: '小明'};	// 我们用小明代指这个对象
+
+    var goudan = xiaoming;  // 小明 有一个外号叫做 狗蛋
+
+    var yingyingying = xiaoming;    // 小明 有一个外号叫做 嘤嘤嘤
+
+    console.log( goudan === xiaoming ); // true 狗蛋 是 小明
+
+    console.log( yingyingying === xiaoming );   // true 嘤嘤嘤 是 小明
+
+    /*------------我是分割线-----------------*/
+
+    var xiaohong = {name: '小红'};	// 我们用小红代指这个对象
+
+    var ergou = xiaohong;	  // 小红 有一个外号叫做 二狗
+
+    var hahaha = xiaohong;     // 小红 有一个外号叫做 哈哈哈
+
+    console.log( ergou === xiaohong );	 // true 二狗 是 小红
+
+    console.log( hahaha === xiaohong );	 // true 哈哈哈 是 小红
+
+    /*----------------我是分割线---------------------*/
+
+    console.log( xiaohong === xiaoming );	// false 小明 不是 小红 <= 这个例子虽然无聊但是有用
+
+
+    var afunc = function (name) {		// afunc就是构造函数！！！
+        this.name = name
+
+        this.get = function() {
+            return this.name;
+        };
+    }
+
+    afunc.prototype = {
+        set: function(newName) {
+            this.name = newName;
+        }
+    }
+
+    var robotA = new afunc('html');
+
+    console.log( robotA.prototype );	 // undefined 前面文章已经解释了 普通对象没有 原型
+
+    console.log( robotA.__proto__ );	 // {set: function() {...}} 找到了原型。
+
+    robotA.set('css');
+
+    console.log(robotA.get());
+
+    console.log("原型链");
+    var o = { };
+    console.log(o.__proto__);
+    console.log(o.__proto__.__proto__); // null
+
+
+    console.log("函数对象");
+    var f = function() { };
+    f.prototype = {
+        name: "javascript"
+    }
+    var obj = new f();
+    console.log(obj.__proto__);				// { name: "javascript" } 构造 obj 普通对象的 原型
+    console.log(obj.__proto__.__proto__);	  // { ...... } 构造 obj 普通对象原型的 原型,其实也是f函数对象的原型f.prototype;
+    console.log(obj.__proto__.__proto__.__proto__);	  // null 到头啦！！！
+    /*------------这是你需要区分的东西----------------*/
+    console.log(f.prototype);				// f 函数对象的原型
+    console.log(obj.prototype);				// undefined 普通对象没有原型！！！
+
+</script>
+</body>
+</html>
