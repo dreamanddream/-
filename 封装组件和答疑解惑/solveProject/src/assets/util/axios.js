@@ -108,8 +108,8 @@ function checkCode (res) {
   return res
 }
 const baseURL = 'https://easy-mock.com/mock/5a83160c948cfd365a524088/apis/'
-const testUrl="http://data.toutiaojk.com/extend/list/";//测试环境
-const devUrl="http://data.toutiaojk.com/extend/list/";//线上环境
+const testUrl="https://easy-mock.com/mock/5a83160c948cfd365a524088/apis/";//测试环境
+const devUrl="https://easy-mock.com/mock/5a83160c948cfd365a524088/apis/";//线上环境
 const isUrl=true//线上环境为true
 const ajaxUrl=isUrl?testUrl:devUrl;
 export default {
@@ -120,11 +120,8 @@ export default {
       method: 'get',
       url: ajaxUrl + url,
       params,
-      // 为什么要用qs.stringify
-      data: JSON.stringify(data),
       // 传递timeout是什么
       timeout: 30000
-
     }).then(checkCode).then(checkCode)
   },
   post(url, data) {

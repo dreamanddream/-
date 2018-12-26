@@ -9,7 +9,7 @@
                 <mt-button class="error_btn" type='danger' @click.stop='reload'>重试</mt-button>
             </div>
         </div>
-        <!-- 关于加载更多，没有更多了，暂无数据 -->
+        <!-- 关于加载更多，没有更多了，暂无数据的loading可以单独再写一个 -->
     </div>
 </template>
 <script>

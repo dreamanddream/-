@@ -4,11 +4,20 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 // 封装后的axios
-import axios from '@/assets/util/axios'
+// import axios from '@/assets/util/axios'
+// import http from 'axios'
 
-// 引入css
+// 引入字体图css
 import '@/assets/css/iconfont/iconfont.css'
+// 接口
+import http from './assets/util/axios';
+import config from './assets/util/url'
+// 一般而言都是添加到原型上，这个又是什么用法
+global.config=config
+// http.defaults.baseURL = 'http://rap2api.taobao.org/app/mock/118048'
+Vue.prototype.$http = http;
 
+// 注册全局组件
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
