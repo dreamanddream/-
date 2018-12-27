@@ -1,17 +1,40 @@
 <template>
   <div class="index">
-      <footers :urlRouter="$route.path"></footers>
+    <!-- swiper轮播 -->
+    <swiper :option="swiperOption" id="swiper-box" ref="swiperOption">
+      <swiper-slide>1</swiper-slide>
+      <swiper-slide>2</swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
+    <my-loading :visible="loading"></my-loading>
+    <footers :urlRouter="$route.path"></footers>
   </div>
 </template>
 <script>
-import footers from '@/components/common/footer'
-// import axios from '@/assets/util/axios'
-export default{
-  components:{footers},
-  data () {
+import footers from "@/components/common/footer";
+export default {
+  components: { footers },
+  data() {
     return {
-      newsList: []
-    }
+      newsList: [],
+      loading: false,
+      swiperOption: {
+        pagination: '.swiper-pagination',
+        autoplay: true,
+        loop: true
+        // pagination: {
+        //   el: '.swiper-pagination'
+        // },
+        // Autoplay:{
+        //   autoplay:true
+        // }
+      }
+    };
+  },
+  computed: {
+    // swiper() {
+    //   return this.$refs.swiperOption.swiper;
+    // }
   },
   mounted() {
     console.log(config.index.banner);
@@ -57,5 +80,13 @@ export default{
     console.log("json",this.json)
     let re= request('post',ajaxURL.apparticle.php) */
   }
-}
+};
 </script>
+<style lang="less">
+#swiper-box {
+  width: 100%;
+  height: 70px;
+  background: rgb(114, 57, 57);
+}
+</style>
+

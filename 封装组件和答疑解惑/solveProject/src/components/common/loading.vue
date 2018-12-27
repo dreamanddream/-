@@ -9,8 +9,10 @@
                 <mt-button class="error_btn" type='danger' @click.stop='reload'>重试</mt-button>
             </div>
         </div>
-        <!-- 关于加载更多，没有更多了，暂无数据的loading可以单独再写一个 -->
     </div>
+    <!-- <div>
+      我是loading内容
+    </div> -->
 </template>
 <script>
 export default {
@@ -80,5 +82,5 @@ export default {
 .loading_container{
     /* background: url(~@/assets/img/loading_logo.png)no-repeat center 55%;
     background-size: 200px; */
-}  
+}
 </style>
