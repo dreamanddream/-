@@ -2,7 +2,7 @@
 export default {
   // 首页
   index:{
-    banner:"/aa",
+    banner:"index/baner",
     itemList:"home/list"
   },
   // 购物车

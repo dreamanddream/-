@@ -1,50 +1,81 @@
 <template>
   <div class="index">
+    <my-loading :visible="loading"></my-loading>
     <!-- swiper轮播 -->
-    <swiper :option="swiperOption" id="swiper-box" ref="swiperOption">
-      <swiper-slide>1</swiper-slide>
-      <swiper-slide>2</swiper-slide>
+    <swiper :options="swiperOption" id="swiper-box" ref="swiperOption">
+      <swiper-slide v-for="(item, index) in bannerList" :key="index">
+        <img :src="item.Img" alt="">
+      </swiper-slide>
+      <div class="swiper-button-prev" slot="button-prev"></div>
+      <div class="swiper-button-next" slot="button-next"></div>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-    <my-loading :visible="loading"></my-loading>
+    <item :itemList="itemList">
+      <!-- <div slot="img">
+        <img :src="item.img" alt="">
+      </div>
+      <div slot="title">
+        <p>{{item.title}}</p>
+      </div> -->
+    </item>
+    <!-- 推荐商品 -->
+    
     <footers :urlRouter="$route.path"></footers>
   </div>
 </template>
 <script>
 import footers from "@/components/common/footer";
+import axios from '@/assets/util/axios';
+import item from '@/components/common/item'
 export default {
-  components: { footers },
+  components: { footers,item},
   data() {
     return {
-      newsList: [],
-      loading: false,
+      itemList:[],
+      bannerList:[],
+      loading: 'loading',
       swiperOption: {
-        pagination: '.swiper-pagination',
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
         autoplay: true,
         loop: true
-        // pagination: {
-        //   el: '.swiper-pagination'
-        // },
-        // Autoplay:{
-        //   autoplay:true
-        // }
       }
     };
   },
-  computed: {
-    // swiper() {
-    //   return this.$refs.swiperOption.swiper;
-    // }
-  },
   mounted() {
-    console.log(config.index.banner);
-    // this.$http.get('/index/baner')
-    //   .then(res => {
-    //     console.log(res)
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
+    // 新人有礼、实体店、视频集锦、产品介绍、我是代理、推广、加盟分公司、店主专享
+    // 收益榜
+    // console.log(config.index.banner);
+    // banner图
+    this.$http.get('/index/baner')
+      .then(res => {
+        if(res.status=='200'){
+          this.bannerList=res.data.message;
+          // this.loading = false
+        }
+        // console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    // 导航
+    this.$http.get('/nav/icon')
+      .then(res => {
+        if(res.status == '200'){
+          this.itemList=res.data.message
+          this.loading = false
+          // console.log("itemList",this.itemList);
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
     /* // 这部分内容是为了测试二次封装的axios的
     this.newsList = [
     {title: '推荐', id: 1},
@@ -85,8 +116,9 @@ export default {
 <style lang="less">
 #swiper-box {
   width: 100%;
-  height: 70px;
-  background: rgb(114, 57, 57);
+  img{
+    width:100%;
+  }
 }
 </style>
 

@@ -8,6 +8,8 @@ import router from './router'
 // import axios from '@/assets/util/axios'
 import http from 'axios'
 
+// css类
+// import '@/assets/css/common.less'
 // 工具类
 // 引入字体图css
 import '@/assets/css/iconfont/iconfont.css'
