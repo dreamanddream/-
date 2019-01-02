@@ -19,21 +19,31 @@
       </div> -->
     </item>
     <!-- 推荐商品 -->
-    
+    <div class="goods" v-scroll="loadMore">
+      <goods-list></goods-list>
+    </div>
+    <!-- 返回顶部 -->
+    <go-top></go-top>
     <footers :urlRouter="$route.path"></footers>
   </div>
 </template>
 <script>
 import footers from "@/components/common/footer";
 import axios from '@/assets/util/axios';
-import item from '@/components/common/item'
+import item from '@/components/common/item';
+import goTop from '@/components/common/goTop';
+import goodsList from '@/components/common/goodsList';
+// import noData from '@/components/common/noData';
+// import pageLoading from '@/components/common/pageLoading';
 export default {
-  components: { footers,item},
+  components: {footers, item, goTop, goodsList},
   data() {
     return {
       itemList:[],
       bannerList:[],
       loading: 'loading',
+      loadingMore:true,
+      pageIndex:1,
       swiperOption: {
         pagination: {
           el: ".swiper-pagination",
@@ -47,6 +57,30 @@ export default {
         loop: true
       }
     };
+  },
+  methods: {
+    // 滚动到底部加载
+    loadMore () {
+      console.log("滚动到底部")
+      return new Promise ( async (resolve, reject) => {
+        this.pageIndex++;
+        this.loadingMore=true;
+        await  axios.get('headline/list',{pageIndex:this.pageIndex}).then(res => {
+      console.log("成功的res",res)
+      this.loadingMore=false;
+      if(res.data.list.length<5){
+        this.loadingMore = false;
+        this.end = true;
+        // 这个resolve是什么？
+        resolve(res.data.list);
+      }
+
+    }).catch( err => {
+      reject(err);
+      console.log("失败的",err)
+    })
+      })
+    }
   },
   mounted() {
     // 新人有礼、实体店、视频集锦、产品介绍、我是代理、推广、加盟分公司、店主专享
@@ -76,7 +110,7 @@ export default {
       .catch(err => {
         console.log(err)
       })
-    /* // 这部分内容是为了测试二次封装的axios的
+    // 这部分内容是为了测试二次封装的axios的
     this.newsList = [
     {title: '推荐', id: 1},
     {title: '视频', id: 2},
@@ -100,11 +134,11 @@ export default {
     {title: '故事', id: 20},
     {title: '美文', id: 21}
 ]
-    let json = this.$http.get('home/list',this.newsList[4]).then(res => {
+    let json = axios.get('home/list',this.newsList[4]).then(res => {
       console.log("成功的res",res)
     }).catch( err => {
       console.log("失败的",res)
-    }) */
+    })
     /*之前测试时使用的
     console.log(this.$route.path)
     let json =request('post', ajaxURL.itemList)

@@ -35,6 +35,8 @@ Vue.use(VueAwesomeSwiper)
 import customComponents from './custom-components.js'
 Vue.use(customComponents)
 
+// 指令
+import '@/directive'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
