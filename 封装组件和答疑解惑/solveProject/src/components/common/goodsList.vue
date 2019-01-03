@@ -1,71 +1,22 @@
 <template>
   <div class="wrap-goods-list flex-center">
-    <div class="item">
+    <div class="item" v-for="item in goodsList" :class="'item'+item.id" @click="skip($router, item.id)">
       <img src="../../assets/logo.png" alt="">
       <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
-      </div>
-    </div>
-    <div class="item">
-      <img src="../../assets/logo.png" alt="">
-      <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
-      </div>
-    </div>
-    <div class="item">
-      <img src="../../assets/logo.png" alt="">
-      <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
-      </div>
-    </div>
-    <div class="item">
-      <img src="../../assets/logo.png" alt="">
-      <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
-      </div>
-    </div>
-    <div class="item">
-      <img src="../../assets/logo.png" alt="">
-      <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
-      </div>
-    </div>
-    <div class="item">
-      <img src="../../assets/logo.png" alt="">
-      <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
-      </div>
-    </div>
-    <div class="item">
-      <img src="../../assets/logo.png" alt="">
-      <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
-      </div>
-    </div>
-    <div class="item">
-      <img src="../../assets/logo.png" alt="">
-      <div class="good-tag flex-between">
-        <p class="price">￥222</p>
-        <p class="cart">购</p>
+        <p class="price">￥{{item.id}}</p>
+        <p class="cart"><i class="icon iconfont icon-qicheqianlian-1-copy"></i></p>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  // props:{
-  //   goodsList:{
-  //     type:Array,
-  //     default:[]
-  //   }
-  // }
+  props:{
+    goodsList:{
+      type:Array,
+      default:[]
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -93,6 +44,9 @@ export default {
       }
       .cart {
         padding-right: 5px;
+        .icon{
+          font-size: 26px;
+        }
       }
     }
   }

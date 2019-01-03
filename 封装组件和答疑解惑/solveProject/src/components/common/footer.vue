@@ -14,8 +14,8 @@
     </div>
     <div class="footer-item">
       <router-link to="/message">
-        <i class="icon iconfont" :class="urlRouter == '/message'?'icon-message_fill':'icon-message'"></i>
-        <p class="footer-title">消息</p>
+        <i class="icon iconfont" :class="urlRouter == '/message'?'icon-qicheqianlian-1-copy liang':'icon-qicheqianlian-1-copy'"></i>
+        <p class="footer-title">购物车</p>
       </router-link>
     </div>
     <div class="footer-item">
@@ -32,7 +32,7 @@ export default {
   name: "footers",
   props:['urlRouter'],
   mounted() {
-    console.log('urlRouter',this.urlRouter);
+    // console.log('urlRouter',this.urlRouter);
   },
 };
 </script>
@@ -44,6 +44,7 @@ export default {
   font-size: 32px;
 }
 footer {
+  background: #fff;
   position: fixed;
   left: 0;
   bottom: 0;
@@ -55,6 +56,10 @@ footer {
     width: 25%;
     text-align: center;
     position: relative;
+    .liang{
+      color:red;
+    }
+
   }
   // .cart-num{
 

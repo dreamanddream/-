@@ -39,6 +39,18 @@ Vue.use(customComponents)
 import '@/directive'
 Vue.config.productionTip = false
 
+// 返回
+Vue.prototype.back = (route) => {
+  route.animate = 2
+  history.go(-1)
+}
+
+// 跳转商品详情页
+Vue.prototype.skip = (route, id) => {
+  // 编程式路由
+  route.push('/goods/detail/'+id)
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

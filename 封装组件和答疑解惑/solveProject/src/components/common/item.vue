@@ -33,7 +33,7 @@ export default {
   },
   mounted() {
     /* 就是父级请求的数据传递过来，第一次不能打印出父级传递过来的数据，但是可以实现页面数据的渲染 */
-    console.log("接收的",this.itemList)
+    // console.log("接收的",this.itemList)
   },
 }
 </script>
