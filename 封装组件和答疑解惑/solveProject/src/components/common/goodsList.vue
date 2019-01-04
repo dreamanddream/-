@@ -16,7 +16,11 @@ export default {
       type:Array,
       default:[]
     }
-  }
+  },
+  mounted() {
+    // console.log("$router",this.$router);
+    // console.log(this.$store.state.changableNum);
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -45,7 +45,12 @@ export default {
       }
       this.$router.animate = 0;
     }
-  }
+  },
+  mounted() {
+    // this.$store.commit("changableNum", 1)
+    // this.$store.dispatch("changableNum",9)
+    // console.log("首页",this.$store.state.changableNum)
+  },
 };
 </script>
 <style lang="less">

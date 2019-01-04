@@ -3,10 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
 // 封装后的axios
 // import axios from '@/assets/util/axios'
 import http from 'axios'
+// vuex状态管理---默认会找./store/index.js文件
+import store from './store'
+
 
 // css类
 // import '@/assets/css/common.less'
@@ -41,6 +43,8 @@ Vue.config.productionTip = false
 
 // 返回
 Vue.prototype.back = (route) => {
+  // 这里的route其实就是接收传递过来的$router,$router有animate属性
+  console.log("route",route);
   route.animate = 2
   history.go(-1)
 }
@@ -55,6 +59,7 @@ Vue.prototype.skip = (route, id) => {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

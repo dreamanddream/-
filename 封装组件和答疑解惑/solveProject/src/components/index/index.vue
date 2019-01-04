@@ -113,6 +113,12 @@ export default {
     }
   },
   mounted() {
+    // vuex--直接就能获取到
+    // console.log("index未改变之前",this.$store.state.changableNum)
+    // this.$store.commit("changableNum",5)
+    // this.$store.dispatch("changableNum",5)
+    // console.log("index改变之后",this.$store.state.changableNum)
+    // 初始化加载商品列表
     // 初始化加载商品列表
     this.initLoadMore();
 
