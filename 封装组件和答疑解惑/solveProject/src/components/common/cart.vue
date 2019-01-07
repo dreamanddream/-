@@ -2,7 +2,7 @@
   <div class="cart-wrap">
     <!-- <mt-radio
   :options="['optionA']" @change="checkRadio" v-model="value">
-</mt-radio> -->
+    </mt-radio>-->
     <div class="title clearfix">
       <div class="left-title float-left">
         <p>购物车</p>
@@ -17,7 +17,7 @@
           <i class="icon iconfont" :class="item.select?'icon-xuanzhong':'icon-yuanhuan'"></i>
         </span>
         <div class="img">
-          <img src="../../assets/logo.png" alt="">
+          <img src="../../assets/logo.png" alt>
         </div>
         <div class="detail">
           <p class="detail-title">{{item.pro_name}}</p>
@@ -28,9 +28,10 @@
                 <!-- <i class="icon iconfont icon-jianhao"></i> -->
                 -
               </span>
-              <input type="text" v-model="item.pro_num">
-              <span class="add" @click="addChange(item)">
-                +
+              <span class="write">
+                <input type="text" v-model="item.pro_num">
+              </span>
+              <span class="add" @click="addChange(item)">+
                 <!-- <i class="icon iconfont icon-plus"></i> -->
               </span>
             </div>
@@ -87,11 +88,15 @@ export default {
   computed: {
     // 是否全选
     isSelectAll() {
-      // every用法挺好，只有所有的都是true才返回true，对每个元素进行筛选，最终返回值是true或者false
-      return this.cartList.every(function(val) {
-        return val.select;
-      });
-       console.log(this.cartList);
+      if (this.cartList.length < 1) {
+        return false;
+      } else {
+        // every用法挺好，只有所有的都是true才返回true，对每个元素进行筛选，最终返回值是true或者false
+        return this.cartList.every(function(val) {
+          return val.select;
+        });
+      }
+      console.log("删除时不能监听吗", this.cartList);
     },
     // 计算总数量和总价
     getTotal() {
@@ -118,7 +123,7 @@ export default {
     });
     //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
     //this.productList.map(function (item) {item.select=true})
-    console.log("循环后的数据", this.cartList);
+    //console.log("循环后的数据", this.cartList);
   },
   methods: {
     checkRadio() {
@@ -148,10 +153,9 @@ export default {
       // 符合条件的为true的筛选出来，放到新数组中
 
       this.cartList = this.cartList.filter(function(item) {
-        console.log("选中的",!item.select);
+        console.log("选中的", !item.select);
         return !item.select;
       });
-      console.log(this.cartList);
     },
     deChange(item) {
       if (item.pro_num < 1) {
@@ -208,7 +212,7 @@ export default {
           text-align: left;
         }
         .price-num {
-          font-size: 26px;
+          font-size: 16px;
           .price {
             position: absolute;
             left: 0;
@@ -225,17 +229,23 @@ export default {
             span {
               display: inline-block;
             }
-            .icon-plus {
-              border-left: 1px solid @color;
+            .add{
+              padding-right:10px;
             }
-            .icon-jianhao {
-              border-right: 1px solid @color;
+            .decrease{
+              padding-left:10px;
             }
-            i {
-              font-size: 26px;
-            }
-            input {
-              width: 25px;
+            .write {
+              height: 32px;
+              line-height: 32px;
+              width: 30px;
+              display: inline-block;
+              text-align: center;
+              input {
+                width: 100%;
+                height: 100%;
+                text-align: center;
+              }
             }
           }
         }
