@@ -6,7 +6,7 @@
     <div class="title clearfix">
       <div class="left-title float-left">
         <p>购物车</p>
-        <p>共30件宝贝</p>
+        <p>共{{getTotal.totalNum}}件宝贝</p>
       </div>
       <div class="setting float-right" @click="isShowSwitch" v-if="showSwitch">管理</div>
       <div class="setting float-right" @click="isShowSwitch" v-else>完成</div>
@@ -38,15 +38,15 @@
           </div>
         </div>
       </div>
-      <!-- 总计 -->
-      <div class="total-detail flex-between">
-        <span class="float-left" @click="selectProduct(isSelectAll)">
-          <i class="icon iconfont" :class="isSelectAll?'icon-xuanzhong':'icon-yuanhuan'"></i>全选
-        </span>
-        <div class="total-price float-right">共{{getTotal.totalNum}}件商品，总额{{getTotal.totalPrice}}</div>
-        <div class="calculateTotal" v-if="showSwitch">结算</div>
-        <div class="deleteTotal" v-else @click="deleteProduct">删除</div>
-      </div>
+    </div>
+    <!-- 总计 -->
+    <div class="total-detail flex-between">
+      <span class="float-left" @click="selectProduct(isSelectAll)">
+        <i class="icon iconfont" :class="isSelectAll?'icon-xuanzhong':'icon-yuanhuan'"></i>全选
+      </span>
+      <div class="total-price float-right">共{{getTotal.totalNum}}件商品，总额{{getTotal.totalPrice}}</div>
+      <div class="calculateTotal" v-if="showSwitch">结算</div>
+      <div class="deleteTotal" v-else @click="deleteProduct">删除</div>
     </div>
   </div>
 </template>
@@ -229,11 +229,11 @@ export default {
             span {
               display: inline-block;
             }
-            .add{
-              padding-right:10px;
+            .add {
+              padding-right: 10px;
             }
-            .decrease{
-              padding-left:10px;
+            .decrease {
+              padding-left: 10px;
             }
             .write {
               height: 32px;

@@ -55,6 +55,7 @@ Vue.prototype.skip = (route, id) => {
   route.push('/goods/detail/'+id)
 }
 
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
