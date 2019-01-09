@@ -1,84 +1,111 @@
 <template>
   <div class="base-user">
     <!-- 头部 -->
-    <div class="hd-top">
-      <div class="hd-t">
-        <div class="info">
-          <span class="img"><img src="../../assets/logo.png" alt=""></span>
-          <span class="name">用户名</span>
-          <span class="login">点击登录</span>
+    <div class="setting-wrap">
+      <!-- <input type="text" maxlength="2" v-model="value" onkeyup="value=value.replace(/[^\d]/g,'')"> -->
+      <div class="hd-top">
+        <div class="hd-t">
+          <div class="info">
+            <span class="img"><img src="../../assets/logo.png" alt=""></span>
+            <!-- 直接可以使用...mapGetters？？？ -->
+            <span class="name" v-if="user.name">{{user.name}}</span>
+            <span class="login" @click="login" v-else>点击登录</span>
+          </div>
+        </div>
+        <div class="hd-m flex-center">
+          <div class="md-m-item">
+            <span>0</span>
+            <div class="hd-m-t">动态</div>
+          </div>
+          <div class="md-m-item">
+            <span>0</span>
+            <div class="hd-m-t">动态</div>
+          </div>
+          <div class="md-m-item">
+            <span>0</span>
+            <div class="hd-m-t">动态</div>
+          </div>
+        </div>
+        <div class="hd-b flex-center border-half-bottom">
+          <div class="hd-b-item">
+            <i class="icon iconfont icon-collection"></i>
+            <div class="hd-b-t">收藏</div>
+          </div>
+          <div class="hd-b-item">
+            <i class="icon iconfont icon-collection"></i>
+            <div class="hd-b-t">收藏</div>
+          </div>
+          <div class="hd-b-item">
+            <i class="icon iconfont icon-collection"></i>
+            <div class="hd-b-t">收藏</div>
+          </div>
         </div>
       </div>
-      <div class="hd-m flex-center">
-        <div class="md-m-item">
-          <span>0</span>
-          <div class="hd-m-t">动态</div>
-        </div>
-        <div class="md-m-item">
-          <span>0</span>
-          <div class="hd-m-t">动态</div>
-        </div>
-        <div class="md-m-item">
-          <span>0</span>
-          <div class="hd-m-t">动态</div>
-        </div>
-      </div>
-      <div class="hd-b flex-center border-half-bottom">
-        <div class="hd-b-item">
+      <div class="hd-body">
+        <div class="li border-half">
+          <div>消息通知</div>
           <i class="icon iconfont icon-collection"></i>
-          <div class="hd-b-t">收藏</div>
         </div>
-        <div class="hd-b-item">
-          <i class="icon iconfont icon-collection"></i>
-          <div class="hd-b-t">收藏</div>
+        <div class="li border-half-top">
+          <div>头条商城</div>
+          <div class="tag-font">
+            <span>邀请好友得200元现金</span>
+            <i class="icon iconfont icon-collection"></i>
+          </div>
         </div>
-        <div class="hd-b-item">
+        <div class="li border-half">
+          <div>京东特供</div>
+          <div class="tag-font">
+            <span>邀请好友得200元现金</span>
+            <i class="icon iconfont icon-collection"></i>
+          </div>
+        </div>
+        <div class="li border-half-top">
+          <div>用户反馈</div>
           <i class="icon iconfont icon-collection"></i>
-          <div class="hd-b-t">收藏</div>
+        </div>
+        <div class="li border-half-top">
+          <div>系统设置</div>
+          <i class="icon iconfont icon-collection"></i>
         </div>
       </div>
     </div>
-    <div class="hd-body">
-      <div class="li border-half">
-        <div>消息通知</div>
-        <i class="icon iconfont icon-collection"></i>
-      </div>
-      <div class="li border-half-top">
-        <div>头条商城</div>
-        <div class="tag-font">
-          <span>邀请好友得200元现金</span>
-          <i class="icon iconfont icon-collection"></i>
-        </div>
-      </div>
-      <div class="li border-half">
-        <div>京东特供</div>
-        <div class="tag-font">
-          <span>邀请好友得200元现金</span>
-          <i class="icon iconfont icon-collection"></i>
-        </div>
-      </div>
-      <div class="li border-half-top">
-        <div>用户反馈</div>
-          <i class="icon iconfont icon-collection"></i>
-      </div>
-      <div class="li border-half-top">
-        <div>系统设置</div>
-          <i class="icon iconfont icon-collection"></i>
-      </div>
-    </div>
+    <!-- 登录 -->
+    <!-- <transition :name="slide-top"> </transition> -->
+    <login v-if="user.isLogin"></login>
+
     <footers :urlRouter="$route.path"></footers>
   </div>
 </template>
 <script>
 import footers from "@/components/common/footer";
+import login from "@/components/login/login";
 // 引入local存储
-import {Local} from '@/assets/util/local';
-import {mapGetters} from 'vuex'
+import { Local } from "@/assets/util/local";
+import { mapGetters } from "vuex";
 export default {
-  components: { footers },
-  computed: {
-    ...mapGetters(['user'])
+  data() {
+    return {
+      // user: {
+      //   name: "",
+
+      // },
+      value: ""
+    }
   },
+  components: { footers, login },
+  mounted() {
+    // console.log(this.$store.state.user.name)
+    console.log(this.$store.state.user.isLogin);
+  },
+  methods: {
+    login() {
+      this.$store.state.user.isLogin = true;
+    }
+  },
+  computed: {
+    ...mapGetters(["user"])
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -174,10 +201,10 @@ export default {
       border-left: none;
       border-right: none;
     }
-    &:nth-child(3){
+    &:nth-child(3) {
       margin-bottom: 0.2rem;
     }
-    .tag-font{
+    .tag-font {
       font-size: 12px;
     }
   }

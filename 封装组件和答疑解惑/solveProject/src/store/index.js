@@ -7,11 +7,13 @@ import Vuex from 'vuex'
 // import createLogger from 'vuex/dist/logger'
 import getters from './getters'
 import cart from './modules/cart'
+import user from './modules/user'
 const debug = process.env.NODE_ENV !== 'production'
 Vue.use(Vuex)
 const store = new Vuex.Store({
  modules: {
-  cart
+  cart,
+  user
  },
   getters
 })

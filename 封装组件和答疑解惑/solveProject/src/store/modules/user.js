@@ -1,5 +1,5 @@
-import {Cookie} from '@assets/util/local'
-import axios from '@assets/util/axios'
+import {Cookie} from '@/assets/util/local'
+import axios from '@/assets/util/axios'
 
 const user = {
   state: {
@@ -39,11 +39,11 @@ const user = {
       state.user = {
         name: data.username,
         // 引入图片
-        avatar: require('assets/images/avatar.png')
+        avatar: require('@/assets/images/avatar.png')
       }
       Cookie.set({
         username: data.username,
-        avatar: require('assets/images/avatar.png')
+        avatar: require('@/assets/images/avatar.png')
       })
     },
     ESC (state) {
