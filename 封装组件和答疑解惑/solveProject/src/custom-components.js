@@ -6,6 +6,7 @@ import item from "@/components/common/item";
 import goTop from "@/components/common/goTop";
 import goodsList from "@/components/common/goodsList";
 import header from "@/components/common/header"
+import Alert from '@/components/common/Dialog/index.js'
 
 const install = Vue => {
   Vue.component('my-loading', loading);
@@ -16,7 +17,7 @@ const install = Vue => {
   Vue.component('go-top', goTop);
   Vue.component('headers', header);
   // 还可以在原型上添加弹框之类的
-  // Vue.prototype.$alert = Alert
+  Vue.prototype.$alert = Alert
 }
 
 export default install

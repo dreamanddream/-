@@ -7,6 +7,7 @@ import activity from '@/components/activity/activity'
 import user from '@/components/user/user'
 import index from '@/components/index/index'
 import goodsDetail from '@/components/goods/goodsDetail/index'
+import feedback from '@/components/feedback/index'
 
 Vue.use(Router)
 // 添加动画
@@ -99,6 +100,16 @@ export const constantRouterMap = [
     name:'商品详情',
     meta: { slide: 1 },
     component:goodsDetail
+  },
+  // 用户反馈
+  {
+    path: '/feedback',
+    name:'用户反馈',
+    meta: {
+      slide:1,
+      login:true
+    },
+    component:feedback
   }
 ];
 export const asyncRouteMap = []

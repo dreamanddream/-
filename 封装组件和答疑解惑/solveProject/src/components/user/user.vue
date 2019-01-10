@@ -64,7 +64,7 @@
           <div>用户反馈</div>
           <i class="icon iconfont icon-collection"></i>
         </div>
-        <div class="li border-half-top">
+        <div class="li border-half-top" @click="$router.push('/feedback')">
           <div>系统设置</div>
           <i class="icon iconfont icon-collection"></i>
         </div>
@@ -72,7 +72,7 @@
     </div>
     <!-- 登录 -->
     <!-- <transition :name="slide-top"> </transition> -->
-    <login v-if="user.isLogin"></login>
+    <login v-if="user.isLogin" @close="close5"></login>
 
     <footers :urlRouter="$route.path"></footers>
   </div>
@@ -101,6 +101,10 @@ export default {
   methods: {
     login() {
       this.$store.state.user.isLogin = true;
+    },
+    close5 () {
+      this.$store.state.user.isLogin = false;
+      console.log("为什么不会关闭呢！",this.$store.state.user.isLogin);
     }
   },
   computed: {

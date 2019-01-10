@@ -13,10 +13,11 @@ router.beforeEach((to, from, next) => {
       //   'message':'请先登录'
       // })
       // Vue.prototype.$alert('请先登录!')
+      Vue.prototype.$alert({content:'请先登录'})
       //   .then(() => {
       //     store.state.user.isLogin = true
       //   })
-      console.log("请先登录");
+      // console.log("请先登录");
       // .then是什么时候用？？？
     }
   }else{

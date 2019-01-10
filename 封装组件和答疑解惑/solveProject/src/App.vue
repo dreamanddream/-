@@ -12,13 +12,19 @@
 
 <script>
 // import {map} from 'vuex'
-
+import {mapGetters} from 'vuex'
 export default {
   name: "App",
   data() {
     return {
       animate: ""
     };
+  },
+  computed: {
+    ...mapGetters(['user'])
+  },
+  mounted () {
+    console.log("app中", this.$store.state.isLogin)
   },
   watch: {
     $route(to, from) {
