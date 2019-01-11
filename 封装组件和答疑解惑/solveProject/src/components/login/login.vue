@@ -1,8 +1,8 @@
 <template>
   <div class="login-wrapper">
     <!-- <Icon name="close" class="close" @click.native="$emit('close')"></Icon> -->
-    <!-- <i class="icon iconfont icon-collection_fill close" @click.native="$emit('close')"></i> -->
-    <i class="icon iconfont icon-collection_fill close" @click.native="$emit('close')"></i>
+    <i class="icon iconfont icon-collection_fill close" @click="$emit('closeLogin')"></i>
+    <!-- <i class="icon iconfont icon-collection_fill close" @click="closeLogin"></i> -->
     <h2>登陆你的头条，精彩永不消失</h2>
     <div class="input username">
       <input type="text" placeholder="用户名随便填" v-model="username">
@@ -16,7 +16,8 @@
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters,mapActions} from 'vuex'
+import axios from "@/assets/util/axios";
 export default {
   data() {
     return {
@@ -30,10 +31,16 @@ export default {
     ...mapGetters(['user'])
   },
   mounted() {
-    console.log("直接看看能否这样打印出来",this.user.isLogin);
+    // console.log("直接看看能否这样打印出来",this.user.isLogin);
   },
   methods: {
-    async login() {
+    ...mapActions('user',['login']),
+    // 关闭登录页
+    closeLogin () {
+      this.$emit("close");
+    },
+    // 登录
+    login() {
       if (!this.username) {
         this.username_msg = "请输入用户名";
       } else {
@@ -49,17 +56,26 @@ export default {
         this.password_msg = "";
       }
       if (this.password_msg) return;
-
+      // this.$store.dispatch("login", {
+      //     username: this.username,
+      //     password: this.password
+      // })
       // this.$showLoading();
+
+
+
       try {
-        await this.$store.dispatch("login", {
+        this.$store.dispatch("login", {
           username: this.username,
           password: this.password
         });
-      } catch (e) {}
+      } catch (e) {
+        console.log("登录时打印错误报告",console.log(e));
+      }
+
       // this.$hideLoading();
       // this.$set(this.$store.state.user.footerBarList, 3, {title: '我的', icon: 'account1', path: '/account'})
-      this.$emit("close");
+      this.$emit("closeLogin");
       // let avatar = require('assets/images/avatar.png')
       // this.Cookie.set('username', this.username)
       // this.Cookie.set('avatar', avatar)
@@ -86,19 +102,19 @@ export default {
   border-top-right-radius: 0.05rem;
   border-top-left-radius: 0.05rem;
   text-align: center;
-  // transition: top 0.2s ease-out;
-  animation:top 1s linear;
-  @keyframes top {
-    20% {
-      top: -70%
-    }
-    50% {
-      top: -50%;
-    }
-    100%{
-      top:0%;
-    }
-  }
+  transition: top 0.2s ease-out;
+  // animation:top 1s linear;
+  // @keyframes top {
+  //   20% {
+  //     top: -70%
+  //   }
+  //   50% {
+  //     top: -50%;
+  //   }
+  //   100%{
+  //     top:0%;
+  //   }
+  // }
   .close {
     position: absolute;
     right: 0rem;
@@ -108,6 +124,7 @@ export default {
     height: 0.4rem;
     padding: 0.1rem;
     color: #555;
+    background: red;
   }
   h2 {
     margin: 0.3rem 0;

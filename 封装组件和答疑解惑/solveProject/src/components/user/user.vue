@@ -72,8 +72,7 @@
     </div>
     <!-- 登录 -->
     <!-- <transition :name="slide-top"> </transition> -->
-    <login v-if="user.isLogin" @close="close5"></login>
-
+    <login v-if="user.isLogin" @closeLogin="close5"></login>
     <footers :urlRouter="$route.path"></footers>
   </div>
 </template>

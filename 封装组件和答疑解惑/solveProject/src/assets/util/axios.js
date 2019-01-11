@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import axios from 'axios'
+import qs from 'qs'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // import mintUi from 'mint-ui'
 // 引入对应的css
 // import 'mint-ui/lib/style.css'
 // 全局注册
 // Vue.use(mintUi)
-Vue.prototype.$axios = axios
-axios.defaults.baseURL = 'http://data.toutiaojk.com/extend/list/'
+// Vue.prototype.$axios = axios
+// axios.defaults.baseURL = 'http://data.toutiaojk.com/extend/list/'
 // export const ajaxURL = {
 //   // banner:'',
 //   itemList: 'appclass.php',
@@ -71,7 +73,7 @@ export default axios; */
   return result;
 } */
 
-// ​ axios默认是请求的时候不会带上cookie的，需要通过设置withCredentials: true来解决。
+// ​axios默认是请求的时候不会带上cookie的，需要通过设置withCredentials: true来解决。
 axios.defaults.withCredentials = true
 // 发送时
 axios.interceptors.request.use(config => {
@@ -91,9 +93,11 @@ axios.interceptors.response.use(
 )
 // 检查状态码
 function checkStatus (res) {
+  console.log("查看状态码", res);
   if(res.status === 200 || res.status === 304) {
     return res.data
   }
+
   return {
     code: 0,
     msg: res.data.msg || res.statusText,
@@ -112,6 +116,9 @@ const testUrl="https://easy-mock.com/mock/5a83160c948cfd365a524088/apis/";//测�
 const devUrl="https://easy-mock.com/mock/5a83160c948cfd365a524088/apis/";//线上环境
 const isUrl=true//线上环境为true
 const ajaxUrl=isUrl?testUrl:devUrl;
+const headers={
+  'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+};
 export default {
   // get和post的差异点，get使用params,也可以不加，直接写一个对象，而post要用data，data值是一个对象
   get(url, params) {
@@ -122,17 +129,30 @@ export default {
       params,
       // 传递timeout是什么
       timeout: 30000
-    }).then(checkCode).then(checkCode)
+    }).then(checkStatus).then(checkCode)
   },
   post(url, data) {
-    if (!url) {
+    /* if (!url) {
       return axios({
         method: 'post',
         url:ajaxUrl+url,
-        data:JSON.stringify(data),
+        data:qs.stringify(data),
         timeout: 30000
-      }).then(checkStatus).then(checkCode)
-    }
+      }).then(checkStatus).then(checkCode).then(res => {
+        console.log("post请求",res);
+      })
+    } */
+    // 仔细看看上面这段代码，感觉自己要被蠢哭了，代码结构都错了，怪不得不执行
+    // 同样的解决方式，get没问题，但是post对应的方法却不执行，很明显是结构
+    // 是post的问题，结果自己花费了很长时间才发现这个问题
+    if(!url) return;
+    return axios({
+      method: 'post',
+      url:ajaxUrl+url,
+      data:qs.stringify(data),
+      timeout: 30000
+    }).then(checkStatus).then(checkCode)
+
   },
   // 上传文件
   postFile(url, data) {

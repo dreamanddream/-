@@ -7,6 +7,7 @@
 <script>
  import footers from '@/components/common/footer'
  import cart from '@/components/common/cart'
+ import {mapGetters} from 'vuex'
   export default{
     components:{footers,cart}
   }
