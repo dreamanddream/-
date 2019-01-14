@@ -65,6 +65,11 @@ export default {
 
 
       try {
+        /* 调用store中login函数，传递用户名，在action中调用commit更新
+           state中定义的username的状态，然后在前置全局路由函数的拦截中判断
+           是否有用户名，如果有，那么需要验证身份的就可以直接进入了。
+        */
+
         this.$store.dispatch("login", {
           username: this.username,
           password: this.password

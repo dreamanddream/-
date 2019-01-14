@@ -53,14 +53,13 @@
             <i class="icon iconfont icon-collection"></i>
           </div>
         </div>
-        <div class="li border-half">
-          <div>京东特供</div>
+        <div class="li border-half" @click="$router.push('/address')">
+          <div>地址管理</div>
           <div class="tag-font">
-            <span>邀请好友得200元现金</span>
             <i class="icon iconfont icon-collection"></i>
           </div>
         </div>
-        <div class="li border-half-top">
+        <div class="li border-half-top" @click="$router.push('/feedback/system')">
           <div>用户反馈</div>
           <i class="icon iconfont icon-collection"></i>
         </div>
@@ -68,10 +67,22 @@
           <div>系统设置</div>
           <i class="icon iconfont icon-collection"></i>
         </div>
+        <div class="li border-half">
+          <div>我的客服</div>
+          <div class="tag-font">
+            <i class="icon iconfont icon-collection"></i>
+          </div>
+        </div>
+        <div class="li border-half">
+          <div>我要反馈</div>
+          <div class="tag-font">
+            <i class="icon iconfont icon-collection"></i>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 登录 -->
-    <!-- <transition :name="slide-top"> </transition> -->
+    <!-- <transition :name="slide-top"></transition> -->
     <login v-if="user.isLogin" @closeLogin="close5"></login>
     <footers :urlRouter="$route.path"></footers>
   </div>
@@ -90,7 +101,7 @@ export default {
 
       // },
       value: ""
-    }
+    };
   },
   components: { footers, login },
   mounted() {
@@ -101,9 +112,9 @@ export default {
     login() {
       this.$store.state.user.isLogin = true;
     },
-    close5 () {
+    close5() {
       this.$store.state.user.isLogin = false;
-      console.log("为什么不会关闭呢！",this.$store.state.user.isLogin);
+      console.log("为什么不会关闭呢！", this.$store.state.user.isLogin);
     }
   },
   computed: {
@@ -177,69 +188,6 @@ export default {
 }
 // 消息通知
 .hd-body {
-  .li {
-    text-align: left;
-    width: 100%;
-    height: 1.5rem;
-    line-height: 1.5rem;
-    background: #fff;
-    padding: 0.2rem;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    box-sizing: border-box;
-    &:first-child {
-      margin: 0.2rem 0;
-    }
-    &:first-child:before {
-      border-left: none;
-      border-right: none;
-    }
-    &:nth-child(3) {
-      margin-bottom: 0.2rem;
-    }
-    .tag-font {
-      font-size: 12px;
-    }
-  }
-  .border-half {
-    position: relative;
-  }
-  .border-half:before {
-    content: "";
-    position: absolute;
-    transform-origin: 0 0;
-    transform: scale(0.5);
-    width: 200%;
-    height: 200%;
-    top: 0;
-    left: 0;
-    // border: 1px solid #ddd;
-    border: 1px solid #ddd;
-  }
-  .border-half-top {
-    position: relative;
-    &:before {
-      content: "";
-      position: absolute;
-      transform-origin: 0 0;
-      transform: scale(0.5);
-      width: 200%;
-      height: 2px;
-      top: 0;
-      left: 0;
-      border-top: 1px solid #ddd;
-    }
-  }
 }
 </style>
 

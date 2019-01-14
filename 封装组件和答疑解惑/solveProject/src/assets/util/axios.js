@@ -93,7 +93,7 @@ axios.interceptors.response.use(
 )
 // 检查状态码
 function checkStatus (res) {
-  console.log("查看状态码", res);
+  console.log("查看状态码", res.data.data.list);
   if(res.status === 200 || res.status === 304) {
     return res.data
   }
@@ -106,6 +106,7 @@ function checkStatus (res) {
 }
 // 检查code值
 function checkCode (res) {
+  console.log("检查code码",res.data);
   if (res.code === 0) {
     throw new Error(res.msg)
   }

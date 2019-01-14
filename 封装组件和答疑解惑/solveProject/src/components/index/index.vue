@@ -89,27 +89,37 @@ export default {
       });
     },
     initLoadMore() {
-      return new Promise(async (resolve, reject) => {
-        await axios
+         axios
           .get("headline/list", { pageIndex: this.pageIndex })
           .then(res => {
+            /* axios本身就会返回promise，所以在外面没有必要再套一层promise
+            ..then传递的参数是上一个.then传递过来的，这里由于封装的axios，所以每次
+            传递时的参数也做了调整,所以不能直接通过在这里打印res.data.data来获取值，而是要
+            看前面传递的参数是什么，就如checkStatus将res.data传递给checkCode,所以res就代表
+            了res.data，所以在这获取时，使用打印出来的res.data.data.list就会一直显示
+            list是undefined
+            */
             /* console.log("初始化");
             console.log("成功的res", res.data.data.list); */
             this.loadingMore = true;
-             this.end = false;
-            this.goodsList = res.data.data.list;
-            if (res.data.data.list.length < 6) {
+            this.end = false;
+            let temp = res.data.list;
+            this.goodsList = temp;
+            console.log("首页数据",res.data);
+            console.log("首页", res.data.list);
+            console.log("this.goodsList", this.goodsList);
+            if (res.data.list.length < 6) {
               this.loadingMore = false;
               this.end = true;
               // 这个resolve是什么？
-              resolve(res.data.data.list);
+              // resolve(res.data.data.list);
             }
           })
           .catch(err => {
-            reject(err);
-            // console.log("失败的", err);
+            // reject(err);
+            console.log("失败的", err);
           });
-      });
+
     }
   },
   mounted() {

@@ -8,6 +8,9 @@ import user from '@/components/user/user'
 import index from '@/components/index/index'
 import goodsDetail from '@/components/goods/goodsDetail/index'
 import feedback from '@/components/feedback/index'
+import system from '@/components/system/index'
+import address from '@/components/address/index'
+import addAddress from '@/components/address/addAddress'
 
 Vue.use(Router)
 // 添加动画
@@ -109,7 +112,25 @@ export const constantRouterMap = [
       slide:1,
       login:true
     },
-    component:feedback
+    component:feedback,
+    children: [
+      {
+        path: 'system',
+        component:system
+      }
+    ]
+  },
+  // 添加地址
+  {
+    path: '/address',
+    name: '添加地址',
+    component: address,
+    children: [
+      {
+        path: 'addAddress',
+        component: addAddress
+      }
+    ]
   }
 ];
 export const asyncRouteMap = []

@@ -302,3 +302,67 @@ input{
   clear:both;
   height:0;
 }
+// item项
+.li {
+  text-align: left;
+  width: 100%;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  background: #fff;
+  padding: 0.2rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  &:first-child {
+    margin: 0.2rem 0;
+  }
+  &:first-child:before {
+    border-left: none;
+    border-right: none;
+  }
+  &:nth-child(3) {
+    margin-bottom: 0.2rem;
+  }
+  .tag-font {
+    font-size: 12px;
+  }
+}
+.border-half {
+  position: relative;
+}
+.border-half:before {
+  content: "";
+  position: absolute;
+  transform-origin: 0 0;
+  transform: scale(0.5);
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 0;
+  // border: 1px solid #ddd;
+  border: 1px solid #ddd;
+}
+.border-half-top {
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    transform-origin: 0 0;
+    transform: scale(0.5);
+    width: 200%;
+    height: 2px;
+    top: 0;
+    left: 0;
+    border-top: 1px solid #ddd;
+  }
+}
