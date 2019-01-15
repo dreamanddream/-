@@ -23,6 +23,7 @@ export default {
     ...mapActions('index', [
       'get_indexColumn_data'
     ])
+    // ...mapActions(['get_indexC'])
   },
   created() {
     // 刚进入页面时会使用mapActions，this.get_indexColumn_data()相当于dispatch调用
