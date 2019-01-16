@@ -1,5 +1,8 @@
 <template>
   <div class="childAddress">
+    <div class="topAddress">
+      <input type="text" placeholder="选择地区">
+    </div>
     <div class="address">
       <div class="title">
         <p class="font-choose">请选择</p>
@@ -8,77 +11,17 @@
     </div>
     <div class="addressBox">
       <ul>
-        <li>
-          <span>河南省</span>
+        <li v-for="(provinceItem, provinceIndex) in addressList" :key="provinceIndex" :class="{active: provinceIndex === activeProvince}" @click.stop="onProvinceSelect(provinceIndex,provinceItem.text)">
+          <span>{{provinceItem.text}}</span>
           <div class="cityBox">
             <ul>
-              <li>
-                <span>上蔡县qqqqqqq</span>
-                <div class="areaBox">
+              <li v-for="(cityItem, cityIndex) in addressList[provinceIndex].children" :key="cityIndex" :class="{active: cityIndex===activeCity&&provinceIndex===cityIndex}">
+                <span>{{cityItem.text}}</span>
+                <!-- <div class="areaBox">
                   <ul>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
+                    <li v-for="(countryItem, countryIndex) in cityItem.children" :class="{active: countryIndex == activeCountry}" :key="countryIndex">{{countryItem.text}}</li>
                   </ul>
-                </div>
-              </li>
-              <li>
-                <span>上蔡县qqqqqqq</span>
-                <div class="areaBox">
-                  <ul>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <span>上蔡县qqqqqqq</span>
-                <div class="areaBox">
-                  <ul>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                  </ul>
-                </div>
-              </li>
-               <li>
-                <span>上蔡县qqqqqqq</span>
-                <div class="areaBox">
-                  <ul>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <span>上蔡县qqqqqqq</span>
-                <div class="areaBox">
-                  <ul>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <span>上蔡县qqqqqqq</span>
-                <div class="areaBox">
-                  <ul>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                    <li>某某乡</li>
-                  </ul>
-                </div>
+                </div> -->
               </li>
             </ul>
           </div>
@@ -88,13 +31,37 @@
   </div>
 </template>
 <script>
-import init_city_picker from '../../assets/util/data.city.js';
+import init_city_picker from "../../assets/util/data.city.js";
 export default {
-  data () {
+  data() {
     return {
-      addressList: []
+      addressList: [],
+      addressText: "",
+      activeProvince:0,
+      activeCity:0,
+      activeCountry:0,
+      provice: '',
+      city: '',
+      country: ''
+    };
+  },
+  mounted() {
+    this.addressList = init_city_picker;
+    // console.log(this.addressList[2].children[0].text);
+    // console.log(this.addressList[2].children[0].children)
+    for (var key in this.addressList) {
+      console.log(this.addressList[key].text)
     }
-  }
+  },
+  methods: {
+    // 选择省份
+    onProvinceSelect (index, item) {
+      var that = this;
+      that.activeProvince = index;
+      that.provice = item;
+      that.addressText = that.province;
+    }
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -173,6 +140,14 @@ export default {
     overflow-y: scroll;
     z-index: 9999;
     -webkit-overflow-scrolling: touch;
+  }
+  .addressBox .active {
+    background:red;
+    color: @base_color;
+  }
+
+  .addressBox .active .cityBox {
+    display: block;
   }
   // .address-choose {
   //   position: relative;

@@ -4,6 +4,6 @@ const getters = {
   // 个人中心
   isLogin: state => state.isLogin,
   user: state => state.user,
-
+  address: state => state.defaultAddress
 }
 export default getters
