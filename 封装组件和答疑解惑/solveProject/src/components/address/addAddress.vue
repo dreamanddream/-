@@ -11,21 +11,30 @@
     </div>
     <div class="addressBox">
       <ul>
-        <li v-for="(provinceItem, provinceIndex) in addressList" :key="provinceIndex" :class="{active: provinceIndex === activeProvince}" @click.stop="onProvinceSelect(provinceIndex,provinceItem.text)">
-          <span>{{provinceItem.text}}</span>
-          <div class="cityBox">
-            <ul>
-              <li v-for="(cityItem, cityIndex) in addressList[provinceIndex].children" :key="cityIndex" :class="{active: cityIndex===activeCity&&provinceIndex===cityIndex}">
-                <span>{{cityItem.text}}</span>
-                <!-- <div class="areaBox">
-                  <ul>
-                    <li v-for="(countryItem, countryIndex) in cityItem.children" :class="{active: countryIndex == activeCountry}" :key="countryIndex">{{countryItem.text}}</li>
-                  </ul>
-                </div> -->
-              </li>
-            </ul>
-          </div>
-        </li>
+        <li
+          v-for="( provinceItem, provinceIndex ) in provice"
+          :key="provinceIndex"
+          :class="{active: provinceIndex === activeProvince}"
+          @click="onProvinceSelect(provinceIndex)"
+        >{{provinceItem}}</li>
+      </ul>
+    </div>
+    <div class="cityBox">
+      <ul>
+        <li
+          v-for="(cityItem, cityIndex) in city"
+          :key="cityIndex"
+          @click="cityClick(cityIndex)"
+        >{{cityItem}}</li>
+      </ul>
+    </div>
+    <div class="areaBox">
+      <ul>
+        <li
+          v-for="(countryItem, countryIndex) in country"
+          :class="{active: countryIndex == activeCountry}"
+          :key="countryIndex"
+        >{{countryItem}}</li>
       </ul>
     </div>
   </div>
@@ -37,12 +46,13 @@ export default {
     return {
       addressList: [],
       addressText: "",
-      activeProvince:0,
-      activeCity:0,
-      activeCountry:0,
-      provice: '',
-      city: '',
-      country: ''
+      activeProvince: 0,
+      activeCity: 0,
+      activeCountry: 0,
+      provice: [],
+      city: [],
+      country: [],
+      newIndex:0,
     };
   },
   mounted() {
@@ -50,18 +60,35 @@ export default {
     // console.log(this.addressList[2].children[0].text);
     // console.log(this.addressList[2].children[0].children)
     for (var key in this.addressList) {
-      console.log(this.addressList[key].text)
+      this.provice.push(this.addressList[key]["text"]);
+    }
+    // 初始值
+    // this.city = this.addressList[0].children
+    for (let key1 in this.addressList[0].children) {
+      this.city.push(this.addressList[0].children[key1]["text"]);
+    }
+    for (let key2 in this.addressList[0].children[0].children) {
+      this.country.push(this.addressList[0].children[0].children[key2]["text"]);
     }
   },
   methods: {
     // 选择省份
-    onProvinceSelect (index, item) {
-      var that = this;
-      that.activeProvince = index;
-      that.provice = item;
-      that.addressText = that.province;
+    onProvinceSelect(itemIndex) {
+      this.city = [];
+      for (let key1 in this.addressList[itemIndex].children) {
+        this.city.push(this.addressList[itemIndex].children[key1]["text"]);
+      }
+      this.newIndex= itemIndex;
+    },
+    cityClick(itemIndex) {
+      console.log(12122);
+      this.country =[];
+      for (let key2 in this.addressList[this.newIndex].children[itemIndex].children) {
+        this.country.push(this.addressList[this.newIndex].children[itemIndex].children[key2]["text"]
+        );
+      }
     }
-  },
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -142,7 +169,7 @@ export default {
     -webkit-overflow-scrolling: touch;
   }
   .addressBox .active {
-    background:red;
+    background: red;
     color: @base_color;
   }
 
