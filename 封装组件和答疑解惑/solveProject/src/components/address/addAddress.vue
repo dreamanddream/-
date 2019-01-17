@@ -8,34 +8,23 @@
         <p class="font-choose">请选择</p>
         <p class="font-close">×</p>
       </div>
-    </div>
-    <div class="addressBox">
-      <ul>
-        <li
-          v-for="( provinceItem, provinceIndex ) in provice"
-          :key="provinceIndex"
-          :class="{active: provinceIndex === activeProvince}"
-          @click="onProvinceSelect(provinceIndex)"
-        >{{provinceItem}}</li>
-      </ul>
-    </div>
-    <div class="cityBox">
-      <ul>
-        <li
-          v-for="(cityItem, cityIndex) in city"
-          :key="cityIndex"
-          @click="cityClick(cityIndex)"
-        >{{cityItem}}</li>
-      </ul>
-    </div>
-    <div class="areaBox">
-      <ul>
-        <li
-          v-for="(countryItem, countryIndex) in country"
-          :class="{active: countryIndex == activeCountry}"
-          :key="countryIndex"
-        >{{countryItem}}</li>
-      </ul>
+      <div class="address-list">
+        <div class="addressBox common-flex">
+          <ul>
+            <li v-for="( provinceItem, provinceIndex ) in provice" :key="provinceIndex" :class="{active: provinceIndex === activeProvince}" @click="onProvinceSelect(provinceIndex)">{{provinceItem}}</li>
+          </ul>
+        </div>
+        <div class="cityBox common-flex">
+          <ul>
+            <li v-for="(cityItem, cityIndex) in city" :key="cityIndex" @click="cityClick(cityIndex)">{{cityItem}}</li>
+          </ul>
+        </div>
+        <div class="areaBox common-flex">
+          <ul>
+            <li v-for="(countryItem, countryIndex) in country" :class="{active: countryIndex == activeCountry}" :key="countryIndex">{{countryItem}}</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +41,7 @@ export default {
       provice: [],
       city: [],
       country: [],
-      newIndex:0,
+      newIndex: 0
     };
   },
   mounted() {
@@ -78,13 +67,17 @@ export default {
       for (let key1 in this.addressList[itemIndex].children) {
         this.city.push(this.addressList[itemIndex].children[key1]["text"]);
       }
-      this.newIndex= itemIndex;
+      this.newIndex = itemIndex;
     },
     cityClick(itemIndex) {
       console.log(12122);
-      this.country =[];
-      for (let key2 in this.addressList[this.newIndex].children[itemIndex].children) {
-        this.country.push(this.addressList[this.newIndex].children[itemIndex].children[key2]["text"]
+      this.country = [];
+      for (let key2 in this.addressList[this.newIndex].children[itemIndex]
+        .children) {
+        this.country.push(
+          this.addressList[this.newIndex].children[itemIndex].children[key2][
+            "text"
+          ]
         );
       }
     }
@@ -119,14 +112,13 @@ export default {
   .addressBox {
     position: relative;
   }
-  .addressBox ul {
-    width: 33%;
+  .common-flex ul {
     height: 5rem;
     background: @base_color;
     overflow-y: scroll;
     overflow-x: auto;
   }
-  .addressBox li {
+  .common-flex li {
     font-size: 0.26rem;
     height: 1rem;
     line-height: 1rem;
@@ -134,47 +126,11 @@ export default {
     text-align: left;
     padding-left: 0.5rem;
   }
-
-  .cityBox {
-    position: absolute;
-    top: 0;
-    left: 33%;
-    width: 100%;
-    height: 5rem;
-    overflow-y: scroll;
-    z-index: 19;
-    -webkit-overflow-scrolling: touch;
-    overflow-x: auto;
+  .address-list {
+    display: flex;
   }
-
-  .cityBox ul {
-    width: 100%;
-    height: 5rem;
-  }
-
-  .cityBox li {
-    padding-left: 0.17rem;
-    text-align: left;
-    border-bottom: 0.01rem solid #e6e6e6;
-  }
-
-  .areaBox {
-    position: absolute;
-    top: 0;
-    left: 33%;
-    width: 33%;
-    height: 5rem;
-    overflow-y: scroll;
-    z-index: 9999;
-    -webkit-overflow-scrolling: touch;
-  }
-  .addressBox .active {
-    background: red;
-    color: @base_color;
-  }
-
-  .addressBox .active .cityBox {
-    display: block;
+  .address-list .common-flex{
+    flex:1;
   }
   // .address-choose {
   //   position: relative;
