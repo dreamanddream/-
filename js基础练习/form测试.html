@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            background: red;
+            width:50px;
+            height:50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="button">
+    </div>
+    <script>
+        var box=document.getElementById("box");
+        var s=0;
+       
+        box.addEventListener("click",function(){
+            if(s==1){
+            alert("请勿重复提交")
+        }
+            s=1;
+
+        },false)
+        
+        
+        </script>
+</body>
+</html>

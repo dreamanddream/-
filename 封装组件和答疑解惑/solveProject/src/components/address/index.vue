@@ -1,26 +1,40 @@
 <template>
   <div class="base-address">
-    <div class="address-wrap" v-if="add">
-      <no-data v-if="address.length==0"></no-data>
+    <div class="address-wrap">
+      <no-data v-if="setAddress.length==0"></no-data>
       <!-- 如果还有地址，可以写在这中间 -->
+      <div v-else v-for="item in setAddress">{{item}}</div>
       <div class="addAddress" @click="adds">+新增地址</div>
     </div>
-    <router-view v-else></router-view>
+
   </div>
 </template>
 <script>
+import {mapState,mapGetters,mapMutations} from 'vuex'
 export default {
   data() {
     return {
-      address: [],
+      setAddress:[],
       add: true
     };
   },
+  computed: {
+    ...mapGetters(['address']),
+    // ...mapState(['defaultAddress'])
+  },
+  mounted() {
+    this.setAddress = this.$store.state.address.defaultAddress;
+    if(this.setAddress&&this.setAddress.length>0){
+      this.add=true;
+    }
+    console.log(this.$store.state.address.defaultAddress);
+  },
   methods: {
     adds() {
-      this.$router.push("/address/addAddress");
+      this.$router.push("/addAddress");
       this.add = false;
     }
+
   }
 };
 </script>

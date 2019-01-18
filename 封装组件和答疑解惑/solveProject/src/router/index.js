@@ -120,18 +120,18 @@ export const constantRouterMap = [
       }
     ]
   },
-  // 添加地址
+  // 显示地址
   {
     path: '/address',
-    name: '添加地址',
+    name: '地址',
     component: address,
-    children: [
-      {
-        path: 'addAddress',
-        component: addAddress
-      }
-    ]
-  }
+  },
+  // 添加地址
+ {
+   path: '/addAddress',
+   name: '添加地址',
+   component: addAddress
+ }
 ];
 export const asyncRouteMap = []
 export const router = new Router({

@@ -8,14 +8,16 @@ import Vuex from 'vuex'
 import getters from './getters'
 import cart from './modules/cart'
 import user from './modules/user'
+import address from './modules/address'
 const debug = process.env.NODE_ENV !== 'production'
 Vue.use(Vuex)
 const store = new Vuex.Store({
  modules: {
   cart,
-  user
+  user,
+  address
  },
-  getters
+  getters,
 })
 
 export default store
