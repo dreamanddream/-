@@ -11,6 +11,7 @@ import feedback from '@/components/feedback/index'
 import system from '@/components/system/index'
 import address from '@/components/address/index'
 import addAddress from '@/components/address/addAddress'
+import video from '@/components/video/index'
 
 Vue.use(Router)
 // 添加动画
@@ -131,7 +132,13 @@ export const constantRouterMap = [
    path: '/addAddress',
    name: '添加地址',
    component: addAddress
- }
+ },
+//  视频显示
+{
+  path: '/video',
+  name: 'video',
+  component: video
+}
 ];
 export const asyncRouteMap = []
 export const router = new Router({

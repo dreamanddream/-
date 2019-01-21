@@ -6,7 +6,6 @@
       <div v-else v-for="item in setAddress">{{item}}</div>
       <div class="addAddress" @click="adds">+新增地址</div>
     </div>
-
   </div>
 </template>
 <script>

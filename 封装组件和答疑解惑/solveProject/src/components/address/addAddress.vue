@@ -18,7 +18,7 @@
       <div class="textarea">
         <textarea name="" id="area" placeholder="请填写详细地址，具体到门牌号"></textarea>
       </div>
-      <div>设置默认</div>
+      <div class="default"><span class="fr">设置默认</span><mt-switch v-model="value" class="fr" @change="getDefault"></mt-switch></div>
       <div class="save" @click="onSave">保存</div>
     </div>
     <div class="address" v-if="showAddress">
@@ -52,6 +52,7 @@ import init_city_picker from "../../assets/util/data.city.js";
 export default {
   data() {
     return {
+      value: false,
       showAddress: false,
       addressList: [],
       addressText: "",
@@ -64,7 +65,9 @@ export default {
       newIndex: 0,
       provinceText: "",
       cityText: "",
-      countryText: ""
+      countryText: "",
+      // form表单的相关内容
+      formname:'',
     };
   },
   computed: {
@@ -72,6 +75,8 @@ export default {
     // ...mapState
   },
   mounted() {
+    // 默认地址是否选中
+    console.log("查看是否选中默认地址", this.value);
     this.addressList = init_city_picker;
     for (var key in this.addressList) {
       this.provice.push(this.addressList[key]["text"]);
@@ -85,6 +90,10 @@ export default {
   },
   methods: {
     ...mapMutations(['setdefaultAddress']),
+    // 置换是否选择默认地址
+    getDefault () {
+      console.log(this.value);
+    },
     // 选择省份
     onProvinceSelect(provinceItem, itemIndex) {
       this.city = [];
@@ -126,12 +135,17 @@ export default {
     countryClick(countryItem, itemIndex) {
       this.activeCountry = itemIndex;
       this.addressText =
-        this.provinceText + " " + this.cityText + " " + countryItem;
+      this.provinceText + " " + this.cityText + " " + countryItem;
+      this.showAddress = fasle;
+    },
+    checkForm () {
+
     },
     onSave(){
       this.$store.commit("setdefaultAddress",this.addressText)
       console.log(this.$store.state.address.defaultAddress);
       this.$router.push("/address");
+
     }
   }
 };
@@ -205,6 +219,16 @@ export default {
       right: 10px;
       top: 0px;
       font-size: 24px;
+    }
+  }
+  .default{
+    width:90%;
+    margin-left:5%;
+    margin-top:5px;
+    line-height: 32px;
+    height:32px;
+    .fr{
+      float:right;
     }
   }
   .addressBox {
