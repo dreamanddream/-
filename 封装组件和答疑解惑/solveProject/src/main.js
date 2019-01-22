@@ -11,6 +11,7 @@ import http from 'axios'
 import store from './store'
 
 
+
 // css类
 // import '@/assets/css/common.less'
 // 工具类
@@ -33,6 +34,15 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 // 这里的.css不能省略，否则会报找不到
 import 'swiper/dist/css/swiper.css'
 Vue.use(VueAwesomeSwiper)
+// form校验
+import '@/assets/util/validate.js'
+// import VeeValidate, { Validator } from 'vee-validate'
+// import zh from 'vee-validate/dist/locale/zh_CN';//引入中文文件
+// Validator.addLocale(zh);
+// const configs = {
+//   locale: 'zh_CN'
+// }
+// Vue.use(VeeValidate, configs);
 
 // 注册全局组件
 import customComponents from './custom-components.js'

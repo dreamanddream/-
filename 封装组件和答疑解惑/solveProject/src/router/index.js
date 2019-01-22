@@ -12,6 +12,7 @@ import system from '@/components/system/index'
 import address from '@/components/address/index'
 import addAddress from '@/components/address/addAddress'
 import video from '@/components/video/index'
+import forms from '@/components/form/index'
 
 Vue.use(Router)
 // 添加动画
@@ -138,6 +139,12 @@ export const constantRouterMap = [
   path: '/video',
   name: 'video',
   component: video
+},
+// form表单
+{
+  path: '/form',
+  name: 'form',
+  component: forms
 }
 ];
 export const asyncRouteMap = []
