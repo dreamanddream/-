@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>正则表达式</title>
+</head>
+
+<body>
+    <script>
+        /*  */
+        // 字面量的方式定义正则
+        var a1 = /[abc123]/;
+        // console.log(a1.test(2));//true //只要存在abc123中任意一个就匹配成功或都存在也行
+        // console.log(a1.test('abc123'))// true
+        // console.log(a1.test('1111111'))// true
+        // -代表之间,用在[]中代表之前，如果放在最后就代表本身的意义-，[]代表或
+        var a2 = /[a-zA-Z0-9-]/ //匹配任意只要存在26个大小写字母中任意一个就行，或者也可以有-
+        // 注意-这个下划线一定要写在最后
+        // console.log(a2.test('zxcv9')); // true
+        // console.log(a2.test('9'));  // true
+        // 量词 ?是0或1次，属于非贪婪模式，也就是最小匹配，只要有3个数字就匹配成功
+        var a3 = /\d{3,5}?/
+        // console.log(a3.test("22"))// false
+        // console.log(a3.test("123"));//true
+        // 分组，这里的-就代表本身的意义-，可以用来匹配电话号
+        var a4 = /(\d{4})-(\d{2})-(\d{2})/;
+        // console.log(a4.test("1234-22-22"))// true
+        // console.log(a4.test("1234-"))//fasle
+        // console.log(a4.test("123-11-1"))//fasle
+        // 重点： 前瞻
+
+
+        // js中和正则表达式相匹配的功能
+        // search():stringObject.search(regexp),每次都是从头开始匹配，忽略g不执行全局匹配，返回第一个匹配的位置
+        // match():stringObject.match(regexp),match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。找不到返回null
+        // replace():stringObject.replace(regexp/substr,replacement),查找和替换，将查找到的符合的用replacement代替
+        //  如果有g，那么replace会全局替换符合的，否则只替换第一个符合的
+        var a5=/(\d{4})-(\d{2})-(\d{2})/
+        // console.log("1234-22-22".match(a5));
+        // console.log("33".match(a3));//null
+        // console.log("333".match(a3));//返回的也是数组,数组中的第一个元素就是匹配的元素
+        
+        // 密码强度
+        var a6=/(?=^.{8,}$).*$/;//.表示除了换行符以外的字符，包括特殊字符
+        // console.log(a6.test("23qwe444"))
+        // 密码拆开测试
+        var a7=/(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\n).*$/;
+        var a8=/(?=.*\d)/  //匹配条件是任意字符结尾是数字，由于*是0次或多次所以任意字符可以没有，但一定要有数字
+    //    console.log(a8.test("6"));
+    //    console.log("wwww6".match(a8));
+       var a9=/(?!.*\n)/;//这个不太理解
+    //    console.log(a9.test("www(\br)"));
+    </script>
+</body>
+
+</html>

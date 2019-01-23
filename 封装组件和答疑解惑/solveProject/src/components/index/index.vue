@@ -20,9 +20,9 @@
     </item>
     <!-- 推荐商品 -->
     <no-data v-if="goodsList.length==0"></no-data>
-    <div class="goods" v-scroll="loadMore" v-else>
-      <goods-list :goodsList="goodsList"></goods-list>
-      <page-loading :loadingMore="loadingMore" :end="end"></page-loading>
+    <div class="goods"  v-else>
+        <goods-list :goodsList="goodsList"></goods-list>
+        <page-loading :loadingMore="loadingMore" :end="end"></page-loading>
     </div>
     <!-- 返回顶部 -->
     <go-top></go-top>
@@ -65,17 +65,18 @@ export default {
     loadMore() {
       return new Promise(async (resolve, reject) => {
         this.pageIndex++;
+        console.log("是否到底部");
         if(this.end) return;
         await axios
           .get("headline/list", { pageIndex: this.pageIndex })
           .then(res => {
-            // console.log("滚动到底部");
+            console.log("滚动到底部");
             // console.log("成功的res", res.data.data.list);
             this.loadingMore = true;
             this.end = false;
             this.goodsList = this.goodsList.concat(res.data.data.list);
             // console.log(this.goodsList)
-            if (res.data.data.list.length < 6) {
+            if (res.data.data.list.length < 4) {
               this.loadingMore = false;
               this.end = true;
               // 这个resolve是什么？
@@ -106,9 +107,9 @@ export default {
             let temp = res.data.list;
             this.goodsList = temp;
             console.log("首页数据",res.data);
-            console.log("首页", res.data.list);
-            console.log("this.goodsList", this.goodsList);
-            if (res.data.list.length < 6) {
+            // console.log("首页", res.data.list);
+            // console.log("this.goodsList", this.goodsList);
+            if (res.data.list.length <4) {
               this.loadingMore = false;
               this.end = true;
               // 这个resolve是什么？
@@ -202,6 +203,9 @@ export default {
 };
 </script>
 <style lang="less">
+body{
+  height:100%;
+}
 .index {
   #swiper-box {
     width: 100%;
@@ -210,10 +214,13 @@ export default {
     }
   }
   .goods {
-    height: 300px;
-    overflow-y: scroll;
     padding-bottom: 60px;
+    .goods-wr{
+      height:90%;
+      overflow: scroll;
+    }
   }
+
 }
 </style>
 

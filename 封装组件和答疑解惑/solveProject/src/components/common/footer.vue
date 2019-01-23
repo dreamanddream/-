@@ -39,7 +39,7 @@ export default {
 <style lang="less" scoped>
 @height: 60px;
 @foot_size: 16px;
-@zIndex: 100;
+@zIndex: 10000;
 .iconfont {
   font-size: 32px;
 }

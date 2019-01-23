@@ -10,7 +10,15 @@ import VueI18n from 'vue-i18n';//处理中文，本地化
 // const config = {
 //   locale: 'zh_CN'
 // }
-Vue.use(VueI18n)
+
+VeeValidate.Validator.localize('zh_CN');
+Vue.use(VeeValidate, {
+  validity: true
+});
+// Vue.use(VeeValidate);
+
+// 使用vueI18n的方案
+/* Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale: 'zh_CN',
 })
@@ -20,7 +28,7 @@ Vue.use(VeeValidate, {
   dictionary: {
     zh_CN
   }
-})
+}) */
 
 // 如果你想自定义表单验证的提示语，不配置有默认。
 // const dictionary = {

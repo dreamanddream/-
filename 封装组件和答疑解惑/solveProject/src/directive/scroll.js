@@ -21,6 +21,7 @@ Vue.directive('scroll', {
         // console.log("el.scrollTop",el.scrollTop);
         // console.log("el.firstChild.clientHeight",el.firstChild.clientHeight)
         // console.log("如果滚动了，是否大于",w + el.scrollTop + 10 >= el.firstChild.clientHeight)
+        console.log("是否滾動");
         if (w + el.scrollTop + 20 >= el.firstChild.clientHeight && !isLoading) {
               console.log("if判断是否执行","isLoading",isLoading)
               isLoading = true
