@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es5和es6的区别</title>
+</head>
+<body>
+    <script>
+        console.log("1.typeof number == NaN");
+        console.log(typeof(NaN)=='number');//true
+        console.log(typeof(NaN)==='number');//true
+        console.log(typeof(NaN)==Number);//false
+       var a1='foo';
+       var a2=3;
+       var a3=3/a1;
+       /* foo明显是字符串，怎么会属于数字类型的NaN呢？，所以这是一个bug
+          isNaN，window.isNaN会把非数值的参数转化成数值再进行判断  
+       */
+       console.log("foo是不是NaN",isNaN(a1));//true
+       console.log("3是不是NaN",isNaN(a2));//false
+       console.log("3/a1",isNaN(a3));
+    /* es6中Number.isNaN只对number类型有效，不存在隐式的Number()类型转换，非NaN一律返回false */
+    console.log("es6Number,判断a1",Number.isNaN(a1));
+    console.log("判断3/foo",Number.isNaN(a3));// true,是数字类型，但是不是数字
+    
+    // 数字和字符串进行运算操作，会进行隐士转换？3/foo，结果是数字？？？
+    
+    
+    
+    </script>
+</body>
+</html>
