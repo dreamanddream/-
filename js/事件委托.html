@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件委托</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #inner {
+            width: 50px;
+            height: 50px;
+            background: red;
+        }
+
+        #outer {
+            width: 100px;
+            height: 100px;
+            background: blue;
+        }
+
+        #single{
+            width: 30px;
+            height: 30px;
+            background: yellow;
+        }
+        
+        #mouseover{
+            width:100px;
+            background: red;
+            height:100px;
+            margin-bottom:15px;
+        }
+        #child-mouseover{
+            width:50px;
+            height:50px;
+            background: green;
+        }
+        #mouseenter{
+            width:100px;
+            height:100px;
+            background: red;
+        }
+        #child-mouseenter{
+            width:50px;
+            height:50px;
+            background: green;
+        }
+        #mousemove{
+            width:100px;
+            height:100px;
+            background: rgb(65, 39, 107);
+            margin-left: 200px;
+        }
+    </style>
+</head>
+<body>
+    <ul id="ul">
+        <li>蓝色</li>
+        <li>绿色</li>
+        <li>红色</li>
+        <li>粉色</li>
+    </ul>
+    <div id="outer">
+        <p id="inner"></p>
+    </div>
+    <div id="single"></div>
+    <div id="mouseover">
+        <div id="child-mouseover"></div>
+    </div>
+    <div id="mouseenter">
+        <div id="child-mouseenter"></div>
+    </div>
+    <div id="mousemove">
+        <p>onmousemove: <br> <span id="demo">鼠标移动到我这!</span></p>
+    </div>
+    <script>
+        (function () {
+            var ul = document.getElementById("ul");
+            ul.addEventListener("click", showColor, false)
+            /* 利用事件冒泡的原理不需要给每个li添加点击事件，
+            当点击li时，事件会传递到ul上，
+            所以只需给ul添加点击事件，就能同时获取到每个li的内容 */
+            function showColor(e) {
+                var x = e.target;
+                if (x.nodeName.toLowerCase() === 'li') {
+                    alert('The color is ' + x.innerHTML);
+                }
+            }
+        })()
+    </script>
+    <script>
+        var outer = document.getElementById("outer");
+        var inner = document.getElementById("inner");
+        inner.addEventListener("click", test1, false);
+        // outer.addEventListener("click", test, false);
+        single.addEventListener("click", test2, false);
+        var z=0;
+        function test(e){
+            console.log("父级元素")
+            console.log(this);
+            console.log("e.target" + e.target.nodeName, "e.currentTarget" + e.currentTarget.nodeName);
+        }
+        function test1(e){
+            console.log(this);
+            console.log("子集元素");
+            console.log("e.target" + e.target.nodeName, "e.currentTarget" + e.currentTarget.nodeName);
+        }
+        function test2(e){
+            console.log(this);
+            console.log("单独的div");
+            console.log("e.target" + e.target.nodeName, "e.currentTarget" + e.currentTarget.nodeName);
+        }
+        var mouseover=document.getElementById("mouseover");
+        var mouseenter=document.getElementById("mouseenter");
+        var mousemove=document.getElementById("mousemove");
+        var x=0;
+        var y=0;
+        mouseover.onmouseover=function(){
+
+            document.getElementById("child-mouseover").innerHTML = x+=1;
+        }
+
+        mouseenter.onmouseenter=function(){
+            document.getElementById("child-mouseenter").innerHTML = y+=1;
+        }
+        
+        mousemove.onmousemove=function(){
+            document.getElementById("demo").innerHTML = z+=1;
+        }
+    </script>
+</body>
+</html>

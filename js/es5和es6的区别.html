@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es5和es6的区别</title>
+</head>
+
+<body>
+    <script>
+        // console.log("typeof number == NaN",typeof number == NaN);//false
+        // console.log(typeof (NaN) == 'number');//true
+        // console.log(typeof (NaN) === 'number');//true
+        // console.log(typeof (NaN) == Number);//false
+        var a1 = 'foo';
+        var a2 = 3;
+        var a3 = 3 / a1;
+        /* foo明显是字符串，怎么会属于数字类型的NaN呢？，所以这是一个bug
+           isNaN，window.isNaN会把非数值的参数转化成数值再进行判断  
+        */
+        console.log("foo是不是NaN", isNaN(a1));//true,foo不是一个数字，所以是true
+        console.log("3是不是NaN", isNaN(a2));//false
+        console.log("3/a1", isNaN(a3));
+        /*  es6中Number.isNaN只对number类型有效，
+            不存在隐式的Number()类型转换，非NaN一律返回false 
+        */
+        console.log("es6Number,判断a1", Number.isNaN(a1));//false
+        console.log("判断3/foo", Number.isNaN(a3));// true,是数字类型，但是不是数字
+
+    // 数字和字符串进行运算操作，会进行隐式转换？3/foo，结果是数字？？？
+    </script>
+    <script>
+        /*创建日期：2019/2/22*/
+        // js中常见的隐式转换测试
+        /*"+"号的隐式转换*/
+
+        // number总结
+        // number和number相加不会发生转换，结果还是number类型
+        console.log("1+2", 1 + 2, "typeof相加的结果", typeof (1 + 2));
+        // number和string相加，返回字符串
+        console.log("数字和字符串相加1+'a'", 1 + 'a', typeof (1 + 'a'));//string,1a
+        // number和boolean得到得是number，
+        console.log("数字和布尔串相加1+true", 1 + true, typeof (1 + true));//2，number
+        // number和undefined，得到的是数据类型number，undefined会转换，结果是NaN
+        console.log("number和undefined", 2 + undefined, typeof (undefined + 2));
+
+        // boolean总结
+        // boolean类型会转换,将true转为数字1，将false转为数字0，得到的结果是数字类型
+        console.log("true+false", true + false, typeof (true + false), "true+true", true + true, typeof (true + true));//1,2,number
+        // boolean+undefined得到number类型，结果是NaN
+        console.log("boolean+undefined", true + undefined, typeof (true + undefined));//number,NaN
+
+        // 字符串总结----字符串和任意类型都是字符串
+        // 字符串和字符串相加得到的结果还是字符串
+        console.log("字符串+字符串", 'ab' + 'ab', typeof (12 + 'ab'));
+        // 字符串自加,这个会报错
+        // console.log("字符串自加'aa'++",typeof("abck"++));
+        // 字符串和布尔,结果得到的是字符串，将boolean转为字符串
+        console.log("字符串加布尔", "aaa" + true, typeof ('aaa' + true));//string aa;
+        // string+undefined得到string,
+        console.log("string+undefined", "aa" + undefined, typeof (undefined + "aa"));//stringaa string
+        // null+blooean得到的也是number，boolean会转换为数字；
+        console.log("null+boolean", null + true, typeof (null + true));//1 number
+
+        // null总结
+        // null+nlll的结果是number，有的不理解,不过结果是0，好像可以理解点了
+        console.log("null+null", typeof (null + null), null + null);//number 0
+        // null和字符串相加，结果是拼接字符串，得到的是字符串
+        console.log("null+'a'", typeof (null + 'a'), null + 'a');
+        // null和undefined相加数据类型是number，结果是NaN；
+        console.log("null+undefined", typeof (null + undefined), null + undefined)
+        // null+number转换为nummber,也就是null是0
+        console.log("null+number", null + 1, typeof (null + 1));//1,number
+        // null+blooean得到的也是number，boolean会转换为数字；
+        console.log("null+boolean", null + true, typeof (null + true));//1 number
+
+        // undefined总结
+        // undefined相加的结果是NaN,但是相加的类型是number，也就是重点NaN是number类型
+        console.log("undefined+undefined", typeof (undefined + undefined), undefined + undefined)//number，NaN；
+
+        /*
+        总结隐式转换：
+        有string参与的加法，结果是字符串，除了字符串，和数字相加，结果类型都是number,
+        几个特殊的：null+null是0，number类型；null和undefined相加数据类型是number，结果是NaN；
+        undefined+undefined类型是number，结果是NaN；
+        boolean+boolean类型是number,null+blooean得到的也是number，boolean会转换为数字
+        boolean+undefined得到number类型，结果是NaN
+        */
+    </script>
+    <script>
+        // 调用对象的toString方法返回的是函数
+        console.log(Object.toString());
+        // 
+        var Pet = {
+            words: '...',
+            speak: function (say) {
+                console.log(say + '' + this.words)
+            }
+        }
+        Pet.speak('Speak'); // 结果：Speak...
+
+        var Dog = {
+            words: 'Wang'
+        }
+
+        //将this的指向改变成了Dog
+        Pet.speak.call(Dog, 'Speak'); //结果： SpeakWang
+
+        // Array.prototype.uniq = function () {
+        //     var res = [];
+        //     var flag = true;
+        //     this.forEach(function (x) {
+        //         if (res.indexOf(x) == -1) {
+        //             if (x != x) {
+        //                 if (flag) {
+        //                     res.push(x);
+        //                     flag = false;
+        //                 }
+        //             } else {
+        //                 res.push(x);
+        //             }
+        //         }
+        //     })
+        //     return res;
+        // }
+        var ss=["1234","abck"]
+        var a=[];
+        console.log(a.indexOf("1234"));
+    </script>
+</body>
+
+</html>

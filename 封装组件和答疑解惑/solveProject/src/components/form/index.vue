@@ -56,9 +56,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.red {
-  color: red;
-}
 .error-message {
   color: red;
 }

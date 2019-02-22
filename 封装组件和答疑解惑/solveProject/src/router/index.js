@@ -13,6 +13,7 @@ import address from '@/components/address/index'
 import addAddress from '@/components/address/addAddress'
 import video from '@/components/video/index'
 import forms from '@/components/form/index'
+import newnew from '@/components/new/new'
 
 Vue.use(Router)
 // 添加动画
@@ -145,11 +146,18 @@ export const constantRouterMap = [
   path: '/form',
   name: 'form',
   component: forms
+},
+// 新添加的
+{
+  path: '/new',
+  name: 'new',
+  component: newnew
 }
 ];
 export const asyncRouteMap = []
 export const router = new Router({
   // mode:'history',
+  linkActiveClass:'active',
   routes:constantRouterMap
 })
 

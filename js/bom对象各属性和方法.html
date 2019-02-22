@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bom对象的各属性和方法</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #box-outer{
+            background: red;
+            width:200px;
+            height:200px;
+        }
+        #box-inner{
+            background: blue;
+            width:100px;
+            height:100px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="https://www.baidu.com/img/bd_logo1.png">png</a>
+    <a href="./wang.docx">doc</a>
+    <a href="./git.pdf">pdf</a>
+    <div id="box-outer">
+        <div id="box-inner"></div>
+    </div>
+    <script>
+        var box_outer=document.getElementById("box-outer");
+        var box_inner=document.getElementById("box-inner");
+        // box_inner.addEventListener("click",function(){
+        //     alert("inner捕获");
+        // },true)
+        // box_outer.addEventListener("click",function(){
+        //     alert("outer捕获");
+        // },true)
+        // box_inner.addEventListener("click",function() {
+        //     alert("inner冒泡");
+        // },false)
+        // box_outer.addEventListener("click",function(){
+        //     alert("outer冒泡");
+        // },false)
+
+        // 这种情况下默认执行事件冒泡---inner-outer
+        box_inner.onclick=function(){
+            alert("inner")
+        }
+        box_inner.onmouseover=function(){
+            console.log("这是mouseover");
+        }
+        box_outer.onclick=function(){
+            alert("outer");
+        }
+    </script>
+    <script>
+        // location.assign="http://www.xiaocai.com"
+        // 获取浏览器版本信息
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        var isOpera = userAgent.indexOf("Opera") > -1;
+        //判断是否Opera浏览器
+        if (isOpera) {
+            console.log("是opera浏览器")
+            // return "Opera";
+        };
+        //判断是否Firefox浏览器
+        if (userAgent.indexOf("Firefox") > -1) {
+            console.log("是火狐浏览器");
+            // return "FF";
+        }
+        //判断是否chorme浏览器
+        if (userAgent.indexOf("Chrome") > -1) {
+            console.log("是谷歌浏览器");
+            // return "Chrome";
+        }
+        // 判断是否Safari浏览器---由于谷歌浏览器也有safari，所以要多个判断
+        // /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+        // if (userAgent.indexOf("Safari") > -1) {
+        //     console.log("是safari浏览器");
+        // }
+        var isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+        if (isSafari) {
+            console.log("是safari浏览器");
+        }
+        // 判断是否IE浏览器
+        if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+            console.log("是ie浏览器");
+            // return "IE";
+        }
+        // 判断是否Edge浏览器
+        if (userAgent.indexOf("Trident") > -1 && userAgent.indexOf("MSIE") == -1) {
+            console.log("是edge");
+            // return "Edge";
+        };
+        // 判断ie11
+        var isIE11 = userAgent.indexOf('trident') > -1 && agent.indexOf("rv:11.0") > -1;
+
+
+
+        // 判断ie版本类型，判断ie10及以下
+        var DEFAULT_VERSION = 8.0;
+        var ua = navigator.userAgent.toLowerCase();
+        var isIE = ua.indexOf("msie") > -1;
+        var safariVersion;
+        if (isIE) {
+            safariVersion = ua.match(/msie ([\d.]+)/)[1];
+            console.log("打印出对应的版本信息", safariVersion);
+        }
+        if (safariVersion <= DEFAULT_VERSION) {
+            alert('系统检测到您正在使用ie8及ie8以下内核的浏览器，不能实现完美体验，请更换或升级浏览器访问！')
+        };
+
+        // 封装后判断ie的10及以下，ie11，以及ie的edge;
+        function IEVersion() {
+            var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串 
+            var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器 
+            var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器 
+            var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+            if (isIE) {
+                var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                reIE.test(userAgent);
+                var fIEVersion = parseFloat(RegExp["$1"]);
+                if (fIEVersion > 6) {// IE版本：7,8,9,10
+                    return 'ie' + fIEVersion;
+                } else { //IE版本<=6
+                    return 'ie6';
+                }
+            } else if (isEdge) {
+                return 'edge';//edge
+            } else if (isIE11) {
+                return 'ie11'; //IE11
+            } else {
+                return 'not ie';//不是ie浏览器
+            }
+        };
+
+        // 判断移动端还是pc端
+        function goPAGE() {
+            if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+                /*window.location.href="你的手机版地址";*/
+                // alert("mobile")
+                console.log("mobile");
+            }
+            else {
+                /*window.location.href="你的电脑版地址";    */
+                // alert("pc");
+                console.log("pc");
+            }
+        }
+        goPAGE();
+
+        // 使用session记录访问页面的次数
+        // sessionStorage.setItem("pagecount",0)
+        if (sessionStorage.pagecount) {
+            console.log("sessionStorage",sessionStorage.pagecount);
+            // sessionStorage在当前页面关闭时就失效了，在其他页面获取不到，
+            // 刷新时页面中存储的内容一直存在
+            // 但是在当前页面打开时就可以获取到之前存储的sessionStorage了
+            sessionStorage.pagecount = Number(sessionStorage.pagecount) + 1;
+        }
+        else {
+            // 一旦重新打开页面就会执行这里，因为之前打开的页面已经失效了。
+            sessionStorage.pagecount = 1;
+        }
+        document.write("Visits " + sessionStorage.pagecount + " time(s) this session.");
+        // 如果加上了viewport后
+        console.log("打印屏幕分辨率"+window.screen.width,window.screen.height)
+    </script>
+</body>
+</html>

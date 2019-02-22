@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>前端事件流</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+    </div>
+    <script>
+        var Event = {};
+        Event.addEvents = function (target, eventType, handle) {
+            if (document.addEventListener) {
+                Event.addEvents = function (target, eventType, handle) {
+                    target.addEventListener(eventType, handle, false);
+                };
+            } else {
+                Event.addEvents = function (target, eventType, handle) {
+                    target.attachEvent('on' + eventType, function () {
+                        /* 使用call方法改变this的指向，默认attachEvent中
+                           this指向window
+                        */
+                        handle.call(target, arguments);
+                    });
+                };
+            }
+            Event.addEvents(target, eventType, handle);
+        }
+        var box = document.getElementById("box");
+        Event.addEvents(box, "click", function () {
+            alert("ok");
+        });
+
+        // 下面这种写法也可以
+        var s={
+            init:function(){
+                alert("sss");
+            }
+        };
+        s.init();
+    </script>
+</body>
+
+</html>

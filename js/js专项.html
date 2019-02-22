@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js各种刁钻题目</title>
+</head>
+<body>
+        <script type="text/javascript">
+			var a = 1;
+			function Fn1(){
+				var a = 2;
+				console.log(this.a+a);                                
+			}
+			Fn1()                          
+			var Fn2 = function() {
+				this.a = 3;
+			}
+			Fn2.prototype = {
+				a: 4
+			}
+			var fn2 = new Fn2;
+			Fn1.call(fn2)
+		</script>
+</body>
+</html>

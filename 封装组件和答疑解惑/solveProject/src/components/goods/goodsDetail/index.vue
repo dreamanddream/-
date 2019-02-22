@@ -9,7 +9,7 @@
 export default {
   mounted() {
     console.log(this.$route.params.id)
-  },
+  }
 }
 </script>
 <style lang="less" scoped>

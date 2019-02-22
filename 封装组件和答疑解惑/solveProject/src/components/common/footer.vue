@@ -24,6 +24,14 @@
         <p class="footer-title">我的</p>
       </router-link>
     </div>
+   <div class="footer-item">
+     <router-link to="/new" active-class="active">
+       <p>新加</p>
+     </router-link>
+   </div>
+   <div class="box">
+     <p></p>
+   </div>
   </footer>
 </template>
 <script>
@@ -40,6 +48,10 @@ export default {
 @height: 60px;
 @foot_size: 16px;
 @zIndex: 10000;
+// 对应的那个路由就是红色了
+.active{
+  color:red;
+}
 .iconfont {
   font-size: 32px;
 }
